@@ -1,5 +1,6 @@
 #include <cv.h>
 #include <highgui.h>
+#include <stdio.h>
 
 #include <iostream>
 
@@ -15,30 +16,28 @@
 
 using namespace std;
 
-// Position of the object we overlay
-CvPoint objectPos = cvPoint(-1, -1);
 // Color tracked and our tolerance towards it
 int h = 0, s = 0, v = 0, tolerance = 10;
 IplImage *image;
+int	g_thresh = 100;
+bool color_change = false;
 /*
  * Transform the image into a two colored image, one color for the color we want to track,
  * another color for the others colors
  * From this image, we get two datas : the number of pixel detected, and the center of gravity of these pixel
  */
-CvPoint binarisation(IplImage* image, int *nbPixels) {
+IplImage* binarisation(IplImage* image, IplImage* mask) {
 
-	int x, y;
 	//CvScalar pixel;
-	IplImage *hsv, *mask;
+	IplImage *hsv;
 	IplConvKernel *kernel;
-	int sommeX = 0, sommeY = 0;
-	*nbPixels = 0;
 
 	// Create the mask &initialize it to white (no color detected)
-	mask = cvCreateImage(cvGetSize(image), image->depth, 1);
+	//mask = cvCreateImage(cvGetSize(image), image->depth, 1);
 
 	// Create the hsv image
 	hsv = cvCloneImage(image);
+
 	cvCvtColor(image, hsv, CV_BGR2HSV);
 
 	// We create the mask
@@ -51,37 +50,15 @@ CvPoint binarisation(IplImage* image, int *nbPixels) {
 	cvDilate(mask, mask, kernel, 1);
 	cvErode(mask, mask, kernel, 1);
 
-	// We go through the mask to look for the tracked object and get its gravity center
-	for(x = 0; x < mask->width; x++) {
-		for(y = 0; y < mask->height; y++) {
-
-			// If its a tracked pixel, count it to the center of gravity's calcul
-			if(((uchar *)(mask->imageData + y*mask->widthStep))[x] == 255) {
-				sommeX += x;
-				sommeY += y;
-				(*nbPixels)++;
-			}
-		}
-	}
-
-	// Show the result of the mask image
-	cvShowImage("GeckoGeek Mask", mask);
-
 	// We release the memory of kernels
 	cvReleaseStructuringElement(&kernel);
 
 	// We release the memory of the mask
-	cvReleaseImage(&mask);
+
 	// We release the memory of the hsv image
     cvReleaseImage(&hsv);
-
-	// If there is no pixel, we return a center outside the image, else we return the center of gravity
-	if(*nbPixels > 0)
-		return cvPoint((int)(sommeX / (*nbPixels)), (int)(sommeY / (*nbPixels)));
-	else
-		return cvPoint(-1, -1);
+    return mask;
 }
-
 
 /*
  * Get the color of the pixel where the mouse has clicked
@@ -94,14 +71,14 @@ void getObjectColor(int event, int x, int y, int flags, void *param = NULL) {
 	IplImage *hsv;
 
 	if(event == CV_EVENT_LBUTTONUP)	{
-
+        color_change = true;
 		// Get the hsv image
 		hsv = cvCloneImage(image);
 		cvCvtColor(image, hsv, CV_BGR2HSV);
 
 		// Get the selected pixel
 		pixel = cvGet2D(hsv, y, x);
-cout << "x =" << x << " y=" << y <<endl;
+        cout << "x =" << x << " y=" << y <<endl;
 
 		// Change the value of the tracked color with the color of the selected pixel
 		h = (int)pixel.val[0];
@@ -117,33 +94,59 @@ cout << "x =" << x << " y=" << y <<endl;
 
 int main()
 {
-    int nbpx = 0;
-    CvPoint cg;
-
-	// Key for keyboard event
 	char key;
+    IplImage *mask = NULL, *img_8uc3 = NULL, *image_trace = NULL;
 
-    //On déclare "un pointeur vers une structure IplImage" :
-    //En gros, on "déclare une image".
-    //IplImage *image;
+    CvMemStorage* storage = cvCreateMemStorage();
+	CvSeq* first_contour = NULL;
 
-    //On charge notre image depuis un fichier.
     image = cvLoadImage("01_K949.bmp");
-    //On crée une fenêtre intitulée "Hello World",
-    //La taille de cette fenêtre s'adapte à ce qu'elle contient.
+
+	mask = cvCreateImage( cvGetSize(image), 8, 1 );
+	img_8uc3 = cvCreateImage( cvGetSize(image), 8, 3 );
+
+    CvScalar red = CV_RGB(250,0,0);
+	CvScalar blue = CV_RGB(0,0,250);
+
     cvNamedWindow("Map", CV_WINDOW_AUTOSIZE);
 
-    //On affiche l'image dans la fenêtre "Hello World".
     cvShowImage("Map", image);
 
-	// Mouse event to select the tracked color on the original image
 	cvSetMouseCallback("Map", getObjectColor);
 
 	while(key != 'Q' && key != 'q') {
-        cg = binarisation(image, &nbpx);
+	    if(color_change == true){
+	        color_change = false;
+	        if(image_trace != NULL)
+                cvReleaseImage(&image_trace);
+            image_trace = cvCloneImage(image);
 
-        cout << "cg : x=" << cg.x << " y=" << cg.y << " nbpx=" << nbpx << endl;
+            mask = binarisation(image, mask);
 
+            int Nc = cvFindContours(mask, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
+            printf( "Total Contours Detected: %d\n", Nc );
+
+            	for( CvSeq* c=first_contour; c!=NULL; c=c->h_next ){
+                    //cvCvtColor( image_0, img_8uc3, CV_GRAY2BGR );
+                    cvDrawContours(
+                        image_trace,
+                        c,
+                        red,		// Red
+                        blue,		// Blue
+                        1,			// Vary max_level and compare results
+                        2,
+                        8 );
+                        cout << "." << endl;
+                }
+                cout << endl;
+
+                printf( "Finished all contours.\n");
+                cvShowImage( "Map", image_trace );
+
+            // Show the result of the mask image
+            //cvAddWeighted(image, 1, mask, 0.5, 1, imgreuslt);
+            //cvShowImage("Mask", mask);
+	    }
         // We wait 10 ms
 		key = cvWaitKey(10);
 
@@ -153,6 +156,7 @@ int main()
     cvDestroyWindow("Map");
 
     //Libération de l'IplImage (on lui passe un IplImage**).
+    cvReleaseImage(&mask);
     cvReleaseImage(&image);
 
     //Fini ^^

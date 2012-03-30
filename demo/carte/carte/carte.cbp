@@ -31,7 +31,11 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add option="`pkg-config opencv --cflags`" />
 		</Compiler>
+		<Linker>
+			<Add option="`pkg-config opencv --libs`" />
+		</Linker>
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

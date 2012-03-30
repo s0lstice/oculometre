@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1333014757 source:/home/s0lstice/workspace/projet_s_d/demo/carte/carte/main.cpp
+1333101441 source:/home/s0lstice/workspace/projet_s_d/demo/carte/carte/main.cpp
 	<cv.h>
 	<highgui.h>
+	<stdio.h>
 	<iostream>
 
 1270517080 /usr/include/opencv/cv.h
