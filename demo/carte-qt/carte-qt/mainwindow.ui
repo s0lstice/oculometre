@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>370</width>
+    <width>385</width>
     <height>300</height>
    </rect>
   </property>
@@ -29,26 +29,26 @@ QGroupBox::title {
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>190</x>
+      <x>200</x>
       <y>0</y>
-      <width>171</width>
+      <width>181</width>
       <height>231</height>
      </rect>
     </property>
     <property name="title">
      <string>Analise de la carte</string>
     </property>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="pb_selzone">
      <property name="geometry">
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>151</width>
+       <width>161</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
-      <string>ajouter une zone</string>
+      <string>Sélectionner une zone</string>
      </property>
     </widget>
     <widget class="QPushButton" name="pushButton_4">
@@ -56,7 +56,7 @@ QGroupBox::title {
       <rect>
        <x>10</x>
        <y>60</y>
-       <width>151</width>
+       <width>161</width>
        <height>27</height>
       </rect>
      </property>
@@ -70,13 +70,12 @@ QGroupBox::title {
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>171</width>
-      <height>231</height>
+      <width>181</width>
+      <height>101</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">
-</string>
+     <string notr="true"/>
     </property>
     <property name="title">
      <string>Gestion des données</string>
@@ -86,7 +85,7 @@ QGroupBox::title {
       <rect>
        <x>10</x>
        <y>30</y>
-       <width>151</width>
+       <width>161</width>
        <height>27</height>
       </rect>
      </property>
@@ -99,12 +98,38 @@ QGroupBox::title {
       <rect>
        <x>10</x>
        <y>60</y>
-       <width>151</width>
+       <width>161</width>
        <height>27</height>
       </rect>
      </property>
      <property name="text">
       <string>charger des sujets</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>110</y>
+      <width>181</width>
+      <height>121</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>gestion des points</string>
+    </property>
+    <widget class="QPushButton" name="afficher_points">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Afficher les points</string>
      </property>
     </widget>
    </widget>
@@ -114,7 +139,7 @@ QGroupBox::title {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>370</width>
+     <width>385</width>
      <height>25</height>
     </rect>
    </property>

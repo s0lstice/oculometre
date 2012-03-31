@@ -5,20 +5,23 @@
 #include <highgui.h>
 #include <QString>
 #include <QMessageBox>
+#include <QThread>
+#include <QMutex>
 
 void getObjectColor(int event, int x, int y, int flags, void *param = NULL);
 
 class carte_select
 {
 private:
+
     IplImage* binarisation(IplImage* image, IplImage* mask);
     int h, s, v, tolerance;
     IplImage *image;
     bool color_change;
 
 public:
-
     carte_select(const QString path_carte);
+
     IplImage * get_image(){
         return image;
     }

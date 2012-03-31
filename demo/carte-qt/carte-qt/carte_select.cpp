@@ -14,9 +14,6 @@ IplImage* carte_select::binarisation(IplImage* image, IplImage* mask) {
         IplImage *hsv;
         IplConvKernel *kernel;
 
-        // Create the mask &initialize it to white (no color detected)
-        //mask = cvCreateImage(cvGetSize(image), image->depth, 1);
-
         // Create the hsv image
         hsv = cvCloneImage(image);
 
@@ -35,8 +32,6 @@ IplImage* carte_select::binarisation(IplImage* image, IplImage* mask) {
         // We release the memory of kernels
         cvReleaseStructuringElement(&kernel);
 
-        // We release the memory of the mask
-
         // We release the memory of the hsv image
     cvReleaseImage(&hsv);
     return mask;
@@ -54,6 +49,7 @@ void getObjectColor(int event, int x, int y, int flags, void *param) {
         IplImage *hsv;
 
         if(event == CV_EVENT_LBUTTONUP)	{
+
                 carte->set_color_change(true);
                 // Get the hsv image
                 hsv = cvCloneImage(carte->get_image());
@@ -77,10 +73,9 @@ void getObjectColor(int event, int x, int y, int flags, void *param) {
 
 carte_select::carte_select(const QString path_carte)
 {
-
     char key;
 
-    IplImage *mask = NULL, *img_8uc3 = NULL, *image_trace = NULL;
+    IplImage *mask = NULL, *image_trace = NULL;
 
     CvMemStorage* storage = cvCreateMemStorage();
     CvSeq* first_contour = NULL;
@@ -88,35 +83,30 @@ carte_select::carte_select(const QString path_carte)
     h = 0, s = 0, v = 0, tolerance = 10;
     color_change = false;
 
+    qDebug() << "start";
+
     image = cvLoadImage(path_carte.toStdString().c_str());
 
     mask = cvCreateImage( cvGetSize(image), 8, 1 );
-    img_8uc3 = cvCreateImage( cvGetSize(image), 8, 3 );
 
     CvScalar red = CV_RGB(250,0,0);
     CvScalar blue = CV_RGB(0,0,250);
-
-    cvNamedWindow("Map", CV_WINDOW_AUTOSIZE);
-
-    cvShowImage("Map", image);
 
     cvSetMouseCallback("Map", getObjectColor, this);
 
     while(key != 'Q' && key != 'q') {
         if(color_change == true){
             color_change = false;
-
+            qDebug() << "change";
             if(image_trace != NULL)
                 cvReleaseImage(&image_trace);
             image_trace = cvCloneImage(image);
 
             mask = binarisation(image, mask);
 
-            int Nc = cvFindContours(mask, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
-            printf( "Total Contours Detected: %d\n", Nc );
+            cvFindContours(mask, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
 
             for( CvSeq* c=first_contour; c!=NULL; c=c->h_next ){
-                //cvCvtColor( image_0, img_8uc3, CV_GRAY2BGR );
                 cvDrawContours(
                     image_trace,
                     c,
@@ -126,21 +116,12 @@ carte_select::carte_select(const QString path_carte)
                     2,
                     8 );
             }
-
-            printf( "Finished all contours.\n");
             cvShowImage( "Map", image_trace );
 
-        // Show the result of the mask image
-        //cvAddWeighted(image, 1, mask, 0.5, 1, imgreuslt);
-        //cvShowImage("Mask", mask);
+
         }
-    // We wait 10 ms
-            key = cvWaitKey(10);
-
+        key = cvWaitKey(10);
     }
-
-    //Destruction de la fenêtre.
-    cvDestroyWindow("Map");
 
     //Libération de l'IplImage (on lui passe un IplImage**).
     cvReleaseImage(&mask);

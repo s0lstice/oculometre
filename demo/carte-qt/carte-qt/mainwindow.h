@@ -16,15 +16,17 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_pushButton_clicked();
-
     void on_SelectCarte_clicked();
 
     void on_SelectSujet_clicked();
 
+    void on_pb_selzone_clicked();
+
+    void on_afficher_points_clicked();
+
 private:
     Ui::MainWindow *ui;
-    QString path_carte;
+    bool selection_zone;
 };
 
 #endif // MAINWINDOW_H
