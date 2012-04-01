@@ -78,8 +78,7 @@ void MainWindow::on_pb_selzone_clicked()
         }*/
     }
     else
-        QMessageBox::warning(this, tr("Erreur"),
-                             tr("Charger une carte avant de faire cette action."));
+        QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
 }
 
 void MainWindow::on_afficher_points_clicked()

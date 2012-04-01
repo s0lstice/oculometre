@@ -15,17 +15,19 @@ PKGCONFIG += opencv
 SOURCES += main.cpp\
         mainwindow.cpp \
     carte_select.cpp \
-    points_sujet.cpp \
     projet.cpp \
     dialog.cpp \
-    carte_points.cpp
+    carte_points.cpp \
+    sujet.cpp \
+    zone.cpp
 
 HEADERS  += mainwindow.h \
     carte_select.h \
-    points_sujet.h \
     projet.h \
     dialog.h \
-    carte_points.h
+    carte_points.h \
+    sujet.h \
+    zone.h
 
 FORMS    += mainwindow.ui \
     dialog.ui

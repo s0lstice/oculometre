@@ -1,5 +1,4 @@
 #include "carte_select.h"
-#include <QDebug>
 
 using namespace std;
 
@@ -66,9 +65,7 @@ void getObjectColor(int event, int x, int y, int flags, void *param) {
 
                 // Release the memory of the hsv image
                 cvReleaseImage(&hsv);
-
         }
-
 }
 
 carte_select::carte_select(const QString path_carte)
@@ -83,8 +80,6 @@ carte_select::carte_select(const QString path_carte)
     h = 0, s = 0, v = 0, tolerance = 10;
     color_change = false;
 
-    qDebug() << "start";
-
     image = cvLoadImage(path_carte.toStdString().c_str());
 
     mask = cvCreateImage( cvGetSize(image), 8, 1 );
@@ -97,7 +92,7 @@ carte_select::carte_select(const QString path_carte)
     while(key != 'Q' && key != 'q') {
         if(color_change == true){
             color_change = false;
-            qDebug() << "change";
+
             if(image_trace != NULL)
                 cvReleaseImage(&image_trace);
             image_trace = cvCloneImage(image);

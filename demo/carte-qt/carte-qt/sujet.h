@@ -12,18 +12,27 @@ typedef struct _point{
     float fin;
 }point;
 
-class points_sujet
+class sujet
 {
 private:
 
     QString path_sujet;
+    int zone_id;
     QVector<point> v_points;
 
     void charger_points();
 public:
-    points_sujet(const QString path);
+    sujet(const QString path);
     QVector<point> get_points(){
         return v_points;
+    }
+
+    void setZone_id(int id){
+        zone_id = id;
+    }
+
+    int getZone_Id(){
+        return zone_id;
     }
 };
 

@@ -3,16 +3,17 @@
 
 #include <QString>
 #include <QVector>
-#include <points_sujet.h>
+#include <sujet.h>
 
 class projet
 {
 private:
     QString path_carte;
-    QVector<points_sujet*> v_sujets;
+    QVector<sujet*> v_sujets;
     projet();
+    ~projet();
 public:
-    points_sujet *get_sujet(int i){
+    sujet *get_sujet(int i){
         return v_sujets.value(i);
     }
     int get_nb_sujet(){
