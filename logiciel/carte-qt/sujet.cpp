@@ -6,6 +6,7 @@
 #include <dialog.h>
 #include <QString>
 #include <QObject>
+#include <QDebug>
 
 using namespace std;
 
