@@ -2,10 +2,17 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QCheckBox>
+#include "sujet.h"
 
 namespace Ui {
     class MainWindow;
 }
+
+typedef struct _sujetCheck{
+    QCheckBox *checkbox;
+    sujet *p_sujet;
+}sujetCheck;
 
 class MainWindow : public QMainWindow
 {
@@ -27,6 +34,9 @@ private slots:
 private:
     Ui::MainWindow *ui;
     bool selection_zone;
+    QVector<sujetCheck> v_check_sujet;
+    void liste_pointFromListe_sujet();
+    QVector<sujet*> build_sujetCheck_list();
 };
 
 #endif // MAINWINDOW_H

@@ -10,6 +10,15 @@
 
 using namespace std;
 
+void sujet::path_sujetToId_sujet(){
+    QRegExp file("/(.*)/(.*.txt)$");
+    QRegExp name("(.*).txt");
+    file.indexIn(path_sujet);
+    name.indexIn(file.cap(file.captureCount()));
+    id_sujet = name.cap(1);
+}
+
+//merte en place une gestion derreur pour supprimer la classe erreur !!!
 void sujet::charger_points(){
     QStringList liste_info_point;
     point temp_point;
@@ -48,5 +57,6 @@ void sujet::charger_points(){
 sujet::sujet(const QString path)
 {
     path_sujet = path;
+    path_sujetToId_sujet();
     charger_points();
 }

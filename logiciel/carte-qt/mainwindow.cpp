@@ -8,6 +8,8 @@
 #include <cv.h>
 #include <highgui.h>
 #include "carte_points.h"
+#include <QVBoxLayout>
+#include "dialog.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -25,6 +27,28 @@ MainWindow::~MainWindow()
     cvDestroyWindow("Map");
 }
 
+void MainWindow::liste_pointFromListe_sujet(){
+    projet *pro = projet::proj();
+    QVector<sujet *> v_sujet = pro->get_sujet();
+    QWidget *checkBoxWidget = new QWidget(ui->ScrollCheckBox);
+    QVBoxLayout *scrolledLayout = new QVBoxLayout(checkBoxWidget);
+
+    foreach(sujet *sujet, v_sujet){
+        QCheckBox *check = new QCheckBox();
+        check->setText(sujet->getId_sujet());
+        check->setChecked(true);
+        scrolledLayout->addWidget(check);
+
+        sujetCheck str_sujet;
+        str_sujet.checkbox = check;
+        str_sujet.p_sujet = sujet;
+        v_check_sujet.append(str_sujet);
+    }
+
+    ui->ScrollCheckBox->setWidget(checkBoxWidget);
+
+}
+
 void MainWindow::on_SelectCarte_clicked()
 {
     QString File = QFileDialog::getOpenFileName(this,tr("Choisir une carte"), QDir::homePath(), tr("carte (*.bmp)"));
@@ -39,8 +63,6 @@ void MainWindow::on_SelectCarte_clicked()
 
 void MainWindow::on_SelectSujet_clicked()
 {
-    //QString File = QFileDialog::getOpenFileName(this,QObject::tr("Choisir un sujet"), QDir::currentPath(), QObject::tr("sujet (*.txt)"));
-
     QStringList fileNames;
 
     QFileDialog dialog(this);
@@ -51,8 +73,8 @@ void MainWindow::on_SelectSujet_clicked()
     if (dialog.exec()){
         fileNames = dialog.selectedFiles();
         projet::proj()->charger_sujets(fileNames);
-        //qDebug() << fileNames;
     }
+    liste_pointFromListe_sujet();
 }
 
 void MainWindow::on_pb_selzone_clicked()
@@ -62,7 +84,6 @@ void MainWindow::on_pb_selzone_clicked()
     path_carte = pro->get_path_carte();
 
     if(path_carte != ""){
-        qDebug() << "go";
         carte_select map(path_carte);
 
         /*if(selection_zone == false){
@@ -81,7 +102,24 @@ void MainWindow::on_pb_selzone_clicked()
         QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
 }
 
+QVector<sujet*> MainWindow::build_sujetCheck_list(){
+    QVector<sujet*> v_sujets;
+    if(v_check_sujet.size() != 0){
+        foreach(sujetCheck chekBox,v_check_sujet){
+            if(chekBox.checkbox->isChecked() == true){
+                v_sujets.append( chekBox.p_sujet);
+            }
+        }
+        return v_sujets;
+    }else{
+        Dialog(QObject::tr("Sélectionner des points avant de faire cette action.")).exec();
+        return v_sujets;
+    }
+}
+
 void MainWindow::on_afficher_points_clicked()
 {
-    carte_points();
+    QVector<sujet*> v_sujets = build_sujetCheck_list();
+    if(v_sujets.size() != 0)
+        carte_points drow(build_sujetCheck_list());
 }

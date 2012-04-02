@@ -18,13 +18,24 @@ private:
 
     QString path_sujet;
     int zone_id;
+    QString id_sujet;
     QVector<point> v_points;
 
     void charger_points();
+    void path_sujetToId_sujet();
+
 public:
     sujet(const QString path);
+
     QVector<point> get_points(){
         return v_points;
+    }
+    QString getPath_sujet(){
+        return path_sujet;
+    }
+
+    QString getId_sujet(){
+        return id_sujet;
     }
 
     void setZone_id(int id){

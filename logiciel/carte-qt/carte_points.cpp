@@ -6,7 +6,7 @@
 #include "sujet.h"
 #include "dialog.h"
 
-carte_points::carte_points()
+carte_points::carte_points(QVector<sujet*> v_sujets)
 {
     int i;
     QString path_carte;
@@ -14,6 +14,7 @@ carte_points::carte_points()
     projet *pro = projet::proj();
     sujet *points;
     QVector<point> v_points;
+    CvFont font;
 
     float u_carte_x;
     float u_carte_y;
@@ -22,7 +23,6 @@ carte_points::carte_points()
         path_carte = pro->get_path_carte();
         image = cvLoadImage(path_carte.toStdString().c_str());
 
-        CvFont font;
         cvInitFont(&font, CV_FONT_HERSHEY_PLAIN, 1.0, 1.0, 0, 1, CV_AA);
 
         u_carte_x = (image->width/2)/20;
@@ -30,8 +30,7 @@ carte_points::carte_points()
 
         if(pro->get_nb_sujet() != 0){
             int b;
-            for(i = 0; i < pro->get_nb_sujet(); ++i){
-                points = pro->get_sujet(i);
+            foreach (points, v_sujets) {
                 v_points = points->get_points();
                 b = 0;
                 foreach(point sujet_point, v_points){

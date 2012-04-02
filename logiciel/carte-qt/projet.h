@@ -4,6 +4,9 @@
 #include <QString>
 #include <QVector>
 #include <sujet.h>
+#include <QRegExp>
+#include <QDebug>
+#include <QStringList>
 
 class projet
 {
@@ -16,6 +19,10 @@ public:
     sujet *get_sujet(int i){
         return v_sujets.value(i);
     }
+    QVector<sujet*> get_sujet(){
+        return v_sujets;
+    }
+
     int get_nb_sujet(){
         return v_sujets.size();
     }
