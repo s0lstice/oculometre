@@ -7,8 +7,7 @@
 #include <QMessageBox>
 #include <QThread>
 #include <QMutex>
-
-void getObjectColor(int event, int x, int y, int flags, void *param = NULL);
+#include <mainwindow.h>
 
 class carte_select
 {
@@ -20,7 +19,7 @@ private:
     bool color_change;
 
 public:
-    carte_select(const QString path_carte);
+    carte_select(const QString path_carte, int x, int y, MainWindow *parent);
 
     IplImage * get_image(){
         return image;

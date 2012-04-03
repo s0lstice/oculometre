@@ -166,17 +166,14 @@ QGroupBox::title {
      </property>
     </widget>
    </widget>
-   <widget class="QLabel" name="image">
+   <widget class="QGraphicsView" name="image">
     <property name="geometry">
      <rect>
       <x>200</x>
-      <y>10</y>
-      <width>791</width>
-      <height>551</height>
+      <y>0</y>
+      <width>1031</width>
+      <height>731</height>
      </rect>
-    </property>
-    <property name="text">
-     <string/>
     </property>
    </widget>
   </widget>

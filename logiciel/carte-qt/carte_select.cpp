@@ -1,4 +1,6 @@
 #include "carte_select.h"
+#include "mainwindow.h"
+#include <QDebug>
 
 using namespace std;
 
@@ -36,94 +38,53 @@ IplImage* carte_select::binarisation(IplImage* image, IplImage* mask) {
     return mask;
 }
 
-/*
- * Get the color of the pixel where the mouse has clicked
- * We put this color as model color (the color we want to tracked)
- */
-void getObjectColor(int event, int x, int y, int flags, void *param) {
-
-        // Vars
-        carte_select* carte = (carte_select*)param;
-        CvScalar pixel;
-        IplImage *hsv;
-
-        if(event == CV_EVENT_LBUTTONUP)	{
-
-                carte->set_color_change(true);
-                // Get the hsv image
-                hsv = cvCloneImage(carte->get_image());
-                cvCvtColor(carte->get_image(), hsv, CV_BGR2HSV);
-
-                // Get the selected pixel
-                pixel = cvGet2D(hsv, y, x);
-
-                // Change the value of the tracked color with the color of the selected pixel
-                carte->set_hsv((int)pixel.val[0], (int)pixel.val[1], (int)pixel.val[2]);
-                /*h = (int)pixel.val[0];
-                s = (int)pixel.val[1];
-                v = (int)pixel.val[2];*/
-
-                // Release the memory of the hsv image
-                cvReleaseImage(&hsv);
-        }
-}
-
-carte_select::carte_select(const QString path_carte)
+carte_select::carte_select(const QString path_carte, int x, int y, MainWindow *parent)
 {
-    char key;
-
-    IplImage *mask = NULL, *image_trace = NULL;
+    IplImage *mask = NULL, *image_trace = NULL, *hsv = NULL;
 
     CvMemStorage* storage = cvCreateMemStorage();
     CvSeq* first_contour = NULL;
+    CvScalar pixel;
 
     h = 0, s = 0, v = 0, tolerance = 10;
-    color_change = false;
-
-    cvNamedWindow("Map", CV_WINDOW_AUTOSIZE);
 
     image = cvLoadImage(path_carte.toStdString().c_str());
 
-    cvShowImage( "Map", image );
+    hsv = cvCloneImage(image);
+
+    cvCvtColor(image, hsv, CV_BGR2HSV);
+
+    pixel = cvGet2D(hsv, y, x);
+    h = (int)pixel.val[0];
+    s = (int)pixel.val[1];
+    v = (int)pixel.val[2];
 
     mask = cvCreateImage( cvGetSize(image), 8, 1 );
 
     CvScalar red = CV_RGB(250,0,0);
     CvScalar blue = CV_RGB(0,0,250);
 
-    cvSetMouseCallback("Map", getObjectColor, this);
+    image_trace = cvCloneImage(image);
 
-    while(key != 'Q' && key != 'q') {
-        if(color_change == true){
-            color_change = false;
+    mask = binarisation(image, mask);
 
-            if(image_trace != NULL)
-                cvReleaseImage(&image_trace);
-            image_trace = cvCloneImage(image);
+    cvFindContours(mask, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
 
-            mask = binarisation(image, mask);
-
-            cvFindContours(mask, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
-
-            for( CvSeq* c=first_contour; c!=NULL; c=c->h_next ){
-                cvDrawContours(
-                    image_trace,
-                    c,
-                    red,		// Red
-                    blue,		// Blue
-                    1,			// Vary max_level and compare results
-                    2,
-                    8 );
-            }
-            cvShowImage( "Map", image_trace );
-
-
-        }
-        key = cvWaitKey(10);
+    for( CvSeq* c=first_contour; c!=NULL; c=c->h_next ){
+        cvDrawContours(
+            image_trace,
+            c,
+            red,		// Red
+            blue,		// Blue
+            1,			// Vary max_level and compare results
+            2,
+            8 );
     }
+    parent->shoowIplImage(image_trace);
 
     //Libération de l'IplImage (on lui passe un IplImage**).
     cvReleaseImage(&mask);
     cvReleaseImage(&image);
+    cvReleaseImage(&hsv);
     cvDestroyWindow("Map");
 }

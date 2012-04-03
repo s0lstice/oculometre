@@ -9,7 +9,7 @@
 
 carte_points::carte_points(QVector<sujet*> v_sujets, MainWindow *parent)
 {
-    int i;
+    //int i;
     QString path_carte;
     IplImage *image;
     projet *pro = projet::proj();

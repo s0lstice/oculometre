@@ -17,10 +17,20 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     //cvNamedWindow("Map", CV_WINDOW_AUTOSIZE);
+    ui->setupUi(this);
 
+    scene = new MyQGraphicsScene(this);
     checked = true;
     selection_zone = false;
-    ui->setupUi(this);
+
+
+    ui->image->setScene(scene);
+
+    //connect(scene, SIGNAL(clicked(QPoint)), this, SLOT(click(QPoint)));
+
+}
+void MainWindow::click(QPoint){
+    qDebug() << "click";
 }
 
 MainWindow::~MainWindow()
@@ -82,10 +92,7 @@ void  MainWindow::shoowIplImage(IplImage *iplImg)
         }
     }
 
-
-    ui->image->setFixedHeight(qimg.height());
-    ui->image->setFixedWidth(qimg.width());
-    ui->image->setPixmap(QPixmap::fromImage(qimg));
+    scene->addPixmap(QPixmap::fromImage(qimg));
 
 }
 
@@ -147,19 +154,17 @@ void MainWindow::on_pb_selzone_clicked()
     path_carte = pro->get_path_carte();
 
     if(path_carte != ""){
-        carte_select map(path_carte);
+        //carte_select map(path_carte);
 
-        /*if(selection_zone == false){
+        if(selection_zone == false){
             selection_zone = true;
-
-
+            ui->pb_selzone->setText(QObject::tr("Arrêter la sélection"));
         }
         else
         {
             ui->pb_selzone->setText(QObject::tr("Sélectionner une zone"));
-
             selection_zone = false;
-        }*/
+        }
     }
     else
         QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
@@ -198,7 +203,6 @@ void MainWindow::on_Selpoints_clicked()
             chekBox.checkbox->setChecked(!checked);
         }
         checked = !checked;
-        qDebug() << checked;
         ui->ScrollCheckBox->setWidget(checkBoxWidget);
     }else{
         Dialog(QObject::tr("Sélectionner des points avant de faire cette action.")).exec();

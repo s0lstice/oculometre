@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     dialog.cpp \
     carte_points.cpp \
     sujet.cpp \
-    zone.cpp
+    zone.cpp \
+    myqgraphicsscene.cpp
 
 HEADERS  += mainwindow.h \
     carte_select.h \
@@ -27,7 +28,8 @@ HEADERS  += mainwindow.h \
     dialog.h \
     carte_points.h \
     sujet.h \
-    zone.h
+    zone.h \
+    myqgraphicsscene.h
 
 FORMS    += mainwindow.ui \
     dialog.ui

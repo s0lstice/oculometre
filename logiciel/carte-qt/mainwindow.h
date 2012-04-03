@@ -7,6 +7,8 @@
 #include <QVBoxLayout>
 #include <cv.h>
 #include <highgui.h>
+#include <QGraphicsScene>
+#include "myqgraphicsscene.h"
 
 namespace Ui {
     class MainWindow;
@@ -26,6 +28,10 @@ public:
     void shoowIplImage(IplImage * iplImg);
     ~MainWindow();
 
+    bool getSelection_zone(){
+        return selection_zone;
+    }
+
 private slots:
     void on_SelectCarte_clicked();
 
@@ -37,6 +43,8 @@ private slots:
 
     void on_Selpoints_clicked();
 
+    void click(QPoint);
+
 private:
     Ui::MainWindow *ui;
     bool selection_zone;
@@ -46,6 +54,7 @@ private:
     QWidget *checkBoxWidget;
     QVBoxLayout *scrolledLayout;
     bool checked;
+    MyQGraphicsScene *scene;
 };
 
 #endif // MAINWINDOW_H
