@@ -80,7 +80,11 @@ carte_select::carte_select(const QString path_carte)
     h = 0, s = 0, v = 0, tolerance = 10;
     color_change = false;
 
+    cvNamedWindow("Map", CV_WINDOW_AUTOSIZE);
+
     image = cvLoadImage(path_carte.toStdString().c_str());
+
+    cvShowImage( "Map", image );
 
     mask = cvCreateImage( cvGetSize(image), 8, 1 );
 
@@ -121,4 +125,5 @@ carte_select::carte_select(const QString path_carte)
     //Libération de l'IplImage (on lui passe un IplImage**).
     cvReleaseImage(&mask);
     cvReleaseImage(&image);
+    cvDestroyWindow("Map");
 }

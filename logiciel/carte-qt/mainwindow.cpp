@@ -10,28 +10,90 @@
 #include "carte_points.h"
 #include <QVBoxLayout>
 #include "dialog.h"
+#include <QPixmap>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
-    cvNamedWindow("Map", CV_WINDOW_AUTOSIZE);
+    //cvNamedWindow("Map", CV_WINDOW_AUTOSIZE);
+
+    checked = true;
     selection_zone = false;
     ui->setupUi(this);
 }
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+
+    if(v_check_sujet.size() != 0){
+        foreach(sujetCheck chekBox,v_check_sujet){
+            if(chekBox.checkbox->isChecked() == true){
+                delete chekBox.checkbox;
+            }
+        }
+    }
+
     //Destruction de la fenêtre.
-    cvDestroyWindow("Map");
+    //cvDestroyWindow("Map");
+
+    //delete scrolledLayout;
+    //delete checkBoxWidget;
+    delete ui;
+
+
+}
+
+void  MainWindow::shoowIplImage(IplImage *iplImg)
+{
+    int h = iplImg->height;
+    int w = iplImg->width;
+    int channels = iplImg->nChannels;
+    QImage qimg(w, h, QImage::Format_ARGB32);
+    char *data = iplImg->imageData;
+
+    for (int y = 0; y < h; y++, data += iplImg->widthStep)
+    {
+        for (int x = 0; x < w; x++)
+        {
+        char r, g, b, a = 0;
+        if (channels == 1)
+        {
+            r = data[x * channels];
+            g = data[x * channels];
+            b = data[x * channels];
+        }
+        else if (channels == 3 || channels == 4)
+        {
+            r = data[x * channels + 2];
+            g = data[x * channels + 1];
+            b = data[x * channels];
+        }
+
+        if (channels == 4)
+        {
+            a = data[x * channels + 3];
+            qimg.setPixel(x, y, qRgba(r, g, b, a));
+        }
+        else
+        {
+            qimg.setPixel(x, y, qRgb(r, g, b));
+        }
+        }
+    }
+
+
+    ui->image->setFixedHeight(qimg.height());
+    ui->image->setFixedWidth(qimg.width());
+    ui->image->setPixmap(QPixmap::fromImage(qimg));
+
 }
 
 void MainWindow::liste_pointFromListe_sujet(){
     projet *pro = projet::proj();
     QVector<sujet *> v_sujet = pro->get_sujet();
-    QWidget *checkBoxWidget = new QWidget(ui->ScrollCheckBox);
-    QVBoxLayout *scrolledLayout = new QVBoxLayout(checkBoxWidget);
+    checkBoxWidget = new QWidget(ui->ScrollCheckBox);
+    scrolledLayout = new QVBoxLayout(checkBoxWidget);
 
     foreach(sujet *sujet, v_sujet){
         QCheckBox *check = new QCheckBox();
@@ -57,7 +119,8 @@ void MainWindow::on_SelectCarte_clicked()
          {
              projet *pro = projet::proj();
              pro->set_path_carte(File);
-             cvShowImage("Map", cvLoadImage(File.toStdString().c_str()));
+             //cvShowImage("Map", cvLoadImage(File.toStdString().c_str()));
+             shoowIplImage(cvLoadImage(File.toStdString().c_str()));
          }
 }
 
@@ -121,5 +184,24 @@ void MainWindow::on_afficher_points_clicked()
 {
     QVector<sujet*> v_sujets = build_sujetCheck_list();
     if(v_sujets.size() != 0)
-        carte_points drow(build_sujetCheck_list());
+        carte_points drow(build_sujetCheck_list(), this);
+    else{
+        projet *pro = projet::proj();
+        shoowIplImage(cvLoadImage(pro->get_path_carte().toStdString().c_str()));
+    }
+}
+
+void MainWindow::on_Selpoints_clicked()
+{
+    if(v_check_sujet.size() != 0){
+        foreach(sujetCheck chekBox,v_check_sujet){
+            chekBox.checkbox->setChecked(!checked);
+        }
+        checked = !checked;
+        qDebug() << checked;
+        ui->ScrollCheckBox->setWidget(checkBoxWidget);
+    }else{
+        Dialog(QObject::tr("Sélectionner des points avant de faire cette action.")).exec();
+        return;
+    }
 }

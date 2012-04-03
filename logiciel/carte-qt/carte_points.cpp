@@ -5,8 +5,9 @@
 #include <highgui.h>
 #include "sujet.h"
 #include "dialog.h"
+#include "mainwindow.h"
 
-carte_points::carte_points(QVector<sujet*> v_sujets)
+carte_points::carte_points(QVector<sujet*> v_sujets, MainWindow *parent)
 {
     int i;
     QString path_carte;
@@ -39,7 +40,8 @@ carte_points::carte_points(QVector<sujet*> v_sujets)
                     cvPutText(image, QString::number(++b).toStdString().c_str(),  cvPoint( image->width/2 + u_carte_x*sujet_point.x, image->height/2 + u_carte_y*sujet_point.y), &font, cvScalar(255, 0, 0, 0));
                 }
             }
-            cvShowImage("Map", image);
+            //cvShowImage("Map", image);
+            parent->shoowIplImage(image);
          }
         else{
             Dialog(QObject::tr("Sélectionner des points avant de faire cette action .")).exec();
