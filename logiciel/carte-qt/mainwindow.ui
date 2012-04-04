@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1238</width>
+    <width>215</width>
     <height>733</height>
    </rect>
   </property>
@@ -25,158 +25,74 @@ QGroupBox::title {
      padding:2 13px;
  } </string>
   </property>
-  <widget class="QWidget" name="centralWidget">
-   <widget class="QGroupBox" name="groupBox">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>181</width>
-      <height>120</height>
-     </rect>
-    </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>215</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFichier">
     <property name="title">
-     <string>Analise de la carte</string>
+     <string>Fichier</string>
     </property>
-    <widget class="QPushButton" name="pb_selzone">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>161</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Sélectionner une zone</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_4">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>161</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>ajouter un motif</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="SelectCarte">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>161</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Charger une carte</string>
-     </property>
-    </widget>
+    <addaction name="actionQuiter"/>
    </widget>
-   <widget class="QGroupBox" name="GestionPoints">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>140</y>
-      <width>181</width>
-      <height>580</height>
-     </rect>
-    </property>
+   <widget class="QMenu" name="menuZones">
     <property name="title">
-     <string>Gestion des données</string>
+     <string>Zones</string>
     </property>
-    <widget class="QPushButton" name="afficher_points">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>161</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Afficher les points</string>
-     </property>
-    </widget>
-    <widget class="QScrollArea" name="ScrollCheckBox">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>140</y>
-       <width>161</width>
-       <height>431</height>
-      </rect>
-     </property>
-     <property name="widgetResizable">
-      <bool>true</bool>
-     </property>
-     <widget class="QWidget" name="scrollAreaWidgetContents">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>159</width>
-        <height>429</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QPushButton" name="SelectSujet">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>161</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>charger des points</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="SupprePoints">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>161</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Supprimer des points</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="Selpoints">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>110</y>
-       <width>161</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>(Dé)Sélectionner tout</string>
-     </property>
-    </widget>
+    <addaction name="actionCharger_une_carte"/>
+    <addaction name="actionAnaliser_la_carte"/>
    </widget>
-   <widget class="QGraphicsView" name="image">
-    <property name="geometry">
-     <rect>
-      <x>200</x>
-      <y>0</y>
-      <width>1031</width>
-      <height>731</height>
-     </rect>
+   <widget class="QMenu" name="menuVolontaires">
+    <property name="title">
+     <string>Volontaires</string>
     </property>
+    <addaction name="actionCharger_des_volontaires"/>
+    <addaction name="actionGestion_des_volontaires"/>
    </widget>
+   <addaction name="menuFichier"/>
+   <addaction name="menuZones"/>
+   <addaction name="menuVolontaires"/>
   </widget>
+  <action name="actionCharger_une_carte">
+   <property name="text">
+    <string>Charger une carte</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionCharger_des_volontaires">
+   <property name="text">
+    <string>Charger des volontaires</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionAnaliser_la_carte">
+   <property name="text">
+    <string>Analiser la carte</string>
+   </property>
+  </action>
+  <action name="actionGestion_des_volontaires">
+   <property name="text">
+    <string>Gestion des volontaires</string>
+   </property>
+  </action>
+  <action name="actionQuiter">
+   <property name="text">
+    <string>Quiter</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

@@ -9,6 +9,11 @@
 #include <highgui.h>
 #include <QGraphicsScene>
 #include "myqgraphicsscene.h"
+#include <QWidget>
+#include <QPushButton>
+#include <QScrollArea>
+#include <QMdiSubWindow>
+#include <QMdiArea>
 
 namespace Ui {
     class MainWindow;
@@ -33,17 +38,12 @@ public:
     }
 
 private slots:
-    void on_SelectCarte_clicked();
-
-    void on_SelectSujet_clicked();
-
-    void on_pb_selzone_clicked();
-
-    void on_afficher_points_clicked();
-
-    void on_Selpoints_clicked();
-
-    void click(QPoint);
+    void pb_selzone_clicked();
+    void afficher_points_clicked();
+    void Selpoints_clicked();
+    void on_actionCharger_une_carte_triggered();
+    void on_actionCharger_des_volontaires_triggered();
+    void on_actionQuiter_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -54,6 +54,24 @@ private:
     QWidget *checkBoxWidget;
     QVBoxLayout *scrolledLayout;
     bool checked;
+
+    void openWindow_Carte();
+    QDockWidget *dock_AnaliseCarte;
+    QWidget *widget_AnaliseCarte;
+    QPushButton *pb_selzone;
+    QPushButton *pb_selmotif;
+
+    QDockWidget *dock_GestionVolontaire;
+    QWidget *widget_GestionVolontaire;
+    QPushButton *Selpoints;
+    QPushButton *afficher_points;
+    QPushButton *suppre_points;
+    QScrollArea *ScrollCheckBox;
+
+    QMdiArea *zoneCentrale;
+    QMdiSubWindow *window_Carte;
+    QWidget *widget_Carte;
+    QGraphicsView *image;
     MyQGraphicsScene *scene;
 };
 
