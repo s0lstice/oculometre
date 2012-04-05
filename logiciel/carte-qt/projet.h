@@ -55,6 +55,7 @@ public:
     }
 
     void charger_sujets(QStringList liste_sujet);
+    void supprimer_sujets(QVector<sujet*> liste_sujet);
 };
 
 #endif // PROJET_H

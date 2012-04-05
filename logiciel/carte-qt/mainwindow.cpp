@@ -88,6 +88,7 @@ MainWindow::MainWindow(QWidget *parent) :
     suppre_points->setText(QObject::tr("Supprimer des points"));
     ScrollCheckBox = new QScrollArea;
 
+    connect(suppre_points,SIGNAL(clicked()),this,SLOT(supprimer_sujets()));
     connect(afficher_points,SIGNAL(clicked()),this,SLOT(afficher_points_clicked()));
     connect(Selpoints,SIGNAL(clicked()),this,SLOT(Selpoints_clicked()));
     QVBoxLayout *Layout_GestionVolontaire = new QVBoxLayout;
@@ -122,8 +123,9 @@ void MainWindow::openWindow_Carte()
     window_Carte = zoneCentrale->addSubWindow(widget_Carte);
     window_Carte->setWindowTitle(QObject::tr("Carte"));
     window_Carte->setAttribute(Qt::WA_DeleteOnClose);
-
     window_Carte->showMaximized();
+
+
     //connect(widget_Carte, SIGNAL(close()), this, SLOT(closeWindow_carte()));
 }
 
@@ -309,4 +311,18 @@ void MainWindow::on_actionCharger_des_volontaires_triggered()
 void MainWindow::on_actionQuiter_triggered()
 {
     this->close();
+}
+
+void MainWindow::supprimer_sujets(){
+    sujetCheck s_sujet;
+    int i = 0;
+    foreach(s_sujet, v_check_sujet){
+        if(s_sujet.checkbox->isChecked() == true){
+            delete s_sujet.p_sujet;
+            delete s_sujet.checkbox;
+            v_check_sujet.remove(i);
+        }
+        else
+            i++;
+    }
 }

@@ -44,6 +44,7 @@ private slots:
     void on_actionCharger_une_carte_triggered();
     void on_actionCharger_des_volontaires_triggered();
     void on_actionQuiter_triggered();
+    void supprimer_sujets();
 
 private:
     Ui::MainWindow *ui;
