@@ -316,11 +316,14 @@ void MainWindow::on_actionQuiter_triggered()
 void MainWindow::supprimer_sujets(){
     sujetCheck s_sujet;
     int i = 0;
+    projet *pro = projet::proj();
+
     foreach(s_sujet, v_check_sujet){
         if(s_sujet.checkbox->isChecked() == true){
             delete s_sujet.p_sujet;
             delete s_sujet.checkbox;
             v_check_sujet.remove(i);
+            pro->rm_sujet(i);
         }
         else
             i++;

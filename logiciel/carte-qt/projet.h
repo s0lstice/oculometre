@@ -22,6 +22,9 @@ public:
     QVector<sujet*> get_sujet(){
         return v_sujets;
     }
+    void rm_sujet(int i){
+        v_sujets.remove(i);
+    }
 
     int get_nb_sujet(){
         return v_sujets.size();
