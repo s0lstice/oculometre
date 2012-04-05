@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>215</width>
-    <height>733</height>
+    <width>257</width>
+    <height>85</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@ QGroupBox::title {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>215</width>
+     <width>257</width>
      <height>25</height>
     </rect>
    </property>
@@ -41,23 +41,25 @@ QGroupBox::title {
     </property>
     <addaction name="actionQuiter"/>
    </widget>
-   <widget class="QMenu" name="menuZones">
+   <widget class="QMenu" name="menuDonnees">
     <property name="title">
-     <string>Zones</string>
+     <string>Données</string>
     </property>
     <addaction name="actionCharger_une_carte"/>
-    <addaction name="actionAnaliser_la_carte"/>
-   </widget>
-   <widget class="QMenu" name="menuVolontaires">
-    <property name="title">
-     <string>Volontaires</string>
-    </property>
     <addaction name="actionCharger_des_volontaires"/>
+   </widget>
+   <widget class="QMenu" name="menuOutils">
+    <property name="title">
+     <string>Outils</string>
+    </property>
     <addaction name="actionGestion_des_volontaires"/>
+    <addaction name="actionAnaliser_la_carte"/>
+    <addaction name="separator"/>
+    <addaction name="actionA"/>
    </widget>
    <addaction name="menuFichier"/>
-   <addaction name="menuZones"/>
-   <addaction name="menuVolontaires"/>
+   <addaction name="menuDonnees"/>
+   <addaction name="menuOutils"/>
   </widget>
   <action name="actionCharger_une_carte">
    <property name="text">
@@ -91,6 +93,11 @@ QGroupBox::title {
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionA">
+   <property name="text">
+    <string>a</string>
    </property>
   </action>
  </widget>

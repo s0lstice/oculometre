@@ -44,6 +44,8 @@ MainWindow::MainWindow(QWidget *parent) :
     /***************************************************************************/
     dock_AnaliseCarte = new QDockWidget(QObject::tr("Analise de la Carte"), this);
     dock_AnaliseCarte->setStyleSheet(dock_style);
+    dock_AnaliseCarte->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
 
     widget_AnaliseCarte = new QWidget;
     dock_AnaliseCarte->setWidget(widget_AnaliseCarte);
@@ -67,7 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /***************************************************************************/
     dock_GestionVolontaire = new QDockWidget(QObject::tr("Gestion des volontaires"), this);
     dock_GestionVolontaire->setStyleSheet(dock_style);
-
+    dock_GestionVolontaire->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     widget_GestionVolontaire = new QWidget;
     dock_GestionVolontaire->setWidget(widget_GestionVolontaire);
 
@@ -113,7 +115,7 @@ void MainWindow::openWindow_Carte()
     window_Carte->setWindowTitle(QObject::tr("Carte"));
     window_Carte->setAttribute(Qt::WA_DeleteOnClose);
 
-    window_Carte->show();
+    window_Carte->showMaximized();
     //connect(widget_Carte, SIGNAL(close()), this, SLOT(closeWindow_carte()));
 }
 
@@ -179,7 +181,7 @@ void  MainWindow::shoowIplImage(IplImage *iplImg)
     if(zoneCentrale->subWindowList().size() == 0)
         openWindow_Carte();
     scene->addPixmap(QPixmap::fromImage(qimg));
-    window_Carte->resize(qimg.width(),qimg.height());
+    //window_Carte->resize(qimg.width(),qimg.height());
 }
 
 void MainWindow::liste_pointFromListe_sujet(){

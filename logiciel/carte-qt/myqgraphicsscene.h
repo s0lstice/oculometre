@@ -3,8 +3,7 @@
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
-//#include "mainwindow.h"
-
+#include <QMenu>
 class MyQGraphicsScene : public  QGraphicsScene
 {
     Q_OBJECT

@@ -49,13 +49,14 @@ private:
     Ui::MainWindow *ui;
     bool selection_zone;
     QVector<sujetCheck> v_check_sujet;
-    void liste_pointFromListe_sujet();
-    QVector<sujet*> build_sujetCheck_list();
     QWidget *checkBoxWidget;
     QVBoxLayout *scrolledLayout;
     bool checked;
 
+    void liste_pointFromListe_sujet();
+    QVector<sujet*> build_sujetCheck_list();
     void openWindow_Carte();
+
     QDockWidget *dock_AnaliseCarte;
     QWidget *widget_AnaliseCarte;
     QPushButton *pb_selzone;
