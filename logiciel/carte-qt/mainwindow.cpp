@@ -39,6 +39,12 @@ MainWindow::MainWindow(QWidget *parent) :
     checked = true;
     selection_zone = false;
 
+
+    /***************************************************************************/
+    /**********************************MenuBarra********************************/
+    /***************************************************************************/
+    viewMenu = menuBar()->addMenu(tr("&Outils"));
+
     /***************************************************************************/
     /********************************AnaliseCarte*******************************/
     /***************************************************************************/
@@ -63,6 +69,7 @@ MainWindow::MainWindow(QWidget *parent) :
     widget_AnaliseCarte->setLayout(Layout_AnaliseCarte);
 
     addDockWidget(Qt::LeftDockWidgetArea, dock_AnaliseCarte);
+    viewMenu->addAction(dock_AnaliseCarte->toggleViewAction());
 
     /***************************************************************************/
     /*****************************GestionVolontaire*****************************/
@@ -92,6 +99,7 @@ MainWindow::MainWindow(QWidget *parent) :
     widget_GestionVolontaire->setLayout(Layout_GestionVolontaire);
 
     addDockWidget(Qt::LeftDockWidgetArea, dock_GestionVolontaire);
+    viewMenu->addAction(dock_GestionVolontaire->toggleViewAction());
 }
 
 void MainWindow::openWindow_Carte()

@@ -57,6 +57,8 @@ private:
     QVector<sujet*> build_sujetCheck_list();
     void openWindow_Carte();
 
+    QMenu *viewMenu;
+
     QDockWidget *dock_AnaliseCarte;
     QWidget *widget_AnaliseCarte;
     QPushButton *pb_selzone;

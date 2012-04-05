@@ -48,18 +48,8 @@ QGroupBox::title {
     <addaction name="actionCharger_une_carte"/>
     <addaction name="actionCharger_des_volontaires"/>
    </widget>
-   <widget class="QMenu" name="menuOutils">
-    <property name="title">
-     <string>Outils</string>
-    </property>
-    <addaction name="actionGestion_des_volontaires"/>
-    <addaction name="actionAnaliser_la_carte"/>
-    <addaction name="separator"/>
-    <addaction name="actionA"/>
-   </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuDonnees"/>
-   <addaction name="menuOutils"/>
   </widget>
   <action name="actionCharger_une_carte">
    <property name="text">
