@@ -4,7 +4,7 @@
 #include <QString>
 
 typedef enum _type_zone{
-    quadrilataire,
+    polygonne,
     cercle,
     selection,
 }type_zone;
