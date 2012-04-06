@@ -87,6 +87,7 @@ MainWindow::MainWindow(QWidget *parent) :
     suppre_points = new QPushButton;
     suppre_points->setText(QObject::tr("Supprimer des points"));
     ScrollCheckBox = new QScrollArea;
+    ScrollCheckBox->setWidgetResizable(true);
 
     connect(suppre_points,SIGNAL(clicked()),this,SLOT(supprimer_sujets()));
     connect(afficher_points,SIGNAL(clicked()),this,SLOT(afficher_points_clicked()));
@@ -318,5 +319,5 @@ void MainWindow::supprimer_sujets(){
         else
             i++;
     }
-
+    ScrollCheckBox->setWidget(checkBoxWidget);
 }
