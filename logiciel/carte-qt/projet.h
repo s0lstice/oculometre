@@ -13,9 +13,10 @@ class projet
 private:
     QString path_carte;
     QVector<sujet*> v_sujets;
+public:
     projet();
     ~projet();
-public:
+
     sujet *get_sujet(int i){
         return v_sujets.value(i);
     }
@@ -39,23 +40,6 @@ public:
     }
 
     static projet *_singleton;
-
-    static projet *proj()
-    {
-        if (NULL == _singleton)
-        {
-            _singleton = new projet();
-        }
-        return _singleton;
-    }
-
-    static void projExit(){
-        if (NULL != _singleton)
-        {
-            delete _singleton;
-            _singleton = NULL;
-        }
-    }
 
     void charger_sujets(QStringList liste_sujet);
     void supprimer_sujets(QVector<sujet*> liste_sujet);

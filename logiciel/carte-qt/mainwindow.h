@@ -14,6 +14,7 @@
 #include <QScrollArea>
 #include <QMdiSubWindow>
 #include <QMdiArea>
+#include "projet.h"
 
 namespace Ui {
     class MainWindow;
@@ -37,6 +38,10 @@ public:
         return selection_zone;
     }
 
+    projet *getCurent_projet(){
+        return pro;
+    }
+
 private slots:
     void pb_selzone_clicked();
     void afficher_points_clicked();
@@ -47,6 +52,7 @@ private slots:
     void supprimer_sujets();
 
 private:
+    projet *pro;
     Ui::MainWindow *ui;
     bool selection_zone;
     QVector<sujetCheck> v_check_sujet;

@@ -6,13 +6,13 @@
 #include "sujet.h"
 #include "dialog.h"
 #include "mainwindow.h"
+#include "projet.h"
 
-carte_points::carte_points(QVector<sujet*> v_sujets, MainWindow *parent)
+carte_points::carte_points(projet *pro,QVector<sujet*> v_sujets, MainWindow *parent)
 {
     //int i;
     QString path_carte;
     IplImage *image;
-    projet *pro = projet::proj();
     sujet *points;
     QVector<point> v_points;
     CvFont font;

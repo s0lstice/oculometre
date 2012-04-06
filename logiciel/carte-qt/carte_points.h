@@ -6,7 +6,7 @@
 class carte_points
 {
 public:
-    carte_points(QVector<sujet*> v_sujets, MainWindow *parent);
+    carte_points(projet *pro,QVector<sujet*> v_sujets, MainWindow *parent);
 };
 
 #endif // CARTE_POINTS_H

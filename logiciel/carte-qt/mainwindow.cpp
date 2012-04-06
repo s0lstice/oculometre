@@ -101,6 +101,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addDockWidget(Qt::LeftDockWidgetArea, dock_GestionVolontaire);
     viewMenu->addAction(dock_GestionVolontaire->toggleViewAction());
+
+    /***************************************************************************/
+    /***********************************Projet**********************************/
+    /***************************************************************************/
+    pro = new projet();
 }
 
 void MainWindow::openWindow_Carte()
@@ -140,14 +145,7 @@ MainWindow::~MainWindow()
         }
     }
 
-    //Destruction de la fenêtre.
-    //cvDestroyWindow("Map");
-
-    //delete scrolledLayout;
-    //delete checkBoxWidget;
     delete ui;
-
-
 }
 
 void  MainWindow::shoowIplImage(IplImage *iplImg)
@@ -191,11 +189,9 @@ void  MainWindow::shoowIplImage(IplImage *iplImg)
     if(zoneCentrale->subWindowList().size() == 0)
         openWindow_Carte();
     scene->addPixmap(QPixmap::fromImage(qimg));
-    //window_Carte->resize(qimg.width(),qimg.height());
 }
 
 void MainWindow::liste_pointFromListe_sujet(){
-    projet *pro = projet::proj();
     QVector<sujet *> v_sujet = pro->get_sujet();
     checkBoxWidget = new QWidget(ScrollCheckBox);
     scrolledLayout = new QVBoxLayout(checkBoxWidget);
@@ -219,12 +215,9 @@ void MainWindow::liste_pointFromListe_sujet(){
 void MainWindow::pb_selzone_clicked()
 {
     QString path_carte;
-    projet *pro = projet::proj();
     path_carte = pro->get_path_carte();
 
     if(path_carte != ""){
-        //carte_select map(path_carte);
-
         if(selection_zone == false){
             selection_zone = true;
             pb_selzone->setText(QObject::tr("Arrêter la sélection"));
@@ -258,9 +251,8 @@ void MainWindow::afficher_points_clicked()
 {
     QVector<sujet*> v_sujets = build_sujetCheck_list();
     if(v_sujets.size() != 0)
-        carte_points drow(build_sujetCheck_list(), this);
+        carte_points drow(pro, build_sujetCheck_list(), this);
     else{
-        projet *pro = projet::proj();
         shoowIplImage(cvLoadImage(pro->get_path_carte().toStdString().c_str()));
     }
 }
@@ -285,7 +277,6 @@ void MainWindow::on_actionCharger_une_carte_triggered()
 
     if (!File.isEmpty())
          {
-             projet *pro = projet::proj();
              pro->set_path_carte(File);
              //cvShowImage("Map", cvLoadImage(File.toStdString().c_str()));
              shoowIplImage(cvLoadImage(File.toStdString().c_str()));
@@ -303,7 +294,7 @@ void MainWindow::on_actionCharger_des_volontaires_triggered()
 
     if (dialog.exec()){
         fileNames = dialog.selectedFiles();
-        projet::proj()->charger_sujets(fileNames);
+        pro->charger_sujets(fileNames);
     }
     liste_pointFromListe_sujet();
 }
@@ -316,7 +307,6 @@ void MainWindow::on_actionQuiter_triggered()
 void MainWindow::supprimer_sujets(){
     sujetCheck s_sujet;
     int i = 0;
-    projet *pro = projet::proj();
 
     foreach(s_sujet, v_check_sujet){
         if(s_sujet.checkbox->isChecked() == true){
@@ -328,4 +318,5 @@ void MainWindow::supprimer_sujets(){
         else
             i++;
     }
+
 }
