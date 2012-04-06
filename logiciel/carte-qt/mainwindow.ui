@@ -14,16 +14,14 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QGroupBox {
-	background-color: transparent;
-	border: 2px groove gray; 
-	border-radius: 5px;				
+   <string notr="true">QMainWindow::separator{
+	width: 1px;
+	height: 1px;
+ 	background-color:black;	
 }
-QGroupBox::title { 
-    background-color: transparent;
-     subcontrol-position: top left; /* position at the top left*/ 
-     padding:2 13px;
- } </string>
+ QMenuBar{
+     border-bottom: 1px solid black;
+ }</string>
   </property>
   <widget class="QWidget" name="centralWidget"/>
   <widget class="QMenuBar" name="menuBar">
@@ -37,13 +35,13 @@ QGroupBox::title {
    </property>
    <widget class="QMenu" name="menuFichier">
     <property name="title">
-     <string>Fichier</string>
+     <string>&amp;Fichier</string>
     </property>
     <addaction name="actionQuiter"/>
    </widget>
    <widget class="QMenu" name="menuDonnees">
     <property name="title">
-     <string>Données</string>
+     <string>&amp;Données</string>
     </property>
     <addaction name="actionCharger_une_carte"/>
     <addaction name="actionCharger_des_volontaires"/>

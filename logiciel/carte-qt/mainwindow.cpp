@@ -22,15 +22,22 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     //cvNamedWindow("Map", CV_WINDOW_AUTOSIZE);
     QString dock_style = "QDockWidget {"
-            "border: 2px solid #a0a0a0; "
-            "border-radius: 5px;"
+                "border: 1px solid black; "
+                "color: white;"
             "}"
 
             "QDockWidget::title {"
-            "background-color: #a0a0a0;"
-            "subcontrol-position: top left;" /* position at the top left*/
-            "padding:2 13px;"
+                "background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 gray, stop: 1 black);"
+                "subcontrol-position: top left;" /* position at the top left*/
+                "padding:2 13px;"
+            "}"
+
+            "QDockWidget::close-button:hover, QDockWidget::float-button:hover {"
+                "background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 gray, stop: 1 black);"
+                "border-radius: 6px;"
             "}";
+
+    //"background-color: #a0a0a0;"
     ui->setupUi(this);
     zoneCentrale = new QMdiArea;
     setCentralWidget(zoneCentrale);
