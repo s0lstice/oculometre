@@ -1,0 +1,20 @@
+Le kit contient 4 type de fichiers :
+
+- 1 fichier *.bmp qui est la carte originale
+	° 01 correspond à l'ordre de passage de la carte lors du test au CHU Bretonneau
+	° K949 est l'identifiant de la carte pour l'oculomètre
+
+- 1 fichier *.jpeg qui est une représentation faite à partir d'Excel avec l'image en fond. Les coordonnées sont centrées et la carte tient dans une zone allant de x(-20;20) et y(-15;15)
+
+- 39 fichiers *.txt contenant les extractions pour 40 volontaires
+	° les 6 premiers caractères sont le code du volontaire
+	° les 3 derniers caractères sont l'identifiant de la carte (20 cartes ont été présentés aux volontaires)
+	° structuration du fichier :
+			- numéro de la fixation
+			- X
+			- -Y (basé sur l'image rétienne qui se forme à l'envers au fond de l'oeil)
+			- le moment du début de la fixation en seconde
+			- la durée de la fixation (entre chaque fixation il y a une saccade, la somme des durées des fixations est donc inférieur à 15 secondes, temps de projectionde la carte)
+- 39 fichiers *.pdf qui sont les résultats images que fournit le système d'oculométrie
+
+La zone de vision nette est de 2 unités de rayon et de forme circulaire centrée sur la fixation.
