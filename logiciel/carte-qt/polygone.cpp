@@ -5,6 +5,9 @@ Polygone::Polygone() : Zone()
     type = polygone;
 }
 
+Polygone::~Polygone(){
+}
+
 void Polygone::addEndPoint(QPoint point){
     points.append(point);
 }

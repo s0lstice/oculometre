@@ -2,6 +2,18 @@
 
 Groupe_selection::Groupe_selection() : Zone()
 {
+    type = composite;
+
+}
+
+Groupe_selection::~Groupe_selection(){
+    Zone * zone;
+    int i = groupe.size();
+    foreach(zone, groupe){
+        delete zone;
+        groupe.remove(i);
+        i--;
+    }
 }
 
 Zone *Groupe_selection::getZone(int i){

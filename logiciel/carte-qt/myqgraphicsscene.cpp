@@ -30,7 +30,6 @@ void MyQGraphicsScene::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     //si la selection des couleurs est acctivé
     if(selection_zone == true){
       carte_selection->Selection(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
-
     }
 }
 

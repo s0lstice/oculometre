@@ -1,9 +1,14 @@
 #include "zone.h"
 
 #include <QDateTime>
+#include <QDateTime>
 
 Zone::Zone()
 {
+    id = QDateTime::currentMSecsSinceEpoch();
+}
+
+Zone::~Zone(){
 }
 
 int Zone::getId(){

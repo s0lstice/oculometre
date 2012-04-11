@@ -10,6 +10,8 @@ private:
     QVector<Zone *> groupe;
 public:
     Groupe_selection();
+    ~Groupe_selection();
+
     Zone *getZone(int i);
     void addEndZone(Zone *zone);
     QVector<Zone*> getZones();

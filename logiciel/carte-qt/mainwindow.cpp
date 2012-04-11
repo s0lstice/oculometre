@@ -38,7 +38,6 @@ void MainWindow::dockCarte(){
     dock_AnaliseCarte = new QDockWidget(QObject::tr("Analyse de la Carte"), this);
     dock_AnaliseCarte->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
-
     widget_AnaliseCarte = new QWidget;
     dock_AnaliseCarte->setWidget(widget_AnaliseCarte);
 
@@ -135,7 +134,6 @@ MainWindow::~MainWindow()
 //ouverture de la fenetre, la gestion de la fenetre est a revoir
 void MainWindow::openWindow_Carte()
 {
-
     /***************************************************************************/
     /************************************Map************************************/
     /***************************************************************************/
@@ -154,7 +152,6 @@ void MainWindow::openWindow_Carte()
     window_Carte->setWindowTitle(QObject::tr("Carte"));
     window_Carte->setAttribute(Qt::WA_DeleteOnClose);
     window_Carte->showMaximized();
-
 
     //connect(widget_Carte, SIGNAL(close()), this, SLOT(closeWindow_carte()));
 }
@@ -242,13 +239,13 @@ void MainWindow::pb_selzone_clicked()
 
     if(path_carte != ""){
         if(scene->getSelection_zone() == false){
-            //Selection *select = new Selection();
-            //Selection sel();
-            //Composite *main_composite = pro->getZones();
+            Selection *select = new Selection();
+            Groupe_selection *main_composite = pro->getZones();
 
-            //main_composite->ajouter_zone(select);
-            //scene->setZone_courante((Zone *)select);
-            scene->setCarte_selection(new Carte_select(path_carte, this));
+            Carte_select *selction_tool = new Carte_select(this);
+            main_composite->addEndZone(select);
+            scene->setZone_courante((Zone *)select);
+            scene->setCarte_selection(selction_tool);
 
             pb_selzone->setText(QObject::tr("Arrêter la sélection"));
             scene->setSelection_zone(true);
@@ -315,9 +312,10 @@ void MainWindow::on_actionCharger_une_carte_triggered()
 
     if (!File.isEmpty())
          {
-             pro->set_path_carte(File);
-             //cvShowImage("Map", cvLoadImage(File.toStdString().c_str()));
-             shoowIplImage(cvLoadImage(File.toStdString().c_str()));
+             IplImage *image;
+             image = cvLoadImage(File.toStdString().c_str());
+             pro->set_carte(File, image);
+             shoowIplImage(image);
          }
 }
 

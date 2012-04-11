@@ -8,7 +8,7 @@ typedef enum _type_zone
     selection,
     cercle,
     polygone,
-    groupe
+    composite
    }type_zone;
 
 class Zone
@@ -20,12 +20,12 @@ protected:
 
 public:
     Zone();
+    virtual ~Zone();
 
     int getId();
     type_zone getType();
     QString getLable();
     void setLabel(QString label);
-
 };
 
 #endif // ZONE_H

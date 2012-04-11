@@ -8,6 +8,10 @@
 
 Projet::Projet()
 {
+    carte = NULL;
+    path_carte = "";
+    nb_zones = 0;
+
     zones = new Groupe_selection();
 }
 
@@ -22,7 +26,9 @@ Projet::~Projet()
         delete tmp;
     }
 
-    //!!!!! gereger larbre !
+    if(path_carte != "")
+        cvReleaseImage(&carte);
+
     delete zones;
 }
 
@@ -72,10 +78,38 @@ int Projet::get_nb_sujet(){
     return v_sujets.size();
 }
 
-void Projet::set_path_carte(QString path){
+void Projet::set_carte(QString path, IplImage *image){
+    if(path_carte == ""){
+        carte = image;
+    }
+    else
+    {
+        cvReleaseImage(&carte);
+        carte = image;
+    }
     path_carte = path;
 }
 
 QString Projet::get_path_carte(){
     return path_carte;
+}
+
+IplImage * Projet::get_carte(){
+    return carte;
+}
+
+void Projet::freeCarte(){
+    cvReleaseImage(&carte);
+}
+
+int Projet::getNb_zone(){
+    return nb_zones;
+}
+
+void Projet::upNb_zone(){
+    nb_zones++;
+}
+
+void Projet::downNb_zone(){
+    nb_zones--;
 }

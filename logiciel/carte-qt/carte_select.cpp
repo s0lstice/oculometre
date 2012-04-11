@@ -3,6 +3,7 @@
 
 //class MainWindow;
 #include "mainwindow.h"
+#include "projet.h"
 
 using namespace std;
 
@@ -11,12 +12,8 @@ using namespace std;
  */
 void Carte_select::binarisation() {
 
-        IplImage *hsv;
+        //IplImage *hsv;
         IplConvKernel *kernel;
-
-        // Create the hsv image
-        hsv = cvCloneImage(image);
-        cvCvtColor(image, hsv, CV_BGR2HSV);
 
         // We create the mask
         cvInRangeS(hsv, cvScalar(h - tolerance -1, s - tolerance, 0), cvScalar(h + tolerance -1, s + tolerance, 255), mask);
@@ -30,9 +27,6 @@ void Carte_select::binarisation() {
 
         // We release the memory of kernels
         cvReleaseStructuringElement(&kernel);
-
-        // We release the memory of the hsv image
-        cvReleaseImage(&hsv);
 }
 
 //sequance de points, definissant un contour, en fonction de la couleur se trouvant a la position x y
@@ -49,6 +43,9 @@ CvSeq *Carte_select::Selection(int x, int y){
     //masque rouge et bleu
     CvScalar red = CV_RGB(250,0,0);
     CvScalar blue = CV_RGB(0,0,250);
+
+    //definitntion du mask
+    binarisation();
 
     //detourage du mask
     cvFindContours(mask, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
@@ -72,30 +69,31 @@ CvSeq *Carte_select::Selection(int x, int y){
 }
 
 //initialisation de l'outil de selection
-Carte_select::Carte_select(const QString path_carte,  MainWindow *parent)
+Carte_select::Carte_select( MainWindow *parent)
 {
     mask = NULL;
     image_trace = NULL;
     hsv = NULL;
     first_contour = NULL;
     this->parent = parent;
+    Projet * pro = parent->getCurent_projet();
 
     h = 0, s = 0, v = 0, tolerance = 10;
+    image = pro->get_carte();
 
-    image = cvLoadImage(path_carte.toStdString().c_str());
-
+    //image = cvLoadImage(path_carte.toStdString().c_str());
+    hsv = cvCloneImage(image);
     cvCvtColor(image, hsv, CV_BGR2HSV);
 
     mask = cvCreateImage( cvGetSize(image), 8, 1 );
 
     image_trace = cvCloneImage(image);
-
-    binarisation();
 }
 
 //destruction de l'outil de selection
 Carte_select::~Carte_select(){
     //Libération de l'IplImage (on lui passe un IplImage**).
     cvReleaseImage(&mask);
-    cvReleaseImage(&image);
+    cvReleaseImage(&image_trace);
+    cvReleaseImage(&hsv);
 }

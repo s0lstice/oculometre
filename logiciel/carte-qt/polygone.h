@@ -11,6 +11,8 @@ private:
     QVector<QPoint> points;
 public:
     Polygone();
+    ~Polygone();
+
     void addEndPoint(QPoint point);
     QPoint getPoint(int i);
     QVector<QPoint> getpoints();

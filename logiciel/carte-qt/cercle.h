@@ -12,6 +12,8 @@ private:
 
 public:
     Cercle();
+    ~Cercle();
+
     QPoint getCentre();
     int getRayon();
 

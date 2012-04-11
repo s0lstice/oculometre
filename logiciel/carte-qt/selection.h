@@ -16,6 +16,7 @@ protected:
     CvSeq *contour;
 public:
     Selection();
+    ~Selection();
 };
 
 #endif // SELECTION_H

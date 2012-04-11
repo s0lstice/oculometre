@@ -7,5 +7,8 @@
 
 Selection::Selection() : Zone()
 {
+    type = selection;
+}
 
+Selection::~Selection(){
 }

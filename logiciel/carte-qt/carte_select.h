@@ -28,7 +28,7 @@ private:
 
 public:
     CvSeq *Selection(int x, int y);
-    Carte_select(const QString path_carte, MainWindow *parent);
+    Carte_select(MainWindow *parent);
     ~Carte_select();
 };
 

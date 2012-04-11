@@ -5,6 +5,9 @@ Cercle::Cercle() : Zone()
     type = cercle;
 }
 
+Cercle::~Cercle(){
+}
+
 QPoint Cercle::getCentre(){
     return centre;
 }
