@@ -12,6 +12,7 @@
 
 MyQGraphicsScene::MyQGraphicsScene(QObject  *parent) : QGraphicsScene(parent)
 {
+    selection_zone = false;
     mainwindow = qobject_cast<MainWindow*>(parent);
 }
 

@@ -103,7 +103,6 @@ MainWindow::MainWindow(QWidget *parent) :
     widget_Carte = NULL;
 
     checked = true;
-    scene->setSelection_zone(false);
 
     /**********************************MenuBarra********************************/
     viewMenu = menuBar()->addMenu(tr("&Outils"));
