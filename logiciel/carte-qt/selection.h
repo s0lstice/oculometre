@@ -1,14 +1,21 @@
 #ifndef SELECTION_H
 #define SELECTION_H
 
-#include "zone.h"
 #include <cv.h>
 
-class selection : public zone
+#include "zone.h"
+//class Zone;
+//#include "carte_select.h"
+class Carte_select;
+
+
+class Selection : public Zone
 {
+protected:
+    Carte_select *methode_selection;
     CvSeq *contour;
 public:
-    selection();
+    Selection();
 };
 
 #endif // SELECTION_H

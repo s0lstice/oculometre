@@ -3,46 +3,38 @@
 
 #include <QString>
 #include <QVector>
-#include <sujet.h>
+
 #include <QRegExp>
 #include <QDebug>
 #include <QStringList>
 
-class projet
+//#include "groupe_selection.h"
+class Groupe_selection;
+//#include <sujet.h>
+class Sujet;
+
+class Projet
 {
 private:
     QString path_carte;
-    QVector<sujet*> v_sujets;
+    QVector<Sujet*> v_sujets;
+    Groupe_selection *zones;
+
 public:
-    projet();
-    ~projet();
+    Projet();
+    ~Projet();
 
-    sujet *get_sujet(int i){
-        return v_sujets.value(i);
-    }
-    QVector<sujet*> get_sujet(){
-        return v_sujets;
-    }
-    void rm_sujet(int i){
-        v_sujets.remove(i);
-    }
+    Groupe_selection *getZones();
+    Sujet *get_sujet(int i);
+    QVector<Sujet*> get_sujet();
 
-    int get_nb_sujet(){
-        return v_sujets.size();
-    }
-
-    void set_path_carte(QString path){
-        path_carte = path;
-    }
-
-    QString get_path_carte(){
-        return path_carte;
-    }
-
-    static projet *_singleton;
+    void rm_sujet(int i);
+    int get_nb_sujet();
+    void set_path_carte(QString path);
+    QString get_path_carte();
 
     void charger_sujets(QStringList liste_sujet);
-    void supprimer_sujets(QVector<sujet*> liste_sujet);
+    void supprimer_sujets(QVector<Sujet*> liste_sujet);
 };
 
 #endif // PROJET_H

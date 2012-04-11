@@ -1,23 +1,21 @@
 #include "carte_select.h"
-#include "mainwindow.h"
 #include <QDebug>
+
+//class MainWindow;
+#include "mainwindow.h"
 
 using namespace std;
 
 /*
- * Transform the image into a two colored image, one color for the color we want to track,
- * another color for the others colors
- * From this image, we get two datas : the number of pixel detected, and the center of gravity of these pixel
+ * Binarisation en fonction de la couleur selectionne
  */
-IplImage* carte_select::binarisation(IplImage* image, IplImage* mask) {
+void Carte_select::binarisation() {
 
-        //CvScalar pixel;
         IplImage *hsv;
         IplConvKernel *kernel;
 
         // Create the hsv image
         hsv = cvCloneImage(image);
-
         cvCvtColor(image, hsv, CV_BGR2HSV);
 
         // We create the mask
@@ -34,42 +32,28 @@ IplImage* carte_select::binarisation(IplImage* image, IplImage* mask) {
         cvReleaseStructuringElement(&kernel);
 
         // We release the memory of the hsv image
-    cvReleaseImage(&hsv);
-    return mask;
+        cvReleaseImage(&hsv);
 }
 
-carte_select::carte_select(const QString path_carte, int x, int y, MainWindow *parent)
-{
-    IplImage *mask = NULL, *image_trace = NULL, *hsv = NULL;
-
+//sequance de points, definissant un contour, en fonction de la couleur se trouvant a la position x y
+CvSeq *Carte_select::Selection(int x, int y){
     CvMemStorage* storage = cvCreateMemStorage();
-    CvSeq* first_contour = NULL;
     CvScalar pixel;
 
-    h = 0, s = 0, v = 0, tolerance = 10;
-
-    image = cvLoadImage(path_carte.toStdString().c_str());
-
-    hsv = cvCloneImage(image);
-
-    cvCvtColor(image, hsv, CV_BGR2HSV);
-
+    //couleur a la position donne
     pixel = cvGet2D(hsv, y, x);
     h = (int)pixel.val[0];
     s = (int)pixel.val[1];
     v = (int)pixel.val[2];
 
-    mask = cvCreateImage( cvGetSize(image), 8, 1 );
-
+    //masque rouge et bleu
     CvScalar red = CV_RGB(250,0,0);
     CvScalar blue = CV_RGB(0,0,250);
 
-    image_trace = cvCloneImage(image);
-
-    mask = binarisation(image, mask);
-
+    //detourage du mask
     cvFindContours(mask, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
 
+    //tracer le contour
     for( CvSeq* c=first_contour; c!=NULL; c=c->h_next ){
         cvDrawContours(
             image_trace,
@@ -80,11 +64,38 @@ carte_select::carte_select(const QString path_carte, int x, int y, MainWindow *p
             2,
             8 );
     }
+    //affichage du resultat
     parent->shoowIplImage(image_trace);
 
+    //renvoi de la sequance
+    return first_contour;
+}
+
+//initialisation de l'outil de selection
+Carte_select::Carte_select(const QString path_carte,  MainWindow *parent)
+{
+    mask = NULL;
+    image_trace = NULL;
+    hsv = NULL;
+    first_contour = NULL;
+    this->parent = parent;
+
+    h = 0, s = 0, v = 0, tolerance = 10;
+
+    image = cvLoadImage(path_carte.toStdString().c_str());
+
+    cvCvtColor(image, hsv, CV_BGR2HSV);
+
+    mask = cvCreateImage( cvGetSize(image), 8, 1 );
+
+    image_trace = cvCloneImage(image);
+
+    binarisation();
+}
+
+//destruction de l'outil de selection
+Carte_select::~Carte_select(){
     //Libération de l'IplImage (on lui passe un IplImage**).
     cvReleaseImage(&mask);
     cvReleaseImage(&image);
-    cvReleaseImage(&hsv);
-    cvDestroyWindow("Map");
 }

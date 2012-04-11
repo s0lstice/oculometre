@@ -12,7 +12,7 @@ class Dialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit Dialog(QString msg,QWidget *parent = 0);
+    Dialog(QString msg,QWidget *parent = 0);
     ~Dialog();
 
 private slots:
@@ -20,6 +20,7 @@ private slots:
 
 private:
     Ui::Dialog *ui;
+
 };
 
 #endif // DIALOG_H

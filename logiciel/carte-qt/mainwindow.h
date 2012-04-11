@@ -3,18 +3,22 @@
 
 #include <QMainWindow>
 #include <QCheckBox>
-#include "sujet.h"
 #include <QVBoxLayout>
 #include <cv.h>
 #include <highgui.h>
 #include <QGraphicsScene>
-#include "myqgraphicsscene.h"
 #include <QWidget>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QMdiSubWindow>
 #include <QMdiArea>
-#include "projet.h"
+
+//#include "projet.h"
+class Projet;
+//#include "sujet.h"
+class Sujet;
+//#include "myqgraphicsscene.h"
+class MyQGraphicsScene;
 
 namespace Ui {
     class MainWindow;
@@ -22,7 +26,7 @@ namespace Ui {
 
 typedef struct _sujetCheck{
     QCheckBox *checkbox;
-    sujet *p_sujet;
+    Sujet *p_sujet;
 }sujetCheck;
 
 class MainWindow : public QMainWindow
@@ -34,13 +38,7 @@ public:
     void shoowIplImage(IplImage * iplImg);
     ~MainWindow();
 
-    bool getSelection_zone(){
-        return selection_zone;
-    }
-
-    projet *getCurent_projet(){
-        return pro;
-    }
+    Projet *getCurent_projet();
 
 private slots:
     void pb_selzone_clicked();
@@ -52,25 +50,27 @@ private slots:
     void supprimer_sujets();
 
 private:
-    projet *pro;
+    Projet *pro;
     Ui::MainWindow *ui;
-    bool selection_zone;
     QVector<sujetCheck> v_check_sujet;
     QWidget *checkBoxWidget;
     QVBoxLayout *scrolledLayout;
     bool checked;
 
     void liste_pointFromListe_sujet();
-    QVector<sujet*> build_sujetCheck_list();
+    QVector<Sujet*> build_sujetCheck_list();
     void openWindow_Carte();
+    void closeWindow_Carte();
 
     QMenu *viewMenu;
 
+    void dockCarte();
     QDockWidget *dock_AnaliseCarte;
     QWidget *widget_AnaliseCarte;
     QPushButton *pb_selzone;
     QPushButton *pb_selmotif;
 
+    void dockVolontaire();
     QDockWidget *dock_GestionVolontaire;
     QWidget *widget_GestionVolontaire;
     QPushButton *Selpoints;

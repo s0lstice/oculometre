@@ -1,21 +1,20 @@
-#ifndef QUADRILATAIRE_H
-#define QUADRILATAIRE_H
+#ifndef POLYGONE_H
+#define POLYGONE_H
 
 #include "zone.h"
 #include <QPoint>
 #include <QVector>
 
-class polygonne : public zone
+class Polygone : public Zone
 {
 private:
-    QVector<QPoint> coordonees;
-    int nb_sommet;
+    QVector<QPoint> points;
 public:
-    polygonne();
-
-    QVector<QPoint> getCoordonees(){
-        return coordonees;
-    }
+    Polygone();
+    void addEndPoint(QPoint point);
+    QPoint getPoint(int i);
+    QVector<QPoint> getpoints();
+    void addEndPoints(QVector<QPoint> points);
 };
 
-#endif // QUADRILATAIRE_H
+#endif // POLYGONE_H

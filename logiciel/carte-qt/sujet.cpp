@@ -10,7 +10,8 @@
 
 using namespace std;
 
-void sujet::path_sujetToId_sujet(){
+//definit l'identifiant du sujet, il faut le subdiviser pour obtenir son groupe
+void Sujet::path_sujetToId_sujet(){
     QRegExp file("/(.*)/(.*.txt)$");
     QRegExp name("(.*).txt");
     file.indexIn(path_sujet);
@@ -18,8 +19,8 @@ void sujet::path_sujetToId_sujet(){
     id_sujet = name.cap(1);
 }
 
-//merte en place une gestion derreur pour supprimer la classe erreur !!!
-void sujet::charger_points(){
+//metre en place une gestion derreur pour supprimer la classe instancie alors que ce n'est pas un volontaire !!!
+void Sujet::charger_points(){
     QStringList liste_info_point;
     point temp_point;
     QFile file(path_sujet);
@@ -52,11 +53,28 @@ void sujet::charger_points(){
     }
 }
 
-
-
-sujet::sujet(const QString path)
+Sujet::Sujet(const QString path)
 {
     path_sujet = path;
     path_sujetToId_sujet();
     charger_points();
+}
+
+QVector<point> Sujet::get_points(){
+    return v_points;
+}
+QString Sujet::getPath_sujet(){
+    return path_sujet;
+}
+
+QString Sujet::getId_sujet(){
+    return id_sujet;
+}
+
+void Sujet::setZone_id(int id){
+    zone_id = id;
+}
+
+int Sujet::getZone_Id(){
+    return zone_id;
 }

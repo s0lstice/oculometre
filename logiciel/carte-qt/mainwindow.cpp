@@ -1,62 +1,41 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "carte_select.h"
 #include <QFileDialog>
 #include <QDebug>
 #include <QMessageBox>
 #include <projet.h>
 #include <cv.h>
 #include <highgui.h>
-#include "carte_points.h"
 #include <QVBoxLayout>
-#include "dialog.h"
 #include <QPixmap>
 #include <QDockWidget>
 #include <QGraphicsView>
 #include <QMdiSubWindow>
 #include <QMdiArea>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
-    //cvNamedWindow("Map", CV_WINDOW_AUTOSIZE);
-    QString dock_style = "QDockWidget {"
-                "border: 1px solid black; "
-                "color: white;"
-            "}"
+#include "zone.h"
+#include "cercle.h"
+#include "selection.h"
+#include "polygone.h"
+#include "carte_select.h"
+#include "carte_points.h"
+#include "dialog.h"
 
-            "QDockWidget::title {"
-                "background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 gray, stop: 1 black);"
-                "subcontrol-position: top left;" /* position at the top left*/
-                "padding:2 13px;"
-            "}"
+#include "projet.h"
+//class Projet;
+#include "groupe_selection.h"
+//class Composit;
+#include "sujet.h"
+//class Sujet;
+#include "myqgraphicsscene.h"
+//class MyQGraphicsScene;
 
-            "QDockWidget::close-button:hover, QDockWidget::float-button:hover {"
-                "background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 gray, stop: 1 black);"
-                "border-radius: 6px;"
-            "}";
-
-    //"background-color: #a0a0a0;"
-    ui->setupUi(this);
-    zoneCentrale = new QMdiArea;
-    setCentralWidget(zoneCentrale);
-    widget_Carte = NULL;
-
-    checked = true;
-    selection_zone = false;
-
-
-    /***************************************************************************/
-    /**********************************MenuBarra********************************/
-    /***************************************************************************/
-    viewMenu = menuBar()->addMenu(tr("&Outils"));
-
+//cree le dock gerant les zones; nom a revoir ?
+void MainWindow::dockCarte(){
     /***************************************************************************/
     /********************************AnaliseCarte*******************************/
     /***************************************************************************/
-    dock_AnaliseCarte = new QDockWidget(QObject::tr("Analise de la Carte"), this);
-    dock_AnaliseCarte->setStyleSheet(dock_style);
+    dock_AnaliseCarte = new QDockWidget(QObject::tr("Analyse de la Carte"), this);
     dock_AnaliseCarte->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
 
@@ -64,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
     dock_AnaliseCarte->setWidget(widget_AnaliseCarte);
 
     pb_selzone = new QPushButton;
-    pb_selzone->setText(QObject::tr("Sélectionner une zone"));
+    pb_selzone->setText(QObject::tr("Sélectionner une Zone"));
     pb_selmotif = new QPushButton;
     pb_selmotif->setText(QObject::tr("Ajouter un motif"));
 
@@ -77,12 +56,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addDockWidget(Qt::LeftDockWidgetArea, dock_AnaliseCarte);
     viewMenu->addAction(dock_AnaliseCarte->toggleViewAction());
+}
 
+//cree le dock avec les volontaire
+void MainWindow::dockVolontaire(){
     /***************************************************************************/
     /*****************************GestionVolontaire*****************************/
     /***************************************************************************/
     dock_GestionVolontaire = new QDockWidget(QObject::tr("Gestion des volontaires"), this);
-    dock_GestionVolontaire->setStyleSheet(dock_style);
     dock_GestionVolontaire->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     widget_GestionVolontaire = new QWidget;
     dock_GestionVolontaire->setWidget(widget_GestionVolontaire);
@@ -109,13 +90,50 @@ MainWindow::MainWindow(QWidget *parent) :
 
     addDockWidget(Qt::LeftDockWidgetArea, dock_GestionVolontaire);
     viewMenu->addAction(dock_GestionVolontaire->toggleViewAction());
-
-    /***************************************************************************/
-    /***********************************Projet**********************************/
-    /***************************************************************************/
-    pro = new projet();
 }
 
+//constructeur
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    zoneCentrale = new QMdiArea;
+    setCentralWidget(zoneCentrale);
+    widget_Carte = NULL;
+
+    checked = true;
+    scene->setSelection_zone(false);
+
+    /**********************************MenuBarra********************************/
+    viewMenu = menuBar()->addMenu(tr("&Outils"));
+
+    /***********************************Projet**********************************/
+    pro = new Projet();
+
+    /*****************************GestionVolontaire*****************************/
+    dockVolontaire();
+
+    /********************************AnaliseCarte*******************************/
+    dockCarte();
+}
+
+//destructeur; a pofiner !!
+MainWindow::~MainWindow()
+{
+
+    if(v_check_sujet.size() != 0){
+        foreach(sujetCheck chekBox,v_check_sujet){
+            if(chekBox.checkbox->isChecked() == true){
+                delete chekBox.checkbox;
+            }
+        }
+    }
+
+    delete ui;
+}
+
+//ouverture de la fenetre, la gestion de la fenetre est a revoir
 void MainWindow::openWindow_Carte()
 {
 
@@ -142,20 +160,15 @@ void MainWindow::openWindow_Carte()
     //connect(widget_Carte, SIGNAL(close()), this, SLOT(closeWindow_carte()));
 }
 
-MainWindow::~MainWindow()
-{
-
-    if(v_check_sujet.size() != 0){
-        foreach(sujetCheck chekBox,v_check_sujet){
-            if(chekBox.checkbox->isChecked() == true){
-                delete chekBox.checkbox;
-            }
-        }
-    }
-
-    delete ui;
+//fermeture de la fenetre, la gestion de la fenetre est a revoir
+void MainWindow::closeWindow_Carte(){
+    delete scene;
+    delete image;
+    delete window_Carte;
+    delete widget_Carte;
 }
 
+//afichage de l'image, a metre dans MyQGraphicssene ?
 void  MainWindow::shoowIplImage(IplImage *iplImg)
 {
     int h = iplImg->height;
@@ -194,25 +207,27 @@ void  MainWindow::shoowIplImage(IplImage *iplImg)
         }
     }
 
-    if(zoneCentrale->subWindowList().size() == 0)
+    if(zoneCentrale->subWindowList().size() == 0)//la gestion de la fenetre est a revoir
         openWindow_Carte();
     scene->addPixmap(QPixmap::fromImage(qimg));
 }
 
+//construit la liste de volontaire, prevoir sa desalocation !
+//changer son nom !!
 void MainWindow::liste_pointFromListe_sujet(){
-    QVector<sujet *> v_sujet = pro->get_sujet();
+    QVector<Sujet *> v_sujet = pro->get_sujet();
     checkBoxWidget = new QWidget(ScrollCheckBox);
     scrolledLayout = new QVBoxLayout(checkBoxWidget);
 
-    foreach(sujet *sujet, v_sujet){
+    foreach(Sujet *Sujet, v_sujet){
         QCheckBox *check = new QCheckBox();
-        check->setText(sujet->getId_sujet());
+        check->setText(Sujet->getId_sujet());
         check->setChecked(true);
         scrolledLayout->addWidget(check);
 
         sujetCheck str_sujet;
         str_sujet.checkbox = check;
-        str_sujet.p_sujet = sujet;
+        str_sujet.p_sujet = Sujet;
         v_check_sujet.append(str_sujet);
     }
 
@@ -220,28 +235,40 @@ void MainWindow::liste_pointFromListe_sujet(){
 
 }
 
+//gestion de la selection de zone en fonction de couleur
+//ne fonctionne pas
 void MainWindow::pb_selzone_clicked()
 {
-    QString path_carte;
-    path_carte = pro->get_path_carte();
+    QString path_carte = pro->get_path_carte();
 
     if(path_carte != ""){
-        if(selection_zone == false){
-            selection_zone = true;
+        if(scene->getSelection_zone() == false){
+            //Selection *select = new Selection();
+            //Selection sel();
+            //Composite *main_composite = pro->getZones();
+
+            //main_composite->ajouter_zone(select);
+            //scene->setZone_courante((Zone *)select);
+            scene->setCarte_selection(new Carte_select(path_carte, this));
+
             pb_selzone->setText(QObject::tr("Arrêter la sélection"));
+            scene->setSelection_zone(true);
         }
         else
         {
-            pb_selzone->setText(QObject::tr("Sélectionner une zone"));
-            selection_zone = false;
+            scene->delCarte_selection();
+            scene->nullZone_courante();
+            scene->setSelection_zone(false);
+            pb_selzone->setText(QObject::tr("Sélectionner une Zone"));
         }
     }
     else
         QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
 }
 
-QVector<sujet*> MainWindow::build_sujetCheck_list(){
-    QVector<sujet*> v_sujets;
+//construit une liste de volontaire en fonction des selectionnes
+QVector<Sujet*> MainWindow::build_sujetCheck_list(){
+    QVector<Sujet*> v_sujets;
     if(v_check_sujet.size() != 0){
         foreach(sujetCheck chekBox,v_check_sujet){
             if(chekBox.checkbox->isChecked() == true){
@@ -255,16 +282,19 @@ QVector<sujet*> MainWindow::build_sujetCheck_list(){
     }
 }
 
+//affiche les volontaire selectionnes
 void MainWindow::afficher_points_clicked()
 {
-    QVector<sujet*> v_sujets = build_sujetCheck_list();
+    QVector<Sujet*> v_sujets = build_sujetCheck_list();
     if(v_sujets.size() != 0)
-        carte_points drow(pro, build_sujetCheck_list(), this);
+        Carte_points drow(pro, build_sujetCheck_list(), this);
     else{
         shoowIplImage(cvLoadImage(pro->get_path_carte().toStdString().c_str()));
     }
 }
 
+
+//invetion de la selection
 void MainWindow::Selpoints_clicked()
 {
     if(v_check_sujet.size() != 0){
@@ -279,6 +309,7 @@ void MainWindow::Selpoints_clicked()
     }
 }
 
+//ouverture de la map
 void MainWindow::on_actionCharger_une_carte_triggered()
 {
     QString File = QFileDialog::getOpenFileName(this,tr("Choisir une carte"), QDir::homePath(), tr("carte (*.bmp)"));
@@ -291,27 +322,30 @@ void MainWindow::on_actionCharger_une_carte_triggered()
          }
 }
 
+//ouverture des volontaires
 void MainWindow::on_actionCharger_des_volontaires_triggered()
 {
     QStringList fileNames;
 
-    QFileDialog dialog(this);
-    dialog.setDirectory(QDir::homePath());
-    dialog.setFileMode(QFileDialog::ExistingFiles);
-    dialog.setFilter(QObject::tr("sujet (*.txt)"));
+    QFileDialog Dialog(this);
+    Dialog.setDirectory(QDir::homePath());
+    Dialog.setFileMode(QFileDialog::ExistingFiles);
+    Dialog.setFilter(QObject::tr("Sujet (*.txt)"));
 
-    if (dialog.exec()){
-        fileNames = dialog.selectedFiles();
+    if (Dialog.exec()){
+        fileNames = Dialog.selectedFiles();
         pro->charger_sujets(fileNames);
     }
     liste_pointFromListe_sujet();
 }
 
+//quite l'application par le menu
 void MainWindow::on_actionQuiter_triggered()
 {
     this->close();
 }
 
+//supression des volontaires selectionné
 void MainWindow::supprimer_sujets(){
     sujetCheck s_sujet;
     int i = 0;
@@ -327,4 +361,9 @@ void MainWindow::supprimer_sujets(){
             i++;
     }
     ScrollCheckBox->setWidget(checkBoxWidget);
+}
+
+//renvoir le projet en cour.
+Projet *MainWindow::getCurent_projet(){
+    return pro;
 }

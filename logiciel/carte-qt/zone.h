@@ -3,20 +3,29 @@
 
 #include <QString>
 
-typedef enum _type_zone{
-    polygonne,
-    cercle,
+typedef enum _type_zone
+   {
     selection,
-}type_zone;
+    cercle,
+    polygone,
+    groupe
+   }type_zone;
 
-class zone
+class Zone
 {
 protected:
-    int id_zone;
-    QString label;
+    int id;
     type_zone type;
+    QString label;
+
 public:
-    zone();
+    Zone();
+
+    int getId();
+    type_zone getType();
+    QString getLable();
+    void setLabel(QString label);
+
 };
 
 #endif // ZONE_H

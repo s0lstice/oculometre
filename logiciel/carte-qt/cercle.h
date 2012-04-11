@@ -4,22 +4,19 @@
 #include "zone.h"
 #include <QPoint>
 
-class cercle : public zone
+class Cercle : public Zone
 {
 private:
     QPoint centre;
     int rayon;
 
 public:
-    cercle();
+    Cercle();
+    QPoint getCentre();
+    int getRayon();
 
-    QPoint getCentre(){
-        return centre;
-    }
-
-    int getRayon(){
-        return rayon;
-    }
+    void setCentre(QPoint centre);
+    void setRayon(int rayon);
 };
 
 #endif // CERCLE_H
