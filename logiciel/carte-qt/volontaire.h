@@ -12,26 +12,35 @@ typedef struct _point{
     float fin;
 }point;
 
-class Sujet
+class Volontaire
 {
+public:
+
+
+    Volontaire(const QString path);
+
+    QVector<point> get_points();
+    QString getPath_Volontaire();
+    QString getId_Volontaire();
+    void setZone_id(int id);
+    int getZone_Id();
+    Qt::CheckState getDisplayed();
+    void setDisplayed(Qt::CheckState valeu);
+
+    void switchEtat();
+
 private:
 
-    QString path_sujet;
+    Qt::CheckState Displayed;
+
+    QString path_Volontaire;
     int zone_id;
-    QString id_sujet;
+    QString id_Volontaire;
     QVector<point> v_points;
 
     void charger_points();
-    void path_sujetToId_sujet();
+    void path_VolontaireToId_Volontaire();
 
-public:
-    Sujet(const QString path);
-
-    QVector<point> get_points();
-    QString getPath_sujet();
-    QString getId_sujet();
-    void setZone_id(int id);
-    int getZone_Id();
 };
 
 #endif // POINT_H

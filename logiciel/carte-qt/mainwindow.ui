@@ -25,7 +25,6 @@
 
  QDockWidget {
 	border: 1px solid black; 
-	color: white;
  }
 
 QDockWidget::title {
@@ -60,7 +59,7 @@ QDockWidget::close-button:hover, QDockWidget::float-button:hover {
      <string>&amp;Données</string>
     </property>
     <addaction name="actionCharger_une_carte"/>
-    <addaction name="actionCharger_des_volontaires"/>
+    <addaction name="actionCharger_des_Volontaires"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuDonnees"/>
@@ -73,7 +72,7 @@ QDockWidget::close-button:hover, QDockWidget::float-button:hover {
     <string>Ctrl+C</string>
    </property>
   </action>
-  <action name="actionCharger_des_volontaires">
+  <action name="actionCharger_des_Volontaires">
    <property name="text">
     <string>Charger des volontaires</string>
    </property>
@@ -86,9 +85,9 @@ QDockWidget::close-button:hover, QDockWidget::float-button:hover {
     <string>Analiser la carte</string>
    </property>
   </action>
-  <action name="actionGestion_des_volontaires">
+  <action name="actionGestion_des_Volontaires">
    <property name="text">
-    <string>Gestion des volontaires</string>
+    <string>Gestion des Volontaires</string>
    </property>
   </action>
   <action name="actionQuiter">
