@@ -16,16 +16,19 @@ MyQAbstractListModel::~MyQAbstractListModel()
 
 void MyQAbstractListModel::setItems(const QVector<Volontaire*> *Volontaires)
 {
-  emit beginResetModel();
-  this->volontaires = Volontaires;
-  emit endResetModel();
+    emit beginResetModel();
+    this->volontaires = Volontaires;
+    emit endResetModel();
 }
+
 void MyQAbstractListModel::switchEtat(){
     Volontaire *volon;
 
+    emit beginResetModel();
     foreach(volon, *volontaires){
         volon->switchEtat();
     }
+    emit endResetModel();
 }
 
 Qt::ItemFlags MyQAbstractListModel::flags (const QModelIndex  &index ) const
