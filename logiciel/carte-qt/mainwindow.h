@@ -40,12 +40,12 @@ public:
 
 private slots:
     void pb_selzone_clicked();
-    //void afficher_points_clicked();
+    void afficher_points_clicked();
     void Selpoints_clicked();
     void on_actionCharger_une_carte_triggered();
     void on_actionCharger_des_Volontaires_triggered();
     void on_actionQuiter_triggered();
-    //void supprimer_Volontaires();
+    void supprimer_Volontaires();
 
 private:
     Projet *pro;

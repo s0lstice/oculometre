@@ -45,3 +45,5 @@ HEADERS  += \
 FORMS    += \
     dialog.ui \
     mainwindow.ui
+
+TRANSLATIONS = lang_fr.ts

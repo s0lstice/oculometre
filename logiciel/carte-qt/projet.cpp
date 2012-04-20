@@ -61,6 +61,11 @@ void Projet::supprimer_Volontaires(QVector<Volontaire*> liste_Volontaire){
     }
 }
 
+void Projet::supprimer_Volontaire(int row){
+        delete v_Volontaires.at(row);
+        v_Volontaires.remove(row);
+}
+
 Groupe_selection *Projet::getZones(){
     return zones;
 }

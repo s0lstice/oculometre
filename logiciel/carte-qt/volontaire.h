@@ -26,7 +26,6 @@ public:
     int getZone_Id();
     Qt::CheckState getDisplayed();
     void setDisplayed(Qt::CheckState valeu);
-
     void switchEtat();
 
 private:

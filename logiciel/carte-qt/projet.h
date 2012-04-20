@@ -42,6 +42,7 @@ public:
 
     void charger_Volontaires(QStringList liste_Volontaire);
     void supprimer_Volontaires(QVector<Volontaire*> liste_Volontaire);
+    void supprimer_Volontaire(int row);
 
     int getNb_zone();
     void upNb_zone();

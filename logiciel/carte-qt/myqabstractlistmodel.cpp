@@ -2,16 +2,50 @@
 #include "projet.h"
 #include "mainwindow.h"
 #include "volontaire.h"
+#include "carte_points.h"
 
 MyQAbstractListModel::MyQAbstractListModel(QObject *parent) :
     QAbstractListModel(parent)
 {
-    //mainwindow = qobject_cast<MainWindow*>(parent);
+    mainwindow = qobject_cast<MainWindow*>(parent);
     //Projet *pro = mainwindow->getCurent_projet();
     //Volontaires = pro->getVolontaires();
 }
 MyQAbstractListModel::~MyQAbstractListModel()
 {
+}
+
+bool MyQAbstractListModel::removeRow(int row)
+{
+
+    if(row < 0 || row >= volontaires->size())
+        return false;
+
+    beginRemoveRows(QModelIndex(), row, row);
+
+    mainwindow->getCurent_projet()->supprimer_Volontaire(row);
+
+    endRemoveRows();
+
+    return true;
+}
+
+bool MyQAbstractListModel::removeCheckedRow()
+{
+    int row;
+    int nb_volontaire = volontaires->size()-1;
+
+    for(row = nb_volontaire; row >= 0; row--){
+        if(volontaires->at(row)->getDisplayed() == Qt::Checked){
+            beginRemoveRows(QModelIndex(), row, row);
+
+            mainwindow->getCurent_projet()->supprimer_Volontaire(row);
+
+            endRemoveRows();
+        }
+    }
+
+    return true;
 }
 
 void MyQAbstractListModel::setItems(const QVector<Volontaire*> *Volontaires)
@@ -29,6 +63,24 @@ void MyQAbstractListModel::switchEtat(){
         volon->switchEtat();
     }
     emit endResetModel();
+}
+
+void MyQAbstractListModel::afficheVolontaire(){
+    Volontaire *volon;
+    QVector<Volontaire*> liste;
+    Projet *pro = mainwindow->getCurent_projet();
+
+    foreach(volon, *volontaires){
+        if(volon->getDisplayed() == Qt::Checked){
+            liste.append(volon);
+        }
+    }
+
+    if(liste.size() != 0)
+        Carte_points drow(pro, liste, mainwindow);
+    else{
+        mainwindow->shoowIplImage(cvLoadImage(pro->get_path_carte().toStdString().c_str()));
+    }
 }
 
 Qt::ItemFlags MyQAbstractListModel::flags (const QModelIndex  &index ) const

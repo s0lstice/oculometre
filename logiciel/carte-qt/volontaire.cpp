@@ -90,8 +90,8 @@ void Volontaire::setDisplayed(Qt::CheckState valeu){
 
 void Volontaire::switchEtat(){
 
-        if(Displayed == Qt::Checked)
-            Displayed = Qt::Unchecked;
-        else
-            Displayed = Qt::Checked;
+    if(Displayed == Qt::Checked)
+        Displayed = Qt::Unchecked;
+    else
+        Displayed = Qt::Checked;
 }

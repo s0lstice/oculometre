@@ -23,6 +23,9 @@ public:
     void setItems(const QVector<Volontaire*>* Volontaires);
     Qt::ItemFlags flags (const QModelIndex  &index ) const;
     void switchEtat();
+    bool removeRow(int row);
+    bool removeCheckedRow();
+    void afficheVolontaire();
 
 protected:
     const QVector<Volontaire*> *volontaires;

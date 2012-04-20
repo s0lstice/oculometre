@@ -251,20 +251,13 @@ QVector<Volontaire*> MainWindow::build_VolontaireCheck_list(){
 */
 //affiche les Volontaire selectionnes
 //Arevoir
-/*
 void MainWindow::afficher_points_clicked()
 {
-    QVector<Volontaire*> v_Volontaires = build_VolontaireCheck_list();
-    if(v_Volontaires.size() != 0)
-        Carte_points drow(pro, build_VolontaireCheck_list(), this);
-    else{
-        shoowIplImage(cvLoadImage(pro->get_path_carte().toStdString().c_str()));
-    }
+    model->afficheVolontaire();
 }
-*/
+
 //invetion de la selection
 //n'est plus ici
-
 void MainWindow::Selpoints_clicked()
 {
     if(model->rowCount() != 0){
@@ -318,23 +311,10 @@ void MainWindow::on_actionQuiter_triggered()
 
 //supression des Volontaires selectionné
 //n'est pas ici
-/*
-void MainWindow::supprimer_Volontaires(){
-    VolontaireCheck s_Volontaire;
-    int i = 0;
 
-    foreach(s_Volontaire, v_check_Volontaire){
-        if(s_Volontaire.checkbox->isChecked() == true){
-            delete s_Volontaire.p_Volontaire;
-            delete s_Volontaire.checkbox;
-            v_check_Volontaire.remove(i);
-            pro->rm_Volontaire(i);
-        }
-        else
-            i++;
-    }
-    ScrollCheckBox->setWidget(checkBoxWidget);
-}*/
+void MainWindow::supprimer_Volontaires(){
+    model->removeCheckedRow();
+}
 
 //renvoir le projet en cour.
 Projet *MainWindow::getCurent_projet(){
