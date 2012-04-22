@@ -25,7 +25,7 @@
 
  QDockWidget {
 	border: 1px solid black; 
-	color: white;
+	/*color: white;*/
  }
 
 QDockWidget::title {
@@ -35,7 +35,7 @@ QDockWidget::title {
 }
 
 QDockWidget::close-button:hover, QDockWidget::float-button:hover {
-	background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 LightGray, stop: 1 Gray);
+	background-color: qlineargradient(x1: 1, y1: 0, x2: 1, y2: 0, stop: 0 LightGray, stop: 1 Gray);
 	border-radius: 6px;
 }</string>
   </property>

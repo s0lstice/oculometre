@@ -4,7 +4,6 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <projet.h>
-#include <cv.h>
 #include <highgui.h>
 #include <QVBoxLayout>
 #include <QPixmap>
