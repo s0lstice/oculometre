@@ -5,7 +5,7 @@
 #include "carte_select.h"
 //class Carte_select;
 
-Selection::Selection() : Zone()
+Selection::Selection(Groupe_selection *parent) : Zone(parent)
 {
     type = selection;
 }

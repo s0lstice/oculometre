@@ -1,11 +1,17 @@
 #include <QtGui/QApplication>
 #include "mainwindow.h"
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
+
+    QTranslator translator;
+    translator.load("lang_fr");
+    app.installTranslator(&translator);
+
     MainWindow w;
     w.showMaximized();
 
-    return a.exec();
+    return app.exec();
 }

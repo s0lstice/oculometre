@@ -12,22 +12,20 @@
 #include <QScrollArea>
 #include <QMdiSubWindow>
 #include <QMdiArea>
+#include <QTableView>
+#include <QListView>
 
 //#include "projet.h"
 class Projet;
-//#include "sujet.h"
-class Sujet;
+//#include "Volontaire.h"
+class Volontaire;
 //#include "myqgraphicsscene.h"
 class MyQGraphicsScene;
+class MyQAbstractListModel;
 
 namespace Ui {
     class MainWindow;
 }
-
-typedef struct _sujetCheck{
-    QCheckBox *checkbox;
-    Sujet *p_sujet;
-}sujetCheck;
 
 class MainWindow : public QMainWindow
 {
@@ -45,20 +43,18 @@ private slots:
     void afficher_points_clicked();
     void Selpoints_clicked();
     void on_actionCharger_une_carte_triggered();
-    void on_actionCharger_des_volontaires_triggered();
+    void on_actionCharger_des_Volontaires_triggered();
     void on_actionQuiter_triggered();
-    void supprimer_sujets();
+    void supprimer_Volontaires();
 
 private:
     Projet *pro;
     Ui::MainWindow *ui;
-    QVector<sujetCheck> v_check_sujet;
-    QWidget *checkBoxWidget;
-    QVBoxLayout *scrolledLayout;
-    bool checked;
+    //QWidget *checkBoxWidget;
+    //QVBoxLayout *scrolledLayout;
 
-    void liste_pointFromListe_sujet();
-    QVector<Sujet*> build_sujetCheck_list();
+    //void liste_pointFromListe_Volontaire();
+    QVector<Volontaire*> build_VolontaireCheck_list();
     void openWindow_Carte();
     void closeWindow_Carte();
 
@@ -76,13 +72,16 @@ private:
     QPushButton *Selpoints;
     QPushButton *afficher_points;
     QPushButton *suppre_points;
-    QScrollArea *ScrollCheckBox;
+    MyQAbstractListModel *model;
+    QListView *view;
 
     QMdiArea *zoneCentrale;
     QMdiSubWindow *window_Carte;
     QWidget *widget_Carte;
     QGraphicsView *image;
     MyQGraphicsScene *scene;
+
+
 };
 
 #endif // MAINWINDOW_H

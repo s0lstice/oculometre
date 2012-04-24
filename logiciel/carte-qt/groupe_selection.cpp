@@ -1,26 +1,21 @@
 #include "groupe_selection.h"
+#include <QVariant>
 
-Groupe_selection::Groupe_selection() : Zone()
+Groupe_selection::Groupe_selection(Groupe_selection *parent) : Zone(parent)
 {
     type = composite;
 
 }
 
 Groupe_selection::~Groupe_selection(){
-    Zone * zone;
-    int i = groupe.size();
-    foreach(zone, groupe){
-        delete zone;
-        groupe.remove(i);
-        i--;
-    }
+    qDeleteAll(groupe);
 }
 
-Zone *Groupe_selection::getZone(int i){
+Zone *Groupe_selection::child(int i){
     return groupe.at(i);
 }
 
-void Groupe_selection::addEndZone(Zone *zone){
+void Groupe_selection::appendChild(Zone *zone){
     groupe.append(zone);
 }
 
@@ -28,6 +23,14 @@ QVector<Zone*> Groupe_selection::getZones(){
     return groupe;
 }
 
-void Groupe_selection::addEndZones(QVector<Zone*> zone){
+void Groupe_selection::appendChilds(QVector<Zone*> zone){
     groupe += zone;
+}
+
+int Groupe_selection::childCount() const{
+    return groupe.size();
+}
+
+QVector<Zone *> Groupe_selection::getGroupe(){
+    return groupe;
 }

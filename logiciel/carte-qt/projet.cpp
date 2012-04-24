@@ -3,8 +3,8 @@
 
 #include "groupe_selection.h"
 //class Composite;
-#include "sujet.h"
-//class Sujet;
+#include "volontaire.h"
+//class Volontaire;
 
 Projet::Projet()
 {
@@ -12,17 +12,17 @@ Projet::Projet()
     path_carte = "";
     nb_zones = 0;
 
-    zones = new Groupe_selection();
+    zones = new Groupe_selection(NULL);
 }
 
 Projet::~Projet()
 {
-    Sujet *tmp;
+    Volontaire *tmp;
     int i;
-    int nb = v_sujets.size();
+    int nb = v_Volontaires.size();
     for (i = 0; i < nb; ++i){
-        tmp = v_sujets.last();
-        v_sujets.pop_back();
+        tmp = v_Volontaires.last();
+        v_Volontaires.pop_back();
         delete tmp;
     }
 
@@ -32,50 +32,59 @@ Projet::~Projet()
     delete zones;
 }
 
-//verifie que le volontaire a ouvir n'existe pas deja
+//verifie que le Volontaire a ouvir n'existe pas deja
 //s'il n'existe pas on l'ouvre
-void Projet::charger_sujets(QStringList liste_sujet){
-    QString s_sujet;
-    Sujet *s_test_sujet;
-    Sujet *points;
+void Projet::charger_Volontaires(QStringList liste_Volontaire){
+    QString s_Volontaire;
+    Volontaire *s_test_Volontaire;
+    Volontaire *points;
     bool find = false;
 
-    foreach(s_sujet, liste_sujet){
-        foreach(s_test_sujet, v_sujets){
-            if(s_test_sujet->getPath_sujet() == s_sujet)
+    foreach(s_Volontaire, liste_Volontaire){
+        foreach(s_test_Volontaire, v_Volontaires){
+            if(s_test_Volontaire->getPath_Volontaire() == s_Volontaire)
                 find = true;
         }
         if(find == false){
-            points =  new Sujet(s_sujet);
-            v_sujets.push_back(points);
+            points =  new Volontaire(s_Volontaire);
+            v_Volontaires.push_back(points);
         }
         find = false;
     }
 }
 
-//efface un volontaire
-void Projet::supprimer_sujets(QVector<Sujet*> liste_sujet){
-    Sujet *s_sujet;
-    foreach(s_sujet, liste_sujet){
-        delete s_sujet;
+//efface un Volontaire
+void Projet::supprimer_Volontaires(QVector<Volontaire*> liste_Volontaire){
+    Volontaire *s_Volontaire;
+    foreach(s_Volontaire, liste_Volontaire){
+        delete s_Volontaire;
     }
+}
+
+void Projet::supprimer_Volontaire(int row){
+        delete v_Volontaires.at(row);
+        v_Volontaires.remove(row);
 }
 
 Groupe_selection *Projet::getZones(){
     return zones;
 }
-Sujet *Projet::get_sujet(int i){
-    return v_sujets.value(i);
+Volontaire *Projet::get_Volontaire(int i){
+    return v_Volontaires.value(i);
 }
-QVector<Sujet*> Projet::get_sujet(){
-    return v_sujets;
+QVector<Volontaire*> Projet::get_Volontaire(){
+    return v_Volontaires;
 }
-void Projet::rm_sujet(int i){
-    v_sujets.remove(i);
+QVector<Volontaire*> *Projet::getVolontaires(){
+    return &v_Volontaires;
 }
 
-int Projet::get_nb_sujet(){
-    return v_sujets.size();
+void Projet::rm_Volontaire(int i){
+    v_Volontaires.remove(i);
+}
+
+int Projet::get_nb_Volontaire(){
+    return v_Volontaires.size();
 }
 
 void Projet::set_carte(QString path, IplImage *image){

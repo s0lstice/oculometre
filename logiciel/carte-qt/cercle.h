@@ -4,6 +4,8 @@
 #include "zone.h"
 #include <QPoint>
 
+class Groupe_selection;
+
 class Cercle : public Zone
 {
 private:
@@ -11,7 +13,7 @@ private:
     int rayon;
 
 public:
-    Cercle();
+    Cercle(Groupe_selection *parent);
     ~Cercle();
 
     QPoint getCentre();

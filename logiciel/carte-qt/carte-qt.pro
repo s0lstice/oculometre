@@ -22,9 +22,10 @@ SOURCES += main.cpp\
     polygone.cpp \
     projet.cpp \
     selection.cpp \
-    sujet.cpp \
     zone.cpp \
-    groupe_selection.cpp
+    groupe_selection.cpp \
+    myqabstractlistmodel.cpp \
+    volontaire.cpp
 
 HEADERS  += \
     carte_points.h \
@@ -36,10 +37,13 @@ HEADERS  += \
     polygone.h \
     projet.h \
     selection.h \
-    sujet.h \
     zone.h \
-    groupe_selection.h
+    groupe_selection.h \
+    myqabstractlistmodel.h \
+    volontaire.h
 
 FORMS    += \
     dialog.ui \
     mainwindow.ui
+
+TRANSLATIONS = lang_fr.ts

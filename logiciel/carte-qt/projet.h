@@ -11,15 +11,15 @@
 
 //#include "groupe_selection.h"
 class Groupe_selection;
-//#include <sujet.h>
-class Sujet;
+//#include <Volontaire.h>
+class Volontaire;
 
 class Projet
 {
 private:
     IplImage *carte;
     QString path_carte;
-    QVector<Sujet*> v_sujets;
+    QVector<Volontaire*> v_Volontaires;
     Groupe_selection *zones;
     int nb_zones;
 
@@ -28,19 +28,21 @@ public:
     ~Projet();
 
     Groupe_selection *getZones();
-    Sujet *get_sujet(int i);
-    QVector<Sujet*> get_sujet();
+    Volontaire *get_Volontaire(int i);
+    QVector<Volontaire*> get_Volontaire();
+    QVector<Volontaire*> *getVolontaires();
 
-    void rm_sujet(int i);
-    int get_nb_sujet();
+    void rm_Volontaire(int i);
+    int get_nb_Volontaire();
 
     void set_carte(QString path, IplImage *image);
     QString get_path_carte();
     IplImage *get_carte();
     void freeCarte();
 
-    void charger_sujets(QStringList liste_sujet);
-    void supprimer_sujets(QVector<Sujet*> liste_sujet);
+    void charger_Volontaires(QStringList liste_Volontaire);
+    void supprimer_Volontaires(QVector<Volontaire*> liste_Volontaire);
+    void supprimer_Volontaire(int row);
 
     int getNb_zone();
     void upNb_zone();

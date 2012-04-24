@@ -2,6 +2,10 @@
 #define ZONE_H
 
 #include <QString>
+#include <QVariant>
+#include <QVector>
+
+class Groupe_selection;
 
 typedef enum _type_zone
    {
@@ -17,15 +21,20 @@ protected:
     int id;
     type_zone type;
     QString label;
+    Groupe_selection *parent;
 
 public:
-    Zone();
+    Zone(Groupe_selection *parent);
     virtual ~Zone();
 
     int getId();
     type_zone getType();
     QString getLable();
     void setLabel(QString label);
+
+    Groupe_selection *getParent();
+    QVector<QVariant> data() const;
+    int row() const;
 };
 
 #endif // ZONE_H

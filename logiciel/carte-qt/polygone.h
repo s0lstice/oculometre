@@ -5,12 +5,13 @@
 #include <QPoint>
 #include <QVector>
 
+class Groupe_selection;
 class Polygone : public Zone
 {
 private:
     QVector<QPoint> points;
 public:
-    Polygone();
+    Polygone(Groupe_selection *parent);
     ~Polygone();
 
     void addEndPoint(QPoint point);

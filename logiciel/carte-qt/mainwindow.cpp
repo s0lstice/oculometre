@@ -24,10 +24,11 @@
 //class Projet;
 #include "groupe_selection.h"
 //class Composit;
-#include "sujet.h"
-//class Sujet;
+#include "volontaire.h"
+//class Volontaire;
 #include "myqgraphicsscene.h"
 //class MyQGraphicsScene;
+#include "myqabstractlistmodel.h"
 
 //cree le dock gerant les zones; nom a revoir ?
 void MainWindow::dockCarte(){
@@ -56,13 +57,16 @@ void MainWindow::dockCarte(){
     viewMenu->addAction(dock_AnaliseCarte->toggleViewAction());
 }
 
-//cree le dock avec les volontaire
+//cree le dock avec les Volontaire
 void MainWindow::dockVolontaire(){
     /***************************************************************************/
     /*****************************GestionVolontaire*****************************/
     /***************************************************************************/
-    dock_GestionVolontaire = new QDockWidget(QObject::tr("Gestion des volontaires"), this);
+    dock_GestionVolontaire = new QDockWidget(QObject::tr("Gestion des Volontaires"), this);
     dock_GestionVolontaire->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
+    view = new QListView();
+
     widget_GestionVolontaire = new QWidget;
     dock_GestionVolontaire->setWidget(widget_GestionVolontaire);
 
@@ -72,17 +76,15 @@ void MainWindow::dockVolontaire(){
     afficher_points->setText(QObject::tr("Afficher les points"));
     suppre_points = new QPushButton;
     suppre_points->setText(QObject::tr("Supprimer des points"));
-    ScrollCheckBox = new QScrollArea;
-    ScrollCheckBox->setWidgetResizable(true);
 
-    connect(suppre_points,SIGNAL(clicked()),this,SLOT(supprimer_sujets()));
+    connect(suppre_points,SIGNAL(clicked()),this,SLOT(supprimer_Volontaires()));
     connect(afficher_points,SIGNAL(clicked()),this,SLOT(afficher_points_clicked()));
     connect(Selpoints,SIGNAL(clicked()),this,SLOT(Selpoints_clicked()));
     QVBoxLayout *Layout_GestionVolontaire = new QVBoxLayout;
     Layout_GestionVolontaire->addWidget(suppre_points);
     Layout_GestionVolontaire->addWidget(afficher_points);
     Layout_GestionVolontaire->addWidget(Selpoints);
-    Layout_GestionVolontaire->addWidget(ScrollCheckBox);
+    Layout_GestionVolontaire->addWidget(view);
 
     widget_GestionVolontaire->setLayout(Layout_GestionVolontaire);
 
@@ -100,8 +102,6 @@ MainWindow::MainWindow(QWidget *parent) :
     setCentralWidget(zoneCentrale);
     widget_Carte = NULL;
 
-    checked = true;
-
     /**********************************MenuBarra********************************/
     viewMenu = menuBar()->addMenu(tr("&Outils"));
 
@@ -109,6 +109,7 @@ MainWindow::MainWindow(QWidget *parent) :
     pro = new Projet();
 
     /*****************************GestionVolontaire*****************************/
+    model = new MyQAbstractListModel(this);
     dockVolontaire();
 
     /********************************AnaliseCarte*******************************/
@@ -118,14 +119,6 @@ MainWindow::MainWindow(QWidget *parent) :
 //destructeur; a pofiner !!
 MainWindow::~MainWindow()
 {
-
-    if(v_check_sujet.size() != 0){
-        foreach(sujetCheck chekBox,v_check_sujet){
-            if(chekBox.checkbox->isChecked() == true){
-                delete chekBox.checkbox;
-            }
-        }
-    }
 
     delete ui;
 }
@@ -207,42 +200,18 @@ void  MainWindow::shoowIplImage(IplImage *iplImg)
     scene->addPixmap(QPixmap::fromImage(qimg));
 }
 
-//construit la liste de volontaire, prevoir sa desalocation !
-//changer son nom !!
-void MainWindow::liste_pointFromListe_sujet(){
-    QVector<Sujet *> v_sujet = pro->get_sujet();
-    checkBoxWidget = new QWidget(ScrollCheckBox);
-    scrolledLayout = new QVBoxLayout(checkBoxWidget);
-
-    foreach(Sujet *Sujet, v_sujet){
-        QCheckBox *check = new QCheckBox();
-        check->setText(Sujet->getId_sujet());
-        check->setChecked(true);
-        scrolledLayout->addWidget(check);
-
-        sujetCheck str_sujet;
-        str_sujet.checkbox = check;
-        str_sujet.p_sujet = Sujet;
-        v_check_sujet.append(str_sujet);
-    }
-
-    ScrollCheckBox->setWidget(checkBoxWidget);
-
-}
-
 //gestion de la selection de zone en fonction de couleur
-//ne fonctionne pas
 void MainWindow::pb_selzone_clicked()
 {
     QString path_carte = pro->get_path_carte();
 
     if(path_carte != ""){
         if(scene->getSelection_zone() == false){
-            Selection *select = new Selection();
+            Selection *select = new Selection(pro->getZones());
             Groupe_selection *main_composite = pro->getZones();
 
             Carte_select *selction_tool = new Carte_select(this);
-            main_composite->addEndZone(select);
+            main_composite->appendChild(select);
             scene->setZone_courante((Zone *)select);
             scene->setCarte_selection(selction_tool);
 
@@ -261,46 +230,44 @@ void MainWindow::pb_selzone_clicked()
         QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
 }
 
-//construit une liste de volontaire en fonction des selectionnes
-QVector<Sujet*> MainWindow::build_sujetCheck_list(){
-    QVector<Sujet*> v_sujets;
-    if(v_check_sujet.size() != 0){
-        foreach(sujetCheck chekBox,v_check_sujet){
+//construit une liste de Volontaire en fonction des selectionnes
+//Arevoir !!
+/*
+QVector<Volontaire*> MainWindow::build_VolontaireCheck_list(){
+    QVector<Volontaire*> v_Volontaires;
+    if(v_check_Volontaire.size() != 0){
+        foreach(VolontaireCheck chekBox,v_check_Volontaire){
             if(chekBox.checkbox->isChecked() == true){
-                v_sujets.append( chekBox.p_sujet);
+                v_Volontaires.append(chekBox.p_Volontaire);
             }
         }
-        return v_sujets;
+        return v_Volontaires;
     }else{
         Dialog(QObject::tr("Sélectionner des points avant de faire cette action.")).exec();
-        return v_sujets;
+        return v_Volontaires;
     }
 }
-
-//affiche les volontaire selectionnes
+*/
+//affiche les Volontaire selectionnes
+//Arevoir
 void MainWindow::afficher_points_clicked()
 {
-    QVector<Sujet*> v_sujets = build_sujetCheck_list();
-    if(v_sujets.size() != 0)
-        Carte_points drow(pro, build_sujetCheck_list(), this);
-    else{
-        shoowIplImage(cvLoadImage(pro->get_path_carte().toStdString().c_str()));
+    if(model->rowCount() != 0){
+        model->afficheVolontaire();
+    }else{
+        QMessageBox::warning(this, tr("Erreur"), tr("Sélectionner des points avant de faire cette action."));
     }
 }
 
-
 //invetion de la selection
+//n'est plus ici
 void MainWindow::Selpoints_clicked()
 {
-    if(v_check_sujet.size() != 0){
-        foreach(sujetCheck chekBox,v_check_sujet){
-            chekBox.checkbox->setChecked(!checked);
-        }
-        checked = !checked;
-        ScrollCheckBox->setWidget(checkBoxWidget);
+    if(model->rowCount() != 0){
+        model->switchEtat();
+        view->setModel(model);
     }else{
-        Dialog(QObject::tr("Sélectionner des points avant de faire cette action.")).exec();
-        return;
+        QMessageBox::warning(this, tr("Erreur"), tr("Sélectionner des points avant de faire cette action."));
     }
 }
 
@@ -318,21 +285,24 @@ void MainWindow::on_actionCharger_une_carte_triggered()
          }
 }
 
-//ouverture des volontaires
-void MainWindow::on_actionCharger_des_volontaires_triggered()
+//ouverture des Volontaires
+void MainWindow::on_actionCharger_des_Volontaires_triggered()
 {
     QStringList fileNames;
 
     QFileDialog Dialog(this);
     Dialog.setDirectory(QDir::homePath());
     Dialog.setFileMode(QFileDialog::ExistingFiles);
-    Dialog.setFilter(QObject::tr("Sujet (*.txt)"));
+    Dialog.setFilter(QObject::tr("Volontaire (*.txt)"));
 
     if (Dialog.exec()){
         fileNames = Dialog.selectedFiles();
-        pro->charger_sujets(fileNames);
+        pro->charger_Volontaires(fileNames);
+
+        //mise a jour du model
+        model->setItems(pro->getVolontaires());
+        view->setModel(model);
     }
-    liste_pointFromListe_sujet();
 }
 
 //quite l'application par le menu
@@ -341,22 +311,15 @@ void MainWindow::on_actionQuiter_triggered()
     this->close();
 }
 
-//supression des volontaires selectionné
-void MainWindow::supprimer_sujets(){
-    sujetCheck s_sujet;
-    int i = 0;
+//supression des Volontaires selectionné
+//n'est pas ici
 
-    foreach(s_sujet, v_check_sujet){
-        if(s_sujet.checkbox->isChecked() == true){
-            delete s_sujet.p_sujet;
-            delete s_sujet.checkbox;
-            v_check_sujet.remove(i);
-            pro->rm_sujet(i);
-        }
-        else
-            i++;
+void MainWindow::supprimer_Volontaires(){
+    if(model->rowCount() != 0){
+        model->removeCheckedRow();
+    }else{
+        QMessageBox::warning(this, tr("Erreur"), tr("Sélectionner des points avant de faire cette action."));
     }
-    ScrollCheckBox->setWidget(checkBoxWidget);
 }
 
 //renvoir le projet en cour.

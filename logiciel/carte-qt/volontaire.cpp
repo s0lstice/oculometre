@@ -1,4 +1,4 @@
-#include "sujet.h"
+#include "volontaire.h"
 #include <QTextStream>
 #include <QFile>
 #include <QFileDialog>
@@ -10,20 +10,20 @@
 
 using namespace std;
 
-//definit l'identifiant du sujet, il faut le subdiviser pour obtenir son groupe
-void Sujet::path_sujetToId_sujet(){
+//definit l'identifiant du Volontaire, il faut le subdiviser pour obtenir son groupe
+void Volontaire::path_VolontaireToId_Volontaire(){
     QRegExp file("/(.*)/(.*.txt)$");
     QRegExp name("(.*).txt");
-    file.indexIn(path_sujet);
+    file.indexIn(path_Volontaire);
     name.indexIn(file.cap(file.captureCount()));
-    id_sujet = name.cap(1);
+    id_Volontaire = name.cap(1);
 }
 
-//metre en place une gestion derreur pour supprimer la classe instancie alors que ce n'est pas un volontaire !!!
-void Sujet::charger_points(){
+//metre en place une gestion derreur pour supprimer la classe instancie alors que ce n'est pas un Volontaire !!!
+void Volontaire::charger_points(){
     QStringList liste_info_point;
     point temp_point;
-    QFile file(path_sujet);
+    QFile file(path_Volontaire);
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
         qWarning() << "[erreur] impossible d'ouvrir le ficher en ecriture seul"
@@ -39,7 +39,7 @@ void Sujet::charger_points(){
 
         if(liste_info_point.size() != 5)
         {
-            Dialog(QObject::tr("fichier non conforme :\n %1 .").arg(path_sujet)).exec();
+            Dialog(QObject::tr("fichier non conforme :\n %1 .").arg(path_Volontaire)).exec();
             return;
         }
 
@@ -53,28 +53,45 @@ void Sujet::charger_points(){
     }
 }
 
-Sujet::Sujet(const QString path)
+Volontaire::Volontaire(const QString path)
 {
-    path_sujet = path;
-    path_sujetToId_sujet();
+    Displayed = Qt::Checked;
+    path_Volontaire = path;
+    path_VolontaireToId_Volontaire();
     charger_points();
 }
 
-QVector<point> Sujet::get_points(){
+QVector<point> Volontaire::get_points(){
     return v_points;
 }
-QString Sujet::getPath_sujet(){
-    return path_sujet;
+QString Volontaire::getPath_Volontaire(){
+    return path_Volontaire;
 }
 
-QString Sujet::getId_sujet(){
-    return id_sujet;
+QString Volontaire::getId_Volontaire(){
+    return id_Volontaire;
 }
 
-void Sujet::setZone_id(int id){
+void Volontaire::setZone_id(int id){
     zone_id = id;
 }
 
-int Sujet::getZone_Id(){
+int Volontaire::getZone_Id(){
     return zone_id;
+}
+
+Qt::CheckState Volontaire::getDisplayed(){
+    return Displayed;
+}
+
+void Volontaire::setDisplayed(Qt::CheckState valeu){
+    Displayed = valeu;
+}
+
+void Volontaire::switchEtat(){
+
+    if(Displayed == Qt::Checked)
+        Displayed = Qt::Unchecked;
+    else
+        Displayed = Qt::Checked;
 }

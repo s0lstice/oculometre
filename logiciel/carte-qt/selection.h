@@ -7,7 +7,7 @@
 //class Zone;
 //#include "carte_select.h"
 class Carte_select;
-
+class Groupe_selection;
 
 class Selection : public Zone
 {
@@ -15,7 +15,7 @@ protected:
     Carte_select *methode_selection;
     CvSeq *contour;
 public:
-    Selection();
+    Selection(Groupe_selection *parent);
     ~Selection();
 };
 

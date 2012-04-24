@@ -1,6 +1,7 @@
 #include "polygone.h"
+#include "groupe_selection.h"
 
-Polygone::Polygone() : Zone()
+Polygone::Polygone(Groupe_selection *parent) : Zone(parent)
 {
     type = polygone;
 }

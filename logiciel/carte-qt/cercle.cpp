@@ -1,6 +1,7 @@
 #include "cercle.h"
+#include "groupe_selection.h"
 
-Cercle::Cercle() : Zone()
+Cercle::Cercle(Groupe_selection *parent) : Zone(parent)
 {
     type = cercle;
 }
