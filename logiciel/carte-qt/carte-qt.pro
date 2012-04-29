@@ -13,7 +13,6 @@ CONFIG += link_pkgconfig
 PKGCONFIG += opencv
 
 SOURCES += main.cpp\
-    carte_points.cpp \
     carte_select.cpp \
     cercle.cpp \
     dialog.cpp \
@@ -25,11 +24,10 @@ SOURCES += main.cpp\
     zone.cpp \
     groupe_selection.cpp \
     myqabstractlistmodel.cpp \
-    volontaire.cpp
+    volontaire.cpp \
+    mytreezonemodel.cpp
 
 HEADERS  += \
-    carte_points.h \
-    carte_select.h \
     cercle.h \
     dialog.h \
     mainwindow.h \
@@ -40,7 +38,9 @@ HEADERS  += \
     zone.h \
     groupe_selection.h \
     myqabstractlistmodel.h \
-    volontaire.h
+    volontaire.h \
+    mytreezonemodel.h \
+    carte_select.h
 
 FORMS    += \
     dialog.ui \

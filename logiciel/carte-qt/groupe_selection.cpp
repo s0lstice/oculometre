@@ -19,6 +19,18 @@ void Groupe_selection::appendChild(Zone *zone){
     groupe.append(zone);
 }
 
+void Groupe_selection::removeChild(Zone *zone){
+    Zone *p_zone;
+    for(int i = 0; i < groupe.size(); ++i){
+        if(groupe.at(i) == zone){
+            p_zone = groupe.at(i);
+            groupe.remove(i);
+            delete p_zone;
+            break;
+        }
+    }
+}
+
 QVector<Zone*> Groupe_selection::getZones(){
     return groupe;
 }

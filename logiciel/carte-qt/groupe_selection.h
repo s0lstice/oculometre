@@ -18,6 +18,7 @@ public:
     void appendChilds(QVector<Zone*> zone);
     int childCount() const;
     QVector<Zone *> getGroupe();
+    void removeChild(Zone *zone);
 };
 
 #endif // GROUPE_SELECTION_H

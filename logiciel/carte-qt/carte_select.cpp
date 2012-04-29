@@ -10,20 +10,20 @@ using namespace std;
 /*
  * Binarisation en fonction de la couleur selectionne
  */
-void Carte_select::binarisation() {
+void Carte_select::binarisation(IplImage *image) {
 
         //IplImage *hsv;
         IplConvKernel *kernel;
 
         // We create the mask
-        cvInRangeS(hsv, cvScalar(h - tolerance -1, s - tolerance, 0), cvScalar(h + tolerance -1, s + tolerance, 255), mask);
+        cvInRangeS(hsv, cvScalar(h - tolerance -1, s - tolerance, 0), cvScalar(h + tolerance -1, s + tolerance, 255), image);
 
         // Create kernels for the morphological operation
         kernel = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_ELLIPSE);
 
         // Morphological opening (inverse because we have white pixels on black background)
-        cvDilate(mask, mask, kernel, 1);
-        cvErode(mask, mask, kernel, 1);
+        cvDilate(image, image, kernel, 1);
+        cvErode(image, image, kernel, 1);
 
         // We release the memory of kernels
         cvReleaseStructuringElement(&kernel);
@@ -41,14 +41,28 @@ CvSeq *Carte_select::Selection(int x, int y){
     v = (int)pixel.val[2];
 
     //masque rouge et bleu
-    CvScalar red = CV_RGB(250,0,0);
-    CvScalar blue = CV_RGB(0,0,250);
+    //CvScalar red = CV_RGB(250,0,0);
+    //CvScalar blue = CV_RGB(0,0,250);
 
     //definitntion du mask
-    binarisation();
+    IplImage *img_selection = cvCreateImage( cvGetSize(image), 8, 1 );
+    IplImage *mask_contour = cvCreateImage( cvGetSize(image), 8, 1 );
+    binarisation(img_selection);
 
+    cvAdd(mask,img_selection,mask);
+
+    if(img_selection != NULL)
+        cvReleaseImage(&img_selection);
+
+    cvCopy(mask,mask_contour);
     //detourage du mask
-    cvFindContours(mask, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
+    cvFindContours(mask_contour, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
+
+    cvReleaseImage(&mask_contour);
+/*
+    if(image_trace != NULL)
+        cvReleaseImage(&image_trace);
+    image_trace = cvCloneImage(image);
 
     //tracer le contour
     for( CvSeq* c=first_contour; c!=NULL; c=c->h_next ){
@@ -57,12 +71,12 @@ CvSeq *Carte_select::Selection(int x, int y){
             c,
             red,		// Red
             blue,		// Blue
-            1,			// Vary max_level and compare results
-            2,
+            0.1,			// Vary max_level and compare results
+            1,
             8 );
     }
     //affichage du resultat
-    parent->shoowIplImage(image_trace);
+    parent->getCarteScene()->shoowIplImage(image_trace);*/
 
     //renvoi de la sequance
     return first_contour;
@@ -87,7 +101,7 @@ Carte_select::Carte_select( MainWindow *parent)
 
     mask = cvCreateImage( cvGetSize(image), 8, 1 );
 
-    image_trace = cvCloneImage(image);
+    //image_trace = cvCloneImage(image);
 }
 
 //destruction de l'outil de selection

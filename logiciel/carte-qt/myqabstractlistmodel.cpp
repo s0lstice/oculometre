@@ -2,7 +2,7 @@
 #include "projet.h"
 #include "mainwindow.h"
 #include "volontaire.h"
-#include "carte_points.h"
+#include "myqgraphicsscene.h"
 
 MyQAbstractListModel::MyQAbstractListModel(QObject *parent) :
     QAbstractListModel(parent)
@@ -68,8 +68,8 @@ void MyQAbstractListModel::switchEtat(){
 void MyQAbstractListModel::afficheVolontaire(){
     Volontaire *volon;
     QVector<Volontaire*> liste;
-    Projet *pro = mainwindow->getCurent_projet();
 
+    mainwindow->creatWindow_Carte(); //on s'assure que le fenetre est bien ouverte
     foreach(volon, *volontaires){
         if(volon->getDisplayed() == Qt::Checked){
             liste.append(volon);
@@ -77,10 +77,7 @@ void MyQAbstractListModel::afficheVolontaire(){
     }
 
     if(liste.size() != 0)
-        Carte_points drow(pro, liste, mainwindow);
-    else{
-        mainwindow->shoowIplImage(cvLoadImage(pro->get_path_carte().toStdString().c_str()));
-    }
+        mainwindow->getCarteScene()->DrowVolontaires();
 }
 
 Qt::ItemFlags MyQAbstractListModel::flags (const QModelIndex  &index ) const
@@ -103,7 +100,7 @@ QVariant MyQAbstractListModel::data (const QModelIndex  &index , int role ) cons
 {
   if (index.row() < 0 || index.row() >= rowCount() || !index.isValid())
     {
-    return QVariant();
+        return QVariant();
     }
 
   if (role == Qt::DisplayRole || role == Qt::EditRole)

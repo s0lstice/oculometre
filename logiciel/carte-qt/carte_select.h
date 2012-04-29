@@ -15,7 +15,7 @@ class Carte_select
 {
 private:
 
-    void binarisation();
+    void binarisation(IplImage *image);
 
     int h, s, v, tolerance;
     IplImage *image;
