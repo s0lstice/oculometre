@@ -8,8 +8,8 @@
 #include <cv.h>
 #include <highgui.h>
 
-//#include "zone.h"
-class Zone;
+#include "zone.h"
+//class Zone;
 //#include "mainwindow.h"
 class MainWindow;
 //#include "carte_select.h"
@@ -21,7 +21,8 @@ class MyQGraphicsScene : public  QGraphicsScene
     Q_OBJECT
 private:
     Zone * zone_courante;
-    bool selection_zone;
+    bool creation_encours;
+    Zone::type_zone type_creation;
     MainWindow *mainwindow;
     Carte_select *carte_selection;
     //couche d'items (pixmap 0; groupVolontaire 1; groupZone 2)
@@ -33,16 +34,21 @@ private:
     QGraphicsItemGroup * groupZone;
 
 public:
+
     MyQGraphicsScene(QObject *parent = 0);
 
-    void setCarte_selection(Carte_select *pcarte_selection);
-    void delCarte_selection();
-    void setSelection_zone(bool value);
-    bool getSelection_zone();
+    void setTool(Carte_select *pcarte_selection);
+    void delTool();
+    void activerCreation(Zone::type_zone type);
+    void desactiverCreation();
+    bool getEtatCreation();
     void setZone_courante(Zone *pzone);
     void nullZone_courante();
-    void DrowVolontaires();
     void shoowIplImage(IplImage * iplImg);
+
+public slots:
+    void drawZones(Groupe_selection *zones = NULL);
+    void DrawVolontaires();
 
 protected:
     void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );

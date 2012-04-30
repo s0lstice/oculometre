@@ -12,21 +12,21 @@ using namespace std;
  */
 void Carte_select::binarisation(IplImage *image) {
 
-        //IplImage *hsv;
-        IplConvKernel *kernel;
+    //IplImage *hsv;
+    IplConvKernel *kernel;
 
-        // We create the mask
-        cvInRangeS(hsv, cvScalar(h - tolerance -1, s - tolerance, 0), cvScalar(h + tolerance -1, s + tolerance, 255), image);
+    // We create the mask
+    cvInRangeS(hsv, cvScalar(h - tolerance -1, s - tolerance, 0), cvScalar(h + tolerance -1, s + tolerance, 255), image);
 
-        // Create kernels for the morphological operation
-        kernel = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_ELLIPSE);
+    // Create kernels for the morphological operation
+    kernel = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_ELLIPSE);
 
-        // Morphological opening (inverse because we have white pixels on black background)
-        cvDilate(image, image, kernel, 1);
-        cvErode(image, image, kernel, 1);
+    // Morphological opening (inverse because we have white pixels on black background)
+    cvDilate(image, image, kernel, 1);
+    cvErode(image, image, kernel, 1);
 
-        // We release the memory of kernels
-        cvReleaseStructuringElement(&kernel);
+    // We release the memory of kernels
+    cvReleaseStructuringElement(&kernel);
 }
 
 //sequance de points, definissant un contour, en fonction de la couleur se trouvant a la position x y

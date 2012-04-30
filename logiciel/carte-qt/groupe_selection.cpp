@@ -4,7 +4,7 @@
 Groupe_selection::Groupe_selection(Groupe_selection *parent) : Zone(parent)
 {
     type = composite;
-
+    label = "Groupe " + QString::number(id);
 }
 
 Groupe_selection::~Groupe_selection(){

@@ -18,21 +18,20 @@ SOURCES += main.cpp\
     dialog.cpp \
     mainwindow.cpp \
     myqgraphicsscene.cpp \
-    polygone.cpp \
     projet.cpp \
     selection.cpp \
     zone.cpp \
     groupe_selection.cpp \
     myqabstractlistmodel.cpp \
     volontaire.cpp \
-    mytreezonemodel.cpp
+    mytreezonemodel.cpp \
+    rectangle.cpp
 
 HEADERS  += \
     cercle.h \
     dialog.h \
     mainwindow.h \
     myqgraphicsscene.h \
-    polygone.h \
     projet.h \
     selection.h \
     zone.h \
@@ -40,7 +39,8 @@ HEADERS  += \
     myqabstractlistmodel.h \
     volontaire.h \
     mytreezonemodel.h \
-    carte_select.h
+    carte_select.h \
+    rectangle.h
 
 FORMS    += \
     dialog.ui \

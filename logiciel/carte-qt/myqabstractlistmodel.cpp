@@ -77,7 +77,7 @@ void MyQAbstractListModel::afficheVolontaire(){
     }
 
     if(liste.size() != 0)
-        mainwindow->getCarteScene()->DrowVolontaires();
+        mainwindow->getCarteScene()->DrawVolontaires();
 }
 
 Qt::ItemFlags MyQAbstractListModel::flags (const QModelIndex  &index ) const

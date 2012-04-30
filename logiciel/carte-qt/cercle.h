@@ -3,6 +3,7 @@
 
 #include "zone.h"
 #include <QPoint>
+#include <QPointF>
 
 class Groupe_selection;
 
@@ -10,17 +11,18 @@ class Cercle : public Zone
 {
 private:
     QPoint centre;
-    int rayon;
+    int diametre;
+    int nb_poisitions;
 
 public:
     Cercle(Groupe_selection *parent);
     ~Cercle();
 
     QPoint getCentre();
-    int getRayon();
+    int getDiametre();
 
-    void setCentre(QPoint centre);
-    void setRayon(int rayon);
+    bool positionClick(QPointF point);
+
 };
 
 #endif // CERCLE_H

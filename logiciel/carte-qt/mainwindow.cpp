@@ -17,7 +17,7 @@
 #include "zone.h"
 #include "cercle.h"
 #include "selection.h"
-#include "polygone.h"
+#include "rectangle.h"
 #include "carte_select.h"
 #include "dialog.h"
 
@@ -40,55 +40,25 @@ void MainWindow::dockCarte(){
     dock_AnaliseCarte = new QDockWidget(QObject::tr("Analyse de la Carte"), this);
     dock_AnaliseCarte->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
-    QString bt_style = "QPushButton{ padding: 0 0 0 0px; margin: 0 0 0 0px }";
-
     pb_selzone = new QPushButton;
     pb_selzone->setText(QObject::tr("Sélection"));
-    //pb_selzone->setStyleSheet(bt_style);
-    //QPushButton *pb_deletSelection = new QPushButton;
-    //pb_deletSelection->setText(QObject::tr("Supprimer"));
-    //pb_deletSelection->setStyleSheet(bt_style);
     QVBoxLayout *Layout_Selection = new QVBoxLayout;
     Layout_Selection->addWidget(pb_selzone);
-    //Layout_Selection->addWidget(pb_deletSelection);
-    //QGroupBox *gb_Selection = new QGroupBox(tr("Selection"));
-    //gb_Selection->setLayout(Layout_Selection);
-
     QPushButton *pb_addGroup = new QPushButton;
     pb_addGroup->setText(QObject::tr("Groupe"));
-    //pb_addGroup->setStyleSheet(bt_style);
-    //QPushButton *pb_deletGroup = new QPushButton;
-    //pb_deletGroup->setText(QObject::tr("Supprimer"));
-    //pb_deletGroup->setStyleSheet(bt_style);
     QVBoxLayout *Layout_Group = new QVBoxLayout;
     Layout_Group->addWidget(pb_addGroup);
-    //Layout_Group->addWidget(pb_deletGroup);
-    //QGroupBox *gb_Group = new QGroupBox(tr("Groupe"));
-    //gb_Group->setLayout(Layout_Group);
 
     QPushButton *pb_addRect = new QPushButton;
     pb_addRect->setText(QObject::tr("Rectangle"));
-    //pb_addRect->setStyleSheet(bt_style);
-    //QPushButton *pb_deletRect = new QPushButton;
-    //pb_deletRect->setText(QObject::tr("Supprimer"));
-    //pb_deletRect->setStyleSheet(bt_style);
     QVBoxLayout *Layout_Rect = new QVBoxLayout;
     Layout_Rect->addWidget(pb_addRect);
-    //Layout_Rect->addWidget(pb_deletRect);
-    //QGroupBox *gb_Rect = new QGroupBox(tr("Rectangle"));
-    //gb_Rect->setLayout(Layout_Rect);
 
     QPushButton *pb_addCercle = new QPushButton;
     pb_addCercle->setText(QObject::tr("Cercle"));
-    //pb_addCercle->setStyleSheet(bt_style);
-    //QPushButton *pb_deletCercle = new QPushButton;
-    //pb_deletCercle->setText(QObject::tr("Supprimer"));
-    //pb_deletCercle->setStyleSheet(bt_style);
     QVBoxLayout *Layout_Cercle = new QVBoxLayout;
     Layout_Cercle->addWidget(pb_addCercle);
-    //Layout_Cercle->addWidget(pb_deletCercle);
-    //QGroupBox *gb_Cercle = new QGroupBox(tr("Cercle"));
-    //gb_Cercle->setLayout(Layout_Cercle);
+
 
     QGridLayout *Layout_AddOptions = new QGridLayout;
     Layout_AddOptions->addLayout(Layout_Group, 0, 0);
@@ -99,12 +69,10 @@ void MainWindow::dockCarte(){
     gb_Creer->setLayout(Layout_AddOptions);
 
     QPushButton *pb_deletZone = new QPushButton;
-    pb_deletZone->setText(QObject::tr("Supprimer"));
-    //pb_deletZone->setStyleSheet(bt_style);
+    pb_deletZone->setText(QObject::tr("Supprimer (élément | groupe)"));
 
     QPushButton *pb_afficher = new QPushButton;
     pb_afficher->setText(QObject::tr("Afficher les zones"));
-    //pb_afficher->setStyleSheet(bt_style);
 
     QPushButton *pb_inserser = new QPushButton;
     pb_inserser->setText(QObject::tr("(Dé)Sélectionner tout"));
@@ -112,7 +80,6 @@ void MainWindow::dockCarte(){
     widget_AnaliseCarte = new QWidget;
     dock_AnaliseCarte->setWidget(widget_AnaliseCarte);
 
-    zoneModel = new MyTreeZoneModel();
     zoneView = new QTreeView();
     zoneView->header()->hide();
 
@@ -132,6 +99,9 @@ void MainWindow::dockCarte(){
     connect(pb_addCercle,SIGNAL(clicked()),this,SLOT(creatCercle()));
 
     connect(pb_deletZone,SIGNAL(clicked()),this,SLOT(removeZone()));
+    //connect(pb_afficher,SIGNAL(clicked()),carteScene,SLOT(drawZones()));
+    connect(pb_afficher,SIGNAL(clicked()),this,SLOT(drawZones()));
+    connect(pb_inserser,SIGNAL(clicked()),this,SLOT(switchZoneEtat()));
     widget_AnaliseCarte->setLayout(Layout_AnaliseCarte);
 
     addDockWidget(Qt::LeftDockWidgetArea, dock_AnaliseCarte);
@@ -159,8 +129,10 @@ void MainWindow::dockVolontaire(){
     suppre_points->setText(QObject::tr("Supprimer des points"));
 
     connect(suppre_points,SIGNAL(clicked()),this,SLOT(supprimer_Volontaires()));
-    connect(afficher_points,SIGNAL(clicked()),this,SLOT(afficher_points_clicked()));
+    //connect(afficher_points,SIGNAL(clicked()),carteScene,SLOT(DrowVolontaires()));
+    connect(afficher_points,SIGNAL(clicked()),this,SLOT(drawVolontaires()));
     connect(Selpoints,SIGNAL(clicked()),this,SLOT(Selpoints_clicked()));
+
     QVBoxLayout *Layout_GestionVolontaire = new QVBoxLayout;
     Layout_GestionVolontaire->addWidget(suppre_points);
     Layout_GestionVolontaire->addWidget(afficher_points);
@@ -181,7 +153,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     zoneCentrale = new QMdiArea;
     setCentralWidget(zoneCentrale);
-
+    carteScene = NULL;
     /**********************************MenuBarra********************************/
     viewMenu = menuBar()->addMenu(tr("&Outils"));
 
@@ -189,10 +161,11 @@ MainWindow::MainWindow(QWidget *parent) :
     pro = new Projet();
 
     /*****************************GestionVolontaire*****************************/
-    model = new MyQAbstractListModel(this);
+    listeVolontaireModel = new MyQAbstractListModel(this);
     dockVolontaire();
 
     /********************************AnaliseCarte*******************************/
+    zoneModel = new MyTreeZoneModel(this);
     dockCarte();
 }
 
@@ -243,91 +216,73 @@ void MainWindow::closeWindow_Carte(){
     delete window_Carte;
 }
 
-void MainWindow::creatWindow_Carte(){
-    if(zoneCentrale->subWindowList().size() == 0)//la gestion de la fenetre est a revoir
-        openWindow_Carte();
+void MainWindow::drawVolontaires(){
+    if(carteScene != NULL)
+        carteScene->DrawVolontaires();
+}
+
+void MainWindow::drawZones(){
+    if(carteScene != NULL)
+        carteScene->drawZones();
+}
+
+void MainWindow::switchZoneEtat(){
+    if(zoneModel != NULL)
+        zoneModel->switchEtat();
+}
+bool MainWindow::creatWindow_Carte(){
+    if(pro->get_path_carte() != ""){
+        if(zoneCentrale->subWindowList().size() == 0)//la gestion de la fenetre est a revoir
+            openWindow_Carte();
+        return true;
+    }else
+        QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
+    return false;
 }
 
 void MainWindow::creatGroup(){
-    QString path_carte = pro->get_path_carte();
-
-    if(path_carte != ""){
-        QModelIndex selctionItem = zoneView->selectionModel()->currentIndex();
-        Groupe_selection *main_composite;
-
-        if(selctionItem.isValid() == false)
-            main_composite = pro->getZones();
-        else
-            main_composite = zoneModel->nodeFromIndex(selctionItem);
-
-        if(main_composite->getType() != composite)
-            main_composite = main_composite->getParent();
-
-        Groupe_selection *groupe = new Groupe_selection(main_composite);
-        main_composite->appendChild(groupe);
-
-        zoneModel->setRootNode(pro->getZones());
-    }else
-        QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
+    if(creatWindow_Carte() == true){
+        zoneModel->addGroup(zoneView->selectionModel()->currentIndex());
+    }
 }
 
 void MainWindow::creatRect(){
-    QString path_carte = pro->get_path_carte();
+    if(creatWindow_Carte() == true){
+        Rectangle * rectangle = zoneModel->addRect(zoneView->selectionModel()->currentIndex());
+        carteScene->setZone_courante((Zone *)rectangle);
+        carteScene->activerCreation(rectangle->getType());
 
-    if(path_carte != ""){
-        QModelIndex selctionItem = zoneView->selectionModel()->currentIndex();
-        Groupe_selection *main_composite;
-
-        if(selctionItem.isValid() == false)
-            main_composite = pro->getZones();
-        else
-            main_composite = zoneModel->nodeFromIndex(selctionItem);
-
-        if(main_composite->getType() != composite)
-            main_composite = main_composite->getParent();
-
-        Polygone *poly = new Polygone(main_composite);
-        main_composite->appendChild(poly);
-
-        zoneModel->setRootNode(pro->getZones());
-    }else
-        QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
+    }
 }
 
 void MainWindow::creatCercle(){
-    QString path_carte = pro->get_path_carte();
-
-    if(path_carte != ""){
-        QModelIndex selctionItem = zoneView->selectionModel()->currentIndex();
-        Groupe_selection *main_composite;
-
-        if(selctionItem.isValid() == false)
-            main_composite = pro->getZones();
-        else
-            main_composite = zoneModel->nodeFromIndex(selctionItem);
-
-        if(main_composite->getType() != composite)
-            main_composite = main_composite->getParent();
-
-        Cercle *cercle = new Cercle(main_composite);
-        main_composite->appendChild(cercle);
-
-        zoneModel->setRootNode(pro->getZones());
-    }else
-        QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
+    if(creatWindow_Carte() == true){
+        Cercle * cercle = zoneModel->addCercle(zoneView->selectionModel()->currentIndex());
+        carteScene->setZone_courante((Zone *)cercle);
+        carteScene->activerCreation(cercle->getType());
+    }
 }
 
 void MainWindow::removeZone(){
-    QModelIndex selctionItem = zoneView->selectionModel()->currentIndex();
+    QModelIndex selectionItem = zoneView->selectionModel()->currentIndex();
     Groupe_selection *parentZone;
     Zone *removeZone;
 
-    if(selctionItem.isValid() == false){
+    if(selectionItem.isValid() == false){
         QMessageBox::warning(this, tr("Erreur"), tr("Selectionner l'élément à supprimer."));
         return;
     }
 
-    removeZone = zoneModel->nodeFromIndex(selctionItem);
+    removeZone = zoneModel->nodeFromIndex(selectionItem);
+
+    if(removeZone->getType() == Zone::selection){
+        if(carteScene != NULL)
+            if(carteScene->getEtatCreation() == true){
+                QMessageBox::warning(this, tr("Erreur"), tr("Terminer la sélection en coure."));
+                return;
+            }
+    }
+
     parentZone = removeZone->getParent();
 
     parentZone->removeChild(removeZone);
@@ -337,68 +292,33 @@ void MainWindow::removeZone(){
 //gestion de la selection de zone en fonction de couleur
 void MainWindow::ceratSelection()
 {
-    QString path_carte = pro->get_path_carte();
-
-    if(path_carte != ""){
-        if(carteScene->getSelection_zone() == false){
-            QModelIndex selctionItem = zoneView->selectionModel()->currentIndex();
-            Groupe_selection *main_composite;
-
-            if(selctionItem.isValid() == false)
-                main_composite = pro->getZones();
-            else
-                main_composite = zoneModel->nodeFromIndex(selctionItem);
-
-            if(main_composite->getType() != composite)
-                main_composite = main_composite->getParent();
-
-            Selection *select = new Selection(main_composite);
-            main_composite->appendChild(select);
+    if(creatWindow_Carte() == true){
+        if(carteScene->getEtatCreation() == false){
+            Selection *select = zoneModel->addSelection(zoneView->selectionModel()->currentIndex());
 
             Carte_select *selction_tool = new Carte_select(this);
             carteScene->setZone_courante((Zone *)select);
-            carteScene->setCarte_selection(selction_tool);
+            carteScene->setTool(selction_tool);
 
             pb_selzone->setText(QObject::tr("Arrêter"));
-            carteScene->setSelection_zone(true);
-            zoneModel->setRootNode(pro->getZones());
+            carteScene->activerCreation(select->getType());
         }
         else
         {
-            carteScene->delCarte_selection();
+            carteScene->delTool();
             carteScene->nullZone_courante();
-            carteScene->setSelection_zone(false);
+            carteScene->desactiverCreation();
             pb_selzone->setText(QObject::tr("Sélection"));
         }
     }
-    else
-        QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
 }
-
-//affiche les Volontaire selectionnes
-//Arevoir
-void MainWindow::afficher_points_clicked()
-{
-    QString path_carte = pro->get_path_carte();
-    if(model->rowCount() != 0){
-        if(path_carte != ""){
-            creatWindow_Carte();//on s'assure que la fenetre existe
-            carteScene->DrowVolontaires();
-        }
-        else
-            QMessageBox::warning(this, tr("Erreur"), tr("Charger une carte avant de faire cette action."));
-    }else{
-        QMessageBox::warning(this, tr("Erreur"), tr("Sélectionner des points avant de faire cette action."));
-    }
-}
-
 
 //invetion de la selection des volontaires, non nom n'est pas terible
 void MainWindow::Selpoints_clicked()
 {
-    if(model->rowCount() != 0){
-        model->switchEtat();
-        view->setModel(model);
+    if(listeVolontaireModel->rowCount() != 0){
+        listeVolontaireModel->switchEtat();
+        view->setModel(listeVolontaireModel);
     }else{
         QMessageBox::warning(this, tr("Erreur"), tr("Sélectionner des points avant de faire cette action."));
     }
@@ -434,8 +354,8 @@ void MainWindow::on_actionCharger_des_Volontaires_triggered()
         pro->charger_Volontaires(fileNames);
 
         //mise a jour du model
-        model->setItems(pro->getVolontaires());
-        view->setModel(model);
+        listeVolontaireModel->setItems(pro->getVolontaires());
+        view->setModel(listeVolontaireModel);
     }
 }
 
@@ -448,8 +368,8 @@ void MainWindow::on_actionQuiter_triggered()
 //supression des Volontaires selectionné
 //n'est pas ici
 void MainWindow::supprimer_Volontaires(){
-    if(model->rowCount() != 0){
-        model->removeCheckedRow();
+    if(listeVolontaireModel->rowCount() != 0){
+        listeVolontaireModel->removeCheckedRow();
     }else{
         QMessageBox::warning(this, tr("Erreur"), tr("Sélectionner des points avant de faire cette action."));
     }

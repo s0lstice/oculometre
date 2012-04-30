@@ -38,12 +38,11 @@ public:
     MyQGraphicsScene *getCarteScene();
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void creatWindow_Carte();
+    bool creatWindow_Carte();
     Projet *getCurent_projet();
 
 private slots:
     void ceratSelection();
-    void afficher_points_clicked();
     void Selpoints_clicked();
     void on_actionCharger_une_carte_triggered();
     void on_actionCharger_des_Volontaires_triggered();
@@ -53,6 +52,9 @@ private slots:
     void creatRect();
     void creatCercle();
     void removeZone();
+    void drawVolontaires();
+    void drawZones();
+    void switchZoneEtat();
 
 private:
     Projet *pro;
@@ -83,7 +85,7 @@ private:
     QPushButton *Selpoints;
     QPushButton *afficher_points;
     QPushButton *suppre_points;
-    MyQAbstractListModel *model;
+    MyQAbstractListModel *listeVolontaireModel;
     QListView *view;
 
     //affichage de la carte

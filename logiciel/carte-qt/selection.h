@@ -16,6 +16,7 @@ protected:
     CvSeq *contour;
 public:
     Selection(Groupe_selection *parent);
+    void setPerimetre(CvSeq *contour);
     ~Selection();
 };
 

@@ -6,6 +6,7 @@
 
 Zone::Zone(Groupe_selection *parent)
 {
+    Displayed = Qt::Checked;
     id = QDateTime::currentMSecsSinceEpoch();
     this->parent = parent;
 }
@@ -17,7 +18,7 @@ int Zone::getId(){
     return id;
 }
 
-type_zone Zone::getType(){
+Zone::type_zone Zone::getType(){
     return type;
 }
 
@@ -46,4 +47,21 @@ int Zone::row() const
             return parent->getGroupe().indexOf(const_cast<Zone*>(this));
 
     return 0;
+}
+
+Qt::CheckState Zone::getDisplayed(){
+    return Displayed;
+}
+
+void Zone::setDisplayed(Qt::CheckState valeur){
+    Displayed = valeur;
+}
+
+
+void Zone::switchEtat(){
+
+    if(Displayed == Qt::Checked)
+        Displayed = Qt::Unchecked;
+    else
+        Displayed = Qt::Checked;
 }

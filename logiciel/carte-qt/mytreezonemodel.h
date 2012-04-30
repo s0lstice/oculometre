@@ -5,6 +5,10 @@
 #include <QModelIndex>
 
 class Groupe_selection;
+class MainWindow;
+class Selection;
+class Rectangle;
+class Cercle;
 class MyTreeZoneModel : public QAbstractItemModel
 {
     Q_OBJECT
@@ -19,13 +23,19 @@ public:
     int columnCount(const QModelIndex &parent) const;
     QModelIndex parent(const QModelIndex &child) const;
     QVariant data(const QModelIndex &index, int role) const;
-
+    Qt::ItemFlags flags (const QModelIndex  &index ) const;
+    bool setData (const QModelIndex &index, const QVariant &value, int role);
+    Groupe_selection *addGroup(QModelIndex item);
+    Selection *addSelection(QModelIndex item);
+    Rectangle * addRect(QModelIndex item);
+    Cercle * addCercle(QModelIndex item);
 signals:
 
 public slots:
-
+    void switchEtat(Groupe_selection *zones = NULL);
 private:
     Groupe_selection *rootNode;
+    MainWindow *mainwindow;
 
 };
 

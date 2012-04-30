@@ -84,8 +84,8 @@ Qt::CheckState Volontaire::getDisplayed(){
     return Displayed;
 }
 
-void Volontaire::setDisplayed(Qt::CheckState valeu){
-    Displayed = valeu;
+void Volontaire::setDisplayed(Qt::CheckState valeur){
+    Displayed = valeur;
 }
 
 void Volontaire::switchEtat(){

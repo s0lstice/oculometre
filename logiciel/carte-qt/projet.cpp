@@ -14,10 +14,6 @@ Projet::Projet()
 
     zones = new Groupe_selection(NULL);
     zones->setLabel("Root Item");
-
-    Groupe_selection *row = new Groupe_selection(zones);
-    row->setLabel("Zones");
-    zones->appendChild(row);
 }
 
 Projet::~Projet()

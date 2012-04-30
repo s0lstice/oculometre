@@ -1,11 +1,19 @@
 #include "mytreezonemodel.h"
 #include "groupe_selection.h"
 #include "zone.h"
+#include "mainwindow.h"
+#include "projet.h"
+#include "selection.h"
+#include "rectangle.h"
+#include "cercle.h"
+
 #include <Qt>
+#include <QDebug>
 
 MyTreeZoneModel::MyTreeZoneModel(QObject *parent) :
     QAbstractItemModel(parent)
 {
+    mainwindow = qobject_cast<MainWindow*>(parent);
     rootNode = NULL;
 }
 
@@ -44,7 +52,7 @@ int MyTreeZoneModel::rowCount(const QModelIndex &parent) const{
     if(parent.column() > 0)
         return 0;
     Groupe_selection *parentNode =nodeFromIndex(parent);
-    if(parentNode->getType() != composite)
+    if(parentNode->getType() != Zone::composite)
         return 0;
     if(!parentNode)
         return 0;
@@ -52,7 +60,7 @@ int MyTreeZoneModel::rowCount(const QModelIndex &parent) const{
 }
 
 int MyTreeZoneModel::columnCount(const QModelIndex &parent) const{
-    return 2;
+    return 1;
 }
 
 QModelIndex MyTreeZoneModel::parent(const QModelIndex &child) const{
@@ -71,26 +79,140 @@ QModelIndex MyTreeZoneModel::parent(const QModelIndex &child) const{
 }
 
 QVariant MyTreeZoneModel::data(const QModelIndex &index, int role) const{
+    if(role == Qt::CheckStateRole)
+      {
+          return nodeFromIndex(index)->getDisplayed();
+      }
+
     if(role != Qt::DisplayRole)
         return QVariant();
 
     Zone *node = nodeFromIndex(index);
     if(!node)
         return QVariant();
-    if(index.column() == 0){
-        switch(node->getType()){
-            case selection:
-                return tr("selection");
-            case cercle:
-                return tr("cercle");
-            case polygone:
-                return tr("polygone");
-            case composite:
-                return tr("composite");
+
+    return node->getLable();
+}
+
+Groupe_selection * MyTreeZoneModel::addGroup(QModelIndex item){
+
+    Groupe_selection *main_composite;
+    Projet *pro = mainwindow->getCurent_projet();
+
+    if(item.isValid() == false)
+        main_composite = pro->getZones();
+    else
+        main_composite = nodeFromIndex(item);
+
+    if(main_composite->getType() != Zone::composite)
+        main_composite = main_composite->getParent();
+
+    Groupe_selection *group = new Groupe_selection(main_composite);
+    main_composite->appendChild(group);
+
+    //emit dataChanged(selctionItem, selctionItem);
+    reset();
+    return group;
+}
+
+Selection * MyTreeZoneModel::addSelection(QModelIndex item){
+
+    Groupe_selection *main_composite;
+    Projet *pro = mainwindow->getCurent_projet();
+
+    if(item.isValid() == false)
+        main_composite = pro->getZones();
+    else
+        main_composite = nodeFromIndex(item);
+
+    if(main_composite->getType() != Zone::composite)
+        main_composite = main_composite->getParent();
+
+    Selection *selection = new Selection(main_composite);
+    main_composite->appendChild(selection);
+
+    //emit dataChanged(selctionItem, selctionItem);
+    reset();
+    return selection;
+}
+
+Rectangle * MyTreeZoneModel::addRect(QModelIndex item){
+
+    Groupe_selection *main_composite;
+    Projet *pro = mainwindow->getCurent_projet();
+
+    if(item.isValid() == false)
+        main_composite = pro->getZones();
+    else
+        main_composite = nodeFromIndex(item);
+
+    if(main_composite->getType() != Zone::composite)
+        main_composite = main_composite->getParent();
+
+    Rectangle *polygone = new Rectangle(main_composite);
+    main_composite->appendChild(polygone);
+
+    //emit dataChanged(selctionItem, selctionItem);
+    reset();
+    return polygone;
+}
+
+ Cercle * MyTreeZoneModel::addCercle(QModelIndex item){
+     Groupe_selection *main_composite;
+     Projet *pro = mainwindow->getCurent_projet();
+
+     if(item.isValid() == false)
+         main_composite = pro->getZones();
+     else
+         main_composite = nodeFromIndex(item);
+
+     if(main_composite->getType() != Zone::composite)
+         main_composite = main_composite->getParent();
+
+     Cercle *cercle = new Cercle(main_composite);
+     main_composite->appendChild(cercle);
+
+     //emit dataChanged(selctionItem, selctionItem);
+     reset();
+     return cercle;
+ }
+
+//gestion de la selectionabilité
+Qt::ItemFlags MyTreeZoneModel::flags (const QModelIndex  &index ) const
+{
+    return Qt::ItemIsUserCheckable | Qt::ItemIsEditable | Qt::ItemIsEnabled;
+}
+
+bool MyTreeZoneModel::setData (const QModelIndex &index, const QVariant &value, int role)
+{
+    if(role == Qt::CheckStateRole)
+    {
+        Groupe_selection *parentZone;
+        Zone *zIndex = nodeFromIndex(index);
+        parentZone = zIndex->getParent();
+        parentZone->getZones().at(index.row())->setDisplayed(static_cast<Qt::CheckState>(value.toUInt()));
+    }
+
+    emit dataChanged(index, index);
+    return true;
+}
+
+void MyTreeZoneModel::switchEtat(Groupe_selection *zones){
+    if(zones == NULL){
+        Projet *pro = mainwindow->getCurent_projet();
+        zones = pro->getZones();
+    }
+    Zone * child;
+    QVector<Zone*> childs = zones->getZones();
+
+    foreach(child, childs){
+        if(child->getType() == Zone::composite){
+            switchEtat((Groupe_selection *)child);
         }
-     }
-     else{
-        return node->getLable();
-     }
-     return QVariant();
+        else{
+            child->switchEtat();
+
+        }
+    }
+    reset();//ne marche pas
 }
