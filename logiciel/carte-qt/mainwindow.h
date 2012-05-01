@@ -94,6 +94,9 @@ private:
     MyQGraphicsScene *carteScene;
     QGraphicsItemGroup *carteVolontaire;
     QGraphicsItemGroup *carteZone;
+
+    //affichage du resultat
+
 };
 
 #endif // MAINWINDOW_H

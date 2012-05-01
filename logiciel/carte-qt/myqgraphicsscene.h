@@ -32,6 +32,14 @@ private:
         //couche zones
     QList<QGraphicsItem *> itemsZone;
     QGraphicsItemGroup * groupZone;
+        //couche draw
+    QList<QGraphicsItem *> itemDraw;
+    QGraphicsItemGroup * drawZone;
+
+    //position de dessin
+    qreal x;
+    qreal y;
+    bool stratDraw;
 
 public:
 
@@ -52,6 +60,7 @@ public slots:
 
 protected:
     void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
 };
 
 #endif // MYQGRAPHICSSCENE_H

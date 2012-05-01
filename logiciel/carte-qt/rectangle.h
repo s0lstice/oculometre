@@ -20,6 +20,8 @@ public:
 
     QVector<QPointF> getpoints();
     bool positionClick(QPointF point);
+    qreal getWidth();
+    qreal getHeight();
 };
 
 #endif // POLYGONE_H

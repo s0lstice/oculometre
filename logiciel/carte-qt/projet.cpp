@@ -10,6 +10,7 @@ Projet::Projet()
 {
     carte = NULL;
     path_carte = "";
+    name = "";
     nb_zones = 0;
 
     zones = new Groupe_selection(NULL);
@@ -48,7 +49,8 @@ void Projet::charger_Volontaires(QStringList liste_Volontaire){
         }
         if(find == false){
             points =  new Volontaire(s_Volontaire);
-            v_Volontaires.push_back(points);
+            if(points->getId_Volontaire() != "")
+                v_Volontaires.push_back(points);
         }
         find = false;
     }

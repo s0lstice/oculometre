@@ -29,3 +29,11 @@ bool Rectangle::positionClick(QPointF point){
     }
     return true;
 }
+
+qreal Rectangle::getWidth(){
+    return point_bas_droit.x() - point_haut_gauche.x();
+}
+
+qreal Rectangle::getHeight(){
+    return point_bas_droit.y() - point_haut_gauche.y();
+}

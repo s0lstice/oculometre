@@ -22,6 +22,7 @@ private:
     QVector<Volontaire*> v_Volontaires;
     Groupe_selection *zones;
     int nb_zones;
+    QString name;
 
 public:
     Projet();

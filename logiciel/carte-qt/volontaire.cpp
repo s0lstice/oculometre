@@ -13,7 +13,7 @@ using namespace std;
 //definit l'identifiant du Volontaire, il faut le subdiviser pour obtenir son groupe
 void Volontaire::path_VolontaireToId_Volontaire(){
     QRegExp file("/(.*)/(.*.txt)$");
-    QRegExp name("(.*).txt");
+    QRegExp name("(.*)_(.*).txt");
     file.indexIn(path_Volontaire);
     name.indexIn(file.cap(file.captureCount()));
     id_Volontaire = name.cap(1);
