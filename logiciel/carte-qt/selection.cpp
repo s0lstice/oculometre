@@ -8,7 +8,7 @@
 Selection::Selection(Groupe_selection *parent) : Zone(parent)
 {
     type = selection;
-    label = "Sélection " + QString::number(id);
+    label = QObject::tr("Sélection ") + QString::number(id);
 }
 
 Selection::~Selection(){
@@ -16,4 +16,8 @@ Selection::~Selection(){
 
 void Selection::setPerimetre(CvSeq *contour){
     this->contour = contour;
+}
+
+CvSeq * Selection::getPerimetre(){
+    return contour;
 }

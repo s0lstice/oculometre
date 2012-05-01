@@ -77,52 +77,52 @@
         <translation>a</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="68"/>
+        <location filename="mainwindow.cpp" line="69"/>
         <source>CrÃ©er</source>
         <translation>Créer</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="158"/>
+        <location filename="mainwindow.cpp" line="159"/>
         <source>&amp;Outils</source>
         <translation>&amp;Outils</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="239"/>
-        <location filename="mainwindow.cpp" line="272"/>
-        <location filename="mainwindow.cpp" line="281"/>
-        <location filename="mainwindow.cpp" line="323"/>
-        <location filename="mainwindow.cpp" line="374"/>
+        <location filename="mainwindow.cpp" line="240"/>
+        <location filename="mainwindow.cpp" line="273"/>
+        <location filename="mainwindow.cpp" line="282"/>
+        <location filename="mainwindow.cpp" line="327"/>
+        <location filename="mainwindow.cpp" line="378"/>
         <source>Erreur</source>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="239"/>
+        <location filename="mainwindow.cpp" line="240"/>
         <source>Charger une carte avant de faire cette action.</source>
         <translation>Charger une carte avant de faire cette action.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="272"/>
+        <location filename="mainwindow.cpp" line="273"/>
         <source>Selectionner l&apos;Ã©lÃ©ment Ã  supprimer.</source>
         <translation>Selectionner l&apos;élément à  supprimer.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="281"/>
+        <location filename="mainwindow.cpp" line="282"/>
         <source>Terminer la sÃ©lection en coure.</source>
         <translation>Terminer la sélection en coure.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="323"/>
-        <location filename="mainwindow.cpp" line="374"/>
+        <location filename="mainwindow.cpp" line="327"/>
+        <location filename="mainwindow.cpp" line="378"/>
         <source>SÃ©lectionner des points avant de faire cette action.</source>
         <translation>Sélectionner des points avant de faire cette action.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="330"/>
+        <location filename="mainwindow.cpp" line="334"/>
         <source>Choisir une carte</source>
         <translation>Choisir une carte</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="330"/>
+        <location filename="mainwindow.cpp" line="334"/>
         <source>carte (*.bmp)</source>
         <translation>carte (*.bmp)</translation>
     </message>
@@ -138,7 +138,7 @@
         <translation type="obsolete">Charger une carte avant de faire cette action .</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="40"/>
+        <location filename="mainwindow.cpp" line="41"/>
         <source>Analyse de la Carte</source>
         <translation>Analyse de la Carte</translation>
     </message>
@@ -151,64 +151,64 @@
         <translation type="obsolete">Ajouter un motif</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="116"/>
+        <location filename="mainwindow.cpp" line="117"/>
         <source>Gestion des Volontaires</source>
         <translation>Gestion des Volontaires</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="78"/>
-        <location filename="mainwindow.cpp" line="125"/>
+        <location filename="mainwindow.cpp" line="79"/>
+        <location filename="mainwindow.cpp" line="126"/>
         <source>(DÃ©)SÃ©lectionner tout</source>
         <translation>(Dé)Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="44"/>
-        <location filename="mainwindow.cpp" line="311"/>
+        <location filename="mainwindow.cpp" line="45"/>
+        <location filename="mainwindow.cpp" line="315"/>
         <source>SÃ©lection</source>
         <translation>Sélection</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="48"/>
+        <location filename="mainwindow.cpp" line="49"/>
         <source>Groupe</source>
         <translation>Groupe</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="53"/>
+        <location filename="mainwindow.cpp" line="54"/>
         <source>Rectangle</source>
         <translation>Rectangle</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="58"/>
+        <location filename="mainwindow.cpp" line="59"/>
         <source>Cercle</source>
         <translation>Cercle</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="72"/>
+        <location filename="mainwindow.cpp" line="73"/>
         <source>Supprimer (Ã©lÃ©ment | groupe)</source>
         <translation>Supprimer (élément | groupe)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="75"/>
+        <location filename="mainwindow.cpp" line="76"/>
         <source>Afficher les zones</source>
         <translation>Afficher les zones</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="127"/>
+        <location filename="mainwindow.cpp" line="128"/>
         <source>Afficher les points</source>
         <translation>Afficher les points</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="129"/>
+        <location filename="mainwindow.cpp" line="130"/>
         <source>Supprimer des points</source>
         <translation>Supprimer des points</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="200"/>
+        <location filename="mainwindow.cpp" line="201"/>
         <source>Carte</source>
         <translation>Carte</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="303"/>
+        <location filename="mainwindow.cpp" line="307"/>
         <source>ArrÃªter</source>
         <translation>Arréter</translation>
     </message>
@@ -221,7 +221,7 @@
         <translation type="obsolete">Sélectionner des points avant de faire cette action.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="350"/>
+        <location filename="mainwindow.cpp" line="354"/>
         <source>Volontaire (*.txt)</source>
         <translation>Volontaire (*.txt)</translation>
     </message>
@@ -231,6 +231,21 @@
  %1 .</source>
         <translation>Fichier non conforme :
  %1 .</translation>
+    </message>
+    <message>
+        <location filename="cercle.cpp" line="11"/>
+        <source>Cercle </source>
+        <translation>Cercle </translation>
+    </message>
+    <message>
+        <location filename="rectangle.cpp" line="7"/>
+        <source>Rectangle </source>
+        <translation>Rectangle </translation>
+    </message>
+    <message>
+        <location filename="selection.cpp" line="11"/>
+        <source>SÃ©lection </source>
+        <translation>Sélection </translation>
     </message>
 </context>
 </TS>

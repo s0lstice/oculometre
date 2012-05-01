@@ -42,13 +42,13 @@ QDockWidget::close-button:hover, QDockWidget::float-button:hover {
 QGroupBox::title
 {
     subcontrol-position: top left;
-    padding: -8 10 0 10px;
+    padding: -15 10 0 10px;
     font-size: 8px;
 	color: black;
 }
 
 QGroupBox{
-	margin: 0 0 0 0px;
+	margin: 5 0 0 0px;
 	padding: 0 0 0 0px;
     border: 1px solid black;
 }</string>

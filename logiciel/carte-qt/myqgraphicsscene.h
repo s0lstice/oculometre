@@ -25,6 +25,9 @@ private:
     Zone::type_zone type_creation;
     MainWindow *mainwindow;
     Carte_select *carte_selection;
+
+    QPixmap IplImgToPixmap(IplImage *iplImg);
+
     //couche d'items (pixmap 0; groupVolontaire 1; groupZone 2)
         //couche volontaires
     QList<QGraphicsItem *> itemsVolontaire;
@@ -36,9 +39,13 @@ private:
     QList<QGraphicsItem *> itemDraw;
     QGraphicsItemGroup * drawZone;
 
+    //draw item
+    QGraphicsRectItem *drawRectangle(QPointF pointHG,QPointF pointBD);
+    QGraphicsEllipseItem *drawCercle(QPointF centre, QPointF exterieur);
+    QGraphicsPixmapItem *drawSelection(CvSeq* contour);
+
     //position de dessin
-    qreal x;
-    qreal y;
+    QPointF positonClick;
     bool stratDraw;
 
 public:
@@ -59,8 +66,9 @@ public slots:
     void DrawVolontaires();
 
 protected:
-    void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    void mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent );
     void mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent );
+    void mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent );
 };
 
 #endif // MYQGRAPHICSSCENE_H

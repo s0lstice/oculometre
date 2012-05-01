@@ -188,11 +188,14 @@ Qt::ItemFlags MyTreeZoneModel::flags (const QModelIndex  &index ) const
 
 bool MyTreeZoneModel::setData (const QModelIndex &index, const QVariant &value, int role)
 {
+    Zone *zIndex = nodeFromIndex(index);
+
+    if(role == Qt::EditRole){
+        zIndex->setLabel(value.toString());
+    }
+
     if(role == Qt::CheckStateRole)
     {
-
-        Zone *zIndex = nodeFromIndex(index);
-
         zIndex->setDisplayed(static_cast<Qt::CheckState>(value.toUInt()));
         emit dataChanged(index, index);
 

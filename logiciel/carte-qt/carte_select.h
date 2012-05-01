@@ -20,7 +20,7 @@ private:
     int h, s, v, tolerance;
     IplImage *image;
     bool color_change;
-    IplImage *mask;
+    IplImage *maskSelection;
     IplImage *image_trace;
     IplImage *hsv;
     CvSeq* first_contour;

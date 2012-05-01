@@ -47,15 +47,7 @@ void MyQGraphicsScene::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent ) 
                 case Zone::selection :
                     break;
             case Zone::cercle :{
-
-                        qreal diametre = hypot(mouseEvent->scenePos().x() - x, mouseEvent->scenePos().y() - y);
-
-                        qreal cx = x - diametre;
-                        qreal cy = y - diametre;
-
-                        diametre = 2*diametre;
-
-                        QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(cx, cy, diametre, diametre);
+                        QGraphicsEllipseItem *ellipse = drawCercle(positonClick, mouseEvent->scenePos());
 
                         if(itemDraw.size() > 0){
                             QGraphicsItem *item = itemDraw.at(0);
@@ -69,7 +61,21 @@ void MyQGraphicsScene::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent ) 
                         drawZone->addToGroup(ellipse);
                     }
                     break;
-                case Zone::rectangle :
+                    case Zone::rectangle :{
+
+                        QGraphicsRectItem *rectangle = drawRectangle(positonClick, mouseEvent->scenePos());
+
+                        if(itemDraw.size() > 0){
+                            QGraphicsItem *item = itemDraw.at(0);
+                            itemDraw.clear();
+                            drawZone->removeFromGroup(item);
+                            itemDraw.removeOne(item);
+                            delete item;
+                        }
+
+                        itemDraw.append(rectangle);
+                        drawZone->addToGroup(rectangle);
+                    }
                     break;
                 case Zone::composite : break; //rien a faire
             }
@@ -77,7 +83,11 @@ void MyQGraphicsScene::mouseMoveEvent ( QGraphicsSceneMouseEvent * mouseEvent ) 
     }
 }
 
-void MyQGraphicsScene::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent ) {
+void MyQGraphicsScene::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent ){
+    mousePressEvent ( mouseEvent );
+}
+
+void MyQGraphicsScene::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent ) {
 
   // Ici on appelle la fonction de gestion de l'événement souris
     //MainWindow *window = qobject_cast<MainWindow*>(mainwindow);
@@ -88,44 +98,75 @@ void MyQGraphicsScene::mouseReleaseEvent ( QGraphicsSceneMouseEvent * mouseEvent
     //si la selection des couleurs est acctivé
     if(creation_encours == true){
         switch(type_creation){
-            case Zone::selection :
-                ((Selection *)zone_courante)->setPerimetre(carte_selection->Selection(mouseEvent->scenePos().x(), mouseEvent->scenePos().y()));
-                break;
+            case Zone::selection :{
+
+                CvSeq* contour = carte_selection->Selection(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
+                ((Selection *)zone_courante)->setPerimetre(contour);
+
+                QGraphicsPixmapItem * pixmap = drawSelection(contour);
+
+                if(itemDraw.size() > 0){
+                    QGraphicsItem *item = itemDraw.at(0);
+                    itemDraw.clear();
+                    drawZone->removeFromGroup(item);
+                    itemDraw.removeOne(item);
+                    delete item;
+                }
+
+                itemDraw.append(pixmap);
+                drawZone->addToGroup(pixmap);
+            }
+            break;
             case Zone::cercle :
                 //save position pour affichage
                 if(((Cercle *)zone_courante)->positionClick(mouseEvent->scenePos()) == false){
-                    x = mouseEvent->scenePos().x();
-                    y = mouseEvent->scenePos().y();
+                    positonClick = mouseEvent->scenePos();
                     stratDraw = true;
                 }
                 else{
 
                     //affichage du resultat
-                    QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(((Cercle *)zone_courante)->getCentre().x(), ((Cercle *)zone_courante)->getCentre().y(), ((Cercle *)zone_courante)->getDiametre(), ((Cercle *)zone_courante)->getDiametre());
+                    QGraphicsEllipseItem *ellipse = drawCercle(((Cercle *)zone_courante)->getCointHG(), ((Cercle *)zone_courante)->getCointBD());
                     itemsZone.append(ellipse);
                     groupZone->addToGroup(ellipse);
 
                     //arret de la gestion des clicks
+                    stratDraw = false;
+
+                    if(itemDraw.size() > 0){
+                        QGraphicsItem *item = itemDraw.at(0);
+                        itemDraw.clear();
+                        drawZone->removeFromGroup(item);
+                        itemDraw.removeOne(item);
+                        delete item;
+                    }
+
                     nullZone_courante();
                     desactiverCreation();
                 }
                 break;
             case Zone::rectangle :
                 if(((Rectangle *)zone_courante)->positionClick(mouseEvent->scenePos()) == false){
-                    x = mouseEvent->scenePos().x();
-                    y = mouseEvent->scenePos().y();
+                    positonClick = mouseEvent->scenePos();
+                    stratDraw = true;
                 }
                 else{
                     //affichage du resultat
-                    qreal x = ((Rectangle *)zone_courante)->getpoints().at(0).x();
-                    qreal y = ((Rectangle *)zone_courante)->getpoints().at(0).y();
-                    qreal w = ((Rectangle *)zone_courante)->getWidth();
-                    qreal h = ((Rectangle *)zone_courante)->getHeight();
-                    QGraphicsRectItem *rectangle = new QGraphicsRectItem(x, y, w, h);
+                    QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)zone_courante)->getpoints().at(0),((Rectangle *)zone_courante)->getpoints().at(1));
                     itemsZone.append(rectangle);
                     groupZone->addToGroup(rectangle);
 
                     //arret de la gestion des clicks
+                    stratDraw = false;
+
+                    if(itemDraw.size() > 0){
+                        QGraphicsItem *item = itemDraw.at(0);
+                        itemDraw.clear();
+                        drawZone->removeFromGroup(item);
+                        itemDraw.removeOne(item);
+                        delete item;
+                    }
+
                     nullZone_courante();
                     desactiverCreation();
                 }
@@ -146,14 +187,22 @@ void MyQGraphicsScene::delTool(){
 void MyQGraphicsScene::activerCreation(Zone::type_zone type){
     creation_encours = true;
     type_creation = type;
-    y = 0;
-    x = 0;
-    stratDraw = false;
 }
 
 void MyQGraphicsScene::desactiverCreation(){
+    if(type_creation == Zone::selection)
+    {
+        if(itemDraw.size() > 0){
+            QGraphicsItem *item = itemDraw.at(0);
+
+            itemsZone.append(item);
+            groupZone->addToGroup(item);
+
+            drawZone->removeFromGroup(item);
+            itemDraw.removeOne(item);
+        }
+    }
     creation_encours = false;
-    stratDraw = false;
 }
 
 bool MyQGraphicsScene::getEtatCreation(){
@@ -194,20 +243,21 @@ void MyQGraphicsScene::drawZones(Groupe_selection *zones){
         }else{
             if(child->getDisplayed() == Qt::Checked){
                 switch(child->getType()){
-                    case Zone::selection :
+                    case Zone::selection :{
+                            QGraphicsPixmapItem * pixmap = drawSelection(((Selection *)child)->getPerimetre());
+
+                            itemsZone.append(pixmap);
+                            groupZone->addToGroup(pixmap);
+                        }
                         break;
                     case Zone::cercle :{
-                            QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(((Cercle *)child)->getCentre().x(), ((Cercle *)child)->getCentre().y(), ((Cercle *)child)->getDiametre(), ((Cercle *)child)->getDiametre());
+                            QGraphicsEllipseItem *ellipse = drawCercle(((Cercle *)child)->getCointHG(), ((Cercle *)child)->getCointBD());
                             itemsZone.append(ellipse);
                             groupZone->addToGroup(ellipse);
                         }
                         break;
                     case Zone::rectangle :{
-                            qreal x = ((Rectangle *)child)->getpoints().at(0).x();
-                            qreal y = ((Rectangle *)child)->getpoints().at(0).y();
-                            qreal w = ((Rectangle *)child)->getpoints().at(1).x() - ((Rectangle *)child)->getpoints().at(0).x();
-                            qreal h = ((Rectangle *)child)->getpoints().at(1).y() - ((Rectangle *)child)->getpoints().at(0).y();
-                            QGraphicsRectItem *rectangle = new QGraphicsRectItem(x, y, w, h);
+                            QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)child)->getpoints().at(0),((Rectangle *)child)->getpoints().at(1));
                             itemsZone.append(rectangle);
                             groupZone->addToGroup(rectangle);
                         }
@@ -217,6 +267,53 @@ void MyQGraphicsScene::drawZones(Groupe_selection *zones){
             }
         }
     }
+}
+
+QGraphicsRectItem *MyQGraphicsScene::drawRectangle(QPointF pointHG,QPointF pointBD){
+    qreal x = pointHG.x();
+    qreal y = pointHG.y();
+    qreal w = pointBD.x() - x;
+    qreal h = pointBD.y() - y;
+    return new QGraphicsRectItem(x, y, w, h);
+}
+
+QGraphicsEllipseItem *MyQGraphicsScene::drawCercle(QPointF centre, QPointF exterieur){
+
+    qreal diametre = hypot(exterieur.x() - centre.x(), exterieur.y() - centre.y());
+
+    qreal x = centre.x() - diametre;
+    qreal y = centre.y() - diametre;
+
+    diametre = 2*diametre;
+
+    return new QGraphicsEllipseItem(x, y, diametre, diametre);
+}
+
+QGraphicsPixmapItem *MyQGraphicsScene::drawSelection(CvSeq* contour){
+    Projet *pro = mainwindow->getCurent_projet();
+    IplImage* contourImg = cvCreateImage( cvGetSize(pro->get_carte()), 8, 4 );
+
+    cvZero( contourImg );
+
+    CvScalar red = cvScalar(0,0,255,255);
+
+    CvScalar blue = cvScalar(255,0,0,255);
+
+    for( CvSeq* c=contour; c!=NULL; c=c->h_next ){
+        cvDrawContours(
+            contourImg,
+            c,
+            red,		// Red
+            blue,		// Blue
+            0.1,        // Vary max_level and compare results
+            1,
+            8 );
+    }
+
+    QPixmap image = IplImgToPixmap(contourImg);
+    cvReleaseImage(&contourImg);
+
+    return new QGraphicsPixmapItem(image);
 }
 
 void MyQGraphicsScene::DrawVolontaires(){
@@ -260,8 +357,8 @@ void MyQGraphicsScene::DrawVolontaires(){
 }
 
 //afichage de l'image, a metre dans MyQGraphicssene ?
-void  MyQGraphicsScene::shoowIplImage(IplImage *iplImg)
-{
+
+QPixmap MyQGraphicsScene::IplImgToPixmap(IplImage *iplImg){
     int h = iplImg->height;
     int w = iplImg->width;
     int channels = iplImg->nChannels;
@@ -298,5 +395,10 @@ void  MyQGraphicsScene::shoowIplImage(IplImage *iplImg)
         }
     }
 
-    mainwindow->getCarteScene()->addPixmap(QPixmap::fromImage(qimg));
+    return QPixmap::fromImage(qimg);
+}
+
+void  MyQGraphicsScene::shoowIplImage(IplImage *iplImg)
+{
+    mainwindow->getCarteScene()->addPixmap(IplImgToPixmap(iplImg));
 }

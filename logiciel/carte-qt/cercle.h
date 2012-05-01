@@ -10,7 +10,10 @@ class Groupe_selection;
 class Cercle : public Zone
 {
 private:
-    QPoint centre;
+    QPointF centre;
+    QPointF cointBD;
+    QPointF cointHG;
+
     int diametre;
     int nb_poisitions;
 
@@ -18,7 +21,9 @@ public:
     Cercle(Groupe_selection *parent);
     ~Cercle();
 
-    QPoint getCentre();
+    QPointF getCentre();
+    QPointF getCointBD();
+    QPointF getCointHG();
     int getDiametre();
 
     bool positionClick(QPointF point);

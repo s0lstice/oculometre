@@ -49,12 +49,12 @@ CvSeq *Carte_select::Selection(int x, int y){
     IplImage *mask_contour = cvCreateImage( cvGetSize(image), 8, 1 );
     binarisation(img_selection);
 
-    cvAdd(mask,img_selection,mask);
+    cvAdd(maskSelection,img_selection,maskSelection);
 
     if(img_selection != NULL)
         cvReleaseImage(&img_selection);
 
-    cvCopy(mask,mask_contour);
+    cvCopy(maskSelection, mask_contour);
     //detourage du mask
     cvFindContours(mask_contour, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
 
@@ -85,7 +85,7 @@ CvSeq *Carte_select::Selection(int x, int y){
 //initialisation de l'outil de selection
 Carte_select::Carte_select( MainWindow *parent)
 {
-    mask = NULL;
+    maskSelection = NULL;
     image_trace = NULL;
     hsv = NULL;
     first_contour = NULL;
@@ -99,7 +99,7 @@ Carte_select::Carte_select( MainWindow *parent)
     hsv = cvCloneImage(image);
     cvCvtColor(image, hsv, CV_BGR2HSV);
 
-    mask = cvCreateImage( cvGetSize(image), 8, 1 );
+    maskSelection = cvCreateImage( cvGetSize(image), 8, 1 );
 
     //image_trace = cvCloneImage(image);
 }
@@ -107,7 +107,7 @@ Carte_select::Carte_select( MainWindow *parent)
 //destruction de l'outil de selection
 Carte_select::~Carte_select(){
     //Libération de l'IplImage (on lui passe un IplImage**).
-    cvReleaseImage(&mask);
+    cvReleaseImage(&maskSelection);
     cvReleaseImage(&image_trace);
     cvReleaseImage(&hsv);
 }

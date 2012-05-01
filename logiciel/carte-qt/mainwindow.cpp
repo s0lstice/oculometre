@@ -31,6 +31,7 @@
 //class MyQGraphicsScene;
 #include "myqabstractlistmodel.h"
 #include "mytreezonemodel.h"
+#include "mygraphicsview.h"
 
 //cree le dock gerant les zones; nom a revoir ?
 void MainWindow::dockCarte(){
@@ -187,7 +188,7 @@ void MainWindow::openWindow_Carte()
 
     carteScene = new MyQGraphicsScene(this);
 
-    QGraphicsView *carteView = new QGraphicsView(carteScene);
+    MyGraphicsView *carteView = new MyGraphicsView(carteScene);
 
     QWidget *carteWidget = new QWidget;
     carteWidget->setStyleSheet("background: transparent");
@@ -287,6 +288,9 @@ void MainWindow::removeZone(){
 
     parentZone->removeChild(removeZone);
     zoneModel->setRootNode(pro->getZones());
+
+    if(carteScene != NULL)
+        carteScene->drawZones();
 }
 
 //gestion de la selection de zone en fonction de couleur

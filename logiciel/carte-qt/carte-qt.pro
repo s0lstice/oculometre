@@ -25,7 +25,8 @@ SOURCES += main.cpp\
     myqabstractlistmodel.cpp \
     volontaire.cpp \
     mytreezonemodel.cpp \
-    rectangle.cpp
+    rectangle.cpp \
+    mygraphicsview.cpp
 
 HEADERS  += \
     cercle.h \
@@ -40,7 +41,8 @@ HEADERS  += \
     volontaire.h \
     mytreezonemodel.h \
     carte_select.h \
-    rectangle.h
+    rectangle.h \
+    mygraphicsview.h
 
 FORMS    += \
     dialog.ui \

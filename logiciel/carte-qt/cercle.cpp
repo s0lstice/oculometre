@@ -6,15 +6,24 @@
 Cercle::Cercle(Groupe_selection *parent) : Zone(parent)
 {
     type = cercle;
-    label = "Cercle " + QString::number(id);
-    nb_poisitions = 0;
+    cointHG = QPointF(-1,-1);
+    cointBD = QPointF(-1,-1);
+    label = QObject::tr("Cercle ") + QString::number(id);
 }
 
 Cercle::~Cercle(){
 }
 
-QPoint Cercle::getCentre(){
+QPointF Cercle::getCentre(){
     return centre;
+}
+
+QPointF Cercle::getCointHG(){
+    return cointHG;
+}
+
+QPointF Cercle::getCointBD(){
+    return cointBD;
 }
 
 int Cercle::getDiametre(){
@@ -22,16 +31,15 @@ int Cercle::getDiametre(){
 }
 
 bool Cercle::positionClick(QPointF point){
-    if(++nb_poisitions == 1){
-        centre.setX(point.x());
-        centre.setY(point.y());
+    if(cointHG.x() == -1){
+        cointHG = point;
         return false;
     }
-    if(nb_poisitions == 2){
-        diametre = hypot(point.x() - centre.x(), point.y() - centre.y());
+    else{
+        cointBD = point;
+        diametre = hypot(cointBD.x() - centre.x(), cointBD.y() - centre.y());
 
-        centre.setX(centre.x() - diametre);
-        centre.setY(centre.y() - diametre);
+        centre = QPointF(cointHG.x() - diametre, cointHG.y() - diametre);
 
         diametre = 2*diametre;
         return true;

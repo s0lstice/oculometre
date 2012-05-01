@@ -4,7 +4,7 @@
 Rectangle::Rectangle(Groupe_selection *parent) : Zone(parent)
 {
     type = rectangle;
-    label = "Rectangle " + QString::number(id);
+    label = QObject::tr("Rectangle ") + QString::number(id);
     nb_poisitions = 0;
 }
 
