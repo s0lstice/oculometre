@@ -56,6 +56,8 @@ private slots:
     void drawZones();
     void switchZoneEtat();
 
+    void on_actionAnalyse_des_zones_et_des_volontaires_triggered();
+
 private:
     Projet *pro;
     Ui::MainWindow *ui;

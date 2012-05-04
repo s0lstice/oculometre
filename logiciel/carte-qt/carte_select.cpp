@@ -40,10 +40,6 @@ CvSeq *Carte_select::Selection(int x, int y){
     s = (int)pixel.val[1];
     v = (int)pixel.val[2];
 
-    //masque rouge et bleu
-    //CvScalar red = CV_RGB(250,0,0);
-    //CvScalar blue = CV_RGB(0,0,250);
-
     //definitntion du mask
     IplImage *img_selection = cvCreateImage( cvGetSize(image), 8, 1 );
     IplImage *mask_contour = cvCreateImage( cvGetSize(image), 8, 1 );
@@ -59,26 +55,9 @@ CvSeq *Carte_select::Selection(int x, int y){
     cvFindContours(mask_contour, storage, &first_contour, sizeof(CvContour), CV_RETR_LIST );
 
     cvReleaseImage(&mask_contour);
-/*
-    if(image_trace != NULL)
-        cvReleaseImage(&image_trace);
-    image_trace = cvCloneImage(image);
-
-    //tracer le contour
-    for( CvSeq* c=first_contour; c!=NULL; c=c->h_next ){
-        cvDrawContours(
-            image_trace,
-            c,
-            red,		// Red
-            blue,		// Blue
-            0.1,			// Vary max_level and compare results
-            1,
-            8 );
-    }
-    //affichage du resultat
-    parent->getCarteScene()->shoowIplImage(image_trace);*/
 
     //renvoi de la sequance
+    cvReleaseMemStorage(&storage);
     return first_contour;
 }
 
@@ -92,7 +71,7 @@ Carte_select::Carte_select( MainWindow *parent)
     this->parent = parent;
     Projet * pro = parent->getCurent_projet();
 
-    h = 0, s = 0, v = 0, tolerance = 10;
+    h = 0, s = 0, v = 0, tolerance = 5;
     image = pro->get_carte();
 
     //image = cvLoadImage(path_carte.toStdString().c_str());

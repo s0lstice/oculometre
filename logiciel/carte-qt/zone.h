@@ -33,6 +33,7 @@ public:
     Qt::CheckState getDisplayed();
     void setDisplayed(Qt::CheckState valeur);
     void switchEtat();
+    int size(){return 0;}
 
 protected:
     int id;

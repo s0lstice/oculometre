@@ -4,16 +4,36 @@
 #include <QString>
 #include <QVector>
 
-typedef struct _point{
-    int numerot;
-    float x;
-    float y;
-    float debut;
-    float fin;
-}point;
-
 class Volontaire
 {
+
+public :
+    typedef struct _point{
+        int numerot;
+        float x;
+        float y;
+        float debut;
+        float fin;
+    }point;
+
+private:
+
+    typedef struct _zone{
+        int id;
+        QString label;
+        int numerotPoint;
+    }zone;
+
+    Qt::CheckState Displayed;
+
+    QString path_Volontaire;
+    QString id_Volontaire;
+    QVector<point> v_points;
+    QVector<zone> appartenance;
+
+    void charger_points();
+    void path_VolontaireToId_Volontaire();
+
 public:
 
 
@@ -22,24 +42,11 @@ public:
     QVector<point> get_points();
     QString getPath_Volontaire();
     QString getId_Volontaire();
-    void setZone_id(int id);
-    int getZone_Id();
     Qt::CheckState getDisplayed();
     void setDisplayed(Qt::CheckState valeur);
     void switchEtat();
-
-private:
-
-    Qt::CheckState Displayed;
-
-    QString path_Volontaire;
-    int zone_id;
-    QString id_Volontaire;
-    QVector<point> v_points;
-
-    void charger_points();
-    void path_VolontaireToId_Volontaire();
-
+    void appendZone(int id, QString label, int numerotPoint);
+    void clearZones();
 };
 
 #endif // POINT_H

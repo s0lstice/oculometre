@@ -19,6 +19,7 @@ public:
     int childCount() const;
     QVector<Zone *> getGroupe();
     void removeChild(Zone *zone);
+    int size();
 };
 
 #endif // GROUPE_SELECTION_H

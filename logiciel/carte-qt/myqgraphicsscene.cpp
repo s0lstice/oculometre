@@ -321,8 +321,8 @@ void MyQGraphicsScene::DrawVolontaires(){
     float u_carte_x;
     float u_carte_y;
     Volontaire* volontaire;
-    QVector<point> v_points;
-    point s_point;
+    QVector<Volontaire::point> v_points;
+    Volontaire::point s_point;
     QGraphicsItem *item;
 
     if(mainwindow->creatWindow_Carte() == false){
@@ -352,7 +352,7 @@ void MyQGraphicsScene::DrawVolontaires(){
             }
         }
     }
-    qDebug() << groupVolontaire->childItems().size();
+
     groupVolontaire->update();
 }
 

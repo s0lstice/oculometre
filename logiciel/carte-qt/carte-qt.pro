@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     volontaire.cpp \
     mytreezonemodel.cpp \
     rectangle.cpp \
-    mygraphicsview.cpp
+    mygraphicsview.cpp \
+    analyse.cpp
 
 HEADERS  += \
     cercle.h \
@@ -42,7 +43,8 @@ HEADERS  += \
     mytreezonemodel.h \
     carte_select.h \
     rectangle.h \
-    mygraphicsview.h
+    mygraphicsview.h \
+    analyse.h
 
 FORMS    += \
     dialog.ui \

@@ -75,6 +75,9 @@ QGroupBox{
     </property>
     <addaction name="actionCharger_une_carte"/>
     <addaction name="actionCharger_des_Volontaires"/>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="actionAnalyse_des_zones_et_des_volontaires"/>
    </widget>
    <addaction name="menuFichier"/>
    <addaction name="menuDonnees"/>
@@ -116,6 +119,14 @@ QGroupBox{
   <action name="actionA">
    <property name="text">
     <string>a</string>
+   </property>
+  </action>
+  <action name="actionAnalyse_des_zones_et_des_volontaires">
+   <property name="text">
+    <string>Relation des zones et des volontaires</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
    </property>
   </action>
  </widget>

@@ -32,6 +32,7 @@
 #include "myqabstractlistmodel.h"
 #include "mytreezonemodel.h"
 #include "mygraphicsview.h"
+#include "analyse.h"
 
 //cree le dock gerant les zones; nom a revoir ?
 void MainWindow::dockCarte(){
@@ -173,7 +174,6 @@ MainWindow::MainWindow(QWidget *parent) :
 //destructeur; a pofiner !!
 MainWindow::~MainWindow()
 {
-
     delete ui;
 }
 
@@ -382,4 +382,10 @@ void MainWindow::supprimer_Volontaires(){
 //renvoir le projet en cour.
 Projet *MainWindow::getCurent_projet(){
     return pro;
+}
+
+void MainWindow::on_actionAnalyse_des_zones_et_des_volontaires_triggered()
+{
+    if((pro->getVolontaires()->size() != 0)&&(pro->getZones()->size() != 0))
+        Analyse analyse(pro);
 }

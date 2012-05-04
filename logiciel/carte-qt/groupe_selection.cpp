@@ -31,6 +31,24 @@ void Groupe_selection::removeChild(Zone *zone){
     }
 }
 
+int Groupe_selection::size()
+{
+    Zone *zone;
+    int nombre = 0;
+
+    foreach(zone, groupe){
+        if(zone->getType() == Zone::selection){
+            nombre += zone->size();
+        }
+        else
+        {
+            nombre++;
+        }
+    }
+
+    return nombre;
+}
+
 QVector<Zone*> Groupe_selection::getZones(){
     return groupe;
 }

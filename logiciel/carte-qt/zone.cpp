@@ -57,7 +57,6 @@ void Zone::setDisplayed(Qt::CheckState valeur){
     Displayed = valeur;
 }
 
-
 void Zone::switchEtat(){
 
     if(Displayed == Qt::Checked)

@@ -61,7 +61,7 @@ Volontaire::Volontaire(const QString path)
     charger_points();
 }
 
-QVector<point> Volontaire::get_points(){
+QVector<Volontaire::point> Volontaire::get_points(){
     return v_points;
 }
 QString Volontaire::getPath_Volontaire(){
@@ -70,14 +70,6 @@ QString Volontaire::getPath_Volontaire(){
 
 QString Volontaire::getId_Volontaire(){
     return id_Volontaire;
-}
-
-void Volontaire::setZone_id(int id){
-    zone_id = id;
-}
-
-int Volontaire::getZone_Id(){
-    return zone_id;
 }
 
 Qt::CheckState Volontaire::getDisplayed(){
@@ -94,4 +86,18 @@ void Volontaire::switchEtat(){
         Displayed = Qt::Unchecked;
     else
         Displayed = Qt::Checked;
+}
+
+void Volontaire::appendZone(int id, QString label, int numerotPoint){
+    zone info;
+    info.id = id;
+    info.label = label;
+    info.numerotPoint = numerotPoint;
+
+    appartenance.append(info);
+}
+
+void Volontaire::clearZones()
+{
+    appartenance.clear();
 }
