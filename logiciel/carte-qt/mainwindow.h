@@ -16,6 +16,7 @@
 #include <QListView>
 #include <QTreeView>
 #include <QGraphicsItemGroup>
+#include <QTextEdit>
 
 //#include "projet.h"
 class Projet;
@@ -57,6 +58,9 @@ private slots:
     void switchZoneEtat();
 
     void on_actionAnalyse_des_zones_et_des_volontaires_triggered();
+    bool saveDonnees();
+
+    void on_actionExporter_les_zones_triggered();
 
 private:
     Projet *pro;
@@ -98,7 +102,10 @@ private:
     QGraphicsItemGroup *carteZone;
 
     //affichage du resultat
+    void openWindow_Data(QStringList liste_data);
+    QTextEdit *textEdit;
 
+    bool save(QString data);
 };
 
 #endif // MAINWINDOW_H

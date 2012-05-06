@@ -37,3 +37,20 @@ qreal Rectangle::getWidth(){
 qreal Rectangle::getHeight(){
     return point_bas_droit.y() - point_haut_gauche.y();
 }
+
+QString Rectangle::serialisation()
+{
+    QString datas;
+    datas = "{";
+    datas += Zone::sub_serialisation();
+    datas += ",";
+    datas += "phg=" + point_haut_gauche.serialisation() + ",";
+    datas += "pbd=" + point_bas_droit.serialisation() ;
+    datas += "}";
+
+    return datas;
+}
+
+void Rectangle::deserialisation(QString datas)
+{
+}

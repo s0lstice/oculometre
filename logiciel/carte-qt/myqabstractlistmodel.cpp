@@ -98,17 +98,17 @@ int MyQAbstractListModel::rowCount(const QModelIndex& parent) const
 
 QVariant MyQAbstractListModel::data (const QModelIndex  &index , int role ) const
 {
-  if (index.row() < 0 || index.row() >= rowCount() || !index.isValid())
+    if (index.row() < 0 || index.row() >= rowCount() || !index.isValid())
     {
         return QVariant();
     }
 
-  if (role == Qt::DisplayRole || role == Qt::EditRole)
+    if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
         return this->volontaires->at(index.row())->getId_Volontaire();
     }
 
-  if(role == Qt::CheckStateRole)
+    if(role == Qt::CheckStateRole)
     {
         return this->volontaires->at(index.row())->getDisplayed();
     }
@@ -118,16 +118,16 @@ QVariant MyQAbstractListModel::data (const QModelIndex  &index , int role ) cons
 
 bool MyQAbstractListModel::setData (const QModelIndex &index, const QVariant &value, int role)
 {
-  if (index.row() < 0 || index.row() >= rowCount() || !index.isValid())
+    if (index.row() < 0 || index.row() >= rowCount() || !index.isValid())
     {
-    return false;
+        return false;
     }
 
-  if(role == Qt::CheckStateRole)
+    if(role == Qt::CheckStateRole)
     {
         this->volontaires->at(index.row())->setDisplayed(static_cast<Qt::CheckState>(value.toUInt()));
     }
 
-  emit dataChanged(index, index);
-  return true;
+    emit dataChanged(index, index);
+    return true;
 }

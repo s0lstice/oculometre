@@ -1,6 +1,8 @@
 #ifndef ANALYSE_H
 #define ANALYSE_H
 
+#include <QStringList>
+
 class Projet;
 class Groupe_selection;
 class Rectangle;
@@ -11,6 +13,7 @@ class Analyse
 {
 private :
     Projet *projet;
+    QStringList data;
 
     void appartenance();
     void appartenance(Volontaire *volontaire, Groupe_selection *group);
@@ -19,6 +22,7 @@ private :
 
 public:
     Analyse(Projet *projet);
+    QStringList getData();
 };
 
 #endif // ANALYSE_H

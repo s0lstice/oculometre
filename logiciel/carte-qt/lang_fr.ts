@@ -32,57 +32,67 @@
         <translation>&amp;Données</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="84"/>
+        <location filename="mainwindow.ui" line="87"/>
         <source>Charger une carte</source>
         <translation>Charger une carte</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="87"/>
+        <location filename="mainwindow.ui" line="90"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="92"/>
+        <location filename="mainwindow.ui" line="95"/>
         <source>Charger des volontaires</source>
         <translation>Charger des volontaires</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="95"/>
+        <location filename="mainwindow.ui" line="98"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="100"/>
+        <location filename="mainwindow.ui" line="103"/>
         <source>Analiser la carte</source>
         <translation>Analiser la carte</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="105"/>
+        <location filename="mainwindow.ui" line="108"/>
         <source>Gestion des Volontaires</source>
         <translation>Gestion des Volontaires</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="110"/>
+        <location filename="mainwindow.ui" line="113"/>
         <source>Quiter</source>
         <translation>Quiter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="113"/>
+        <location filename="mainwindow.ui" line="116"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="118"/>
+        <location filename="mainwindow.ui" line="121"/>
         <source>a</source>
         <translation>a</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="69"/>
+        <location filename="mainwindow.ui" line="126"/>
+        <source>Relation des zones et des volontaires</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="129"/>
+        <source>Ctrl+A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="70"/>
         <source>CrÃ©er</source>
         <translation>Créer</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="159"/>
+        <location filename="mainwindow.cpp" line="160"/>
         <source>&amp;Outils</source>
         <translation>&amp;Outils</translation>
     </message>
@@ -138,7 +148,7 @@
         <translation type="obsolete">Charger une carte avant de faire cette action .</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="41"/>
+        <location filename="mainwindow.cpp" line="42"/>
         <source>Analyse de la Carte</source>
         <translation>Analyse de la Carte</translation>
     </message>
@@ -151,54 +161,54 @@
         <translation type="obsolete">Ajouter un motif</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="117"/>
+        <location filename="mainwindow.cpp" line="118"/>
         <source>Gestion des Volontaires</source>
         <translation>Gestion des Volontaires</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="79"/>
-        <location filename="mainwindow.cpp" line="126"/>
+        <location filename="mainwindow.cpp" line="80"/>
+        <location filename="mainwindow.cpp" line="127"/>
         <source>(DÃ©)SÃ©lectionner tout</source>
         <translation>(Dé)Sélectionner tout</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="45"/>
+        <location filename="mainwindow.cpp" line="46"/>
         <location filename="mainwindow.cpp" line="315"/>
         <source>SÃ©lection</source>
         <translation>Sélection</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="49"/>
+        <location filename="mainwindow.cpp" line="50"/>
         <source>Groupe</source>
         <translation>Groupe</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="54"/>
+        <location filename="mainwindow.cpp" line="55"/>
         <source>Rectangle</source>
         <translation>Rectangle</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="59"/>
+        <location filename="mainwindow.cpp" line="60"/>
         <source>Cercle</source>
         <translation>Cercle</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="73"/>
+        <location filename="mainwindow.cpp" line="74"/>
         <source>Supprimer (Ã©lÃ©ment | groupe)</source>
         <translation>Supprimer (élément | groupe)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="76"/>
+        <location filename="mainwindow.cpp" line="77"/>
         <source>Afficher les zones</source>
         <translation>Afficher les zones</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="128"/>
+        <location filename="mainwindow.cpp" line="129"/>
         <source>Afficher les points</source>
         <translation>Afficher les points</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="130"/>
+        <location filename="mainwindow.cpp" line="131"/>
         <source>Supprimer des points</source>
         <translation>Supprimer des points</translation>
     </message>

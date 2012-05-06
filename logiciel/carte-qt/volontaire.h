@@ -4,6 +4,8 @@
 #include <QString>
 #include <QVector>
 
+#include <QVariant>
+
 class Volontaire
 {
 
@@ -36,7 +38,6 @@ private:
 
 public:
 
-
     Volontaire(const QString path);
 
     QVector<point> get_points();
@@ -47,6 +48,7 @@ public:
     void switchEtat();
     void appendZone(int id, QString label, int numerotPoint);
     void clearZones();
+
 };
 
 #endif // POINT_H

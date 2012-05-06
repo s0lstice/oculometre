@@ -101,3 +101,59 @@ void Volontaire::clearZones()
 {
     appartenance.clear();
 }
+/*
+QDataStream & operator << (QDataStream & out, const Volontaire::zone & Valeur){
+    out << Valeur.id
+        << Valeur.label
+        << Valeur.numerotPoint;
+
+    return out;
+}
+
+QDataStream & operator >> (QDataStream & in, Volontaire::zone & Valeur){
+    in >> Valeur.id;
+    in >> Valeur.label;
+    in >> Valeur.numerotPoint;
+
+    return in;
+}
+
+QDataStream & operator << (QDataStream & out, const Volontaire::point & Valeur){
+    out << Valeur.debut
+        << Valeur.fin
+        << Valeur.numerot
+        << Valeur.x
+        << Valeur.y;
+
+    return out;
+}
+
+QDataStream & operator >> (QDataStream & in, Volontaire::point & Valeur){
+    in >> Valeur.debut;
+    in >> Valeur.fin;
+    in >> Valeur.numerot;
+    in >> Valeur.x;
+    in >> Valeur.y;
+
+    return out;
+}
+
+QDataStream & operator << (QDataStream & out, const Volontaire & Valeur){
+    out << Valeur.id_Volontaire
+        << Valeur.path_Volontaire
+        << Valeur.Displayed
+        << Valeur.v_points
+        << Valeur.appartenance;
+
+    return out;
+}
+
+QDataStream & operator >> (QDataStream & in, Volontaire & Valeur){
+    in >> Valeur.id_Volontaire;
+    in >> Valeur.path_Volontaire;
+    in >> Valeur.Displayed;
+    in >> Valeur.v_points;
+    in >> Valeur.appartenance;
+
+    return in;
+}*/

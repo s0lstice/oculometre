@@ -13,6 +13,7 @@
 #include <QMdiArea>
 #include <QStackedWidget>
 #include <QGroupBox>
+#include <QTextBrowser>
 
 #include "zone.h"
 #include "cercle.h"
@@ -383,9 +384,79 @@ void MainWindow::supprimer_Volontaires(){
 Projet *MainWindow::getCurent_projet(){
     return pro;
 }
+//////////////////////////édition des données
+void MainWindow::openWindow_Data(QStringList liste_data)
+{
+    /***************************************************************************/
+    /************************************Data***********************************/
+    /***************************************************************************/
+
+    QString data;
+    textEdit = new QTextEdit;
+    foreach(data, liste_data)
+        textEdit->append(data);
+
+    QWidget *dataWidget = new QWidget;
+
+    QVBoxLayout *Layout_Data = new QVBoxLayout;
+
+    QMenuBar *menu = new QMenuBar();
+    Layout_Data->addWidget(menu);
+    QAction * saveAct = new QAction(QIcon(":/images/save.png"), tr("&Save"), this);
+    saveAct->setShortcuts(QKeySequence::Save);
+    saveAct->setStatusTip(tr("Save the document to disk"));
+    connect(saveAct, SIGNAL(triggered()), this, SLOT(saveDonnees()));
+    menu->addAction(saveAct);
+
+    Layout_Data->addWidget(textEdit);
+
+    dataWidget->setLayout(Layout_Data);
+    QMdiSubWindow *window_Data = new QMdiSubWindow;
+    zoneCentrale->addSubWindow(window_Data);
+    window_Data->setWindowTitle(QObject::tr("Carte"));
+    window_Data->setAttribute(Qt::WA_DeleteOnClose);
+    window_Data->setWidget(dataWidget);
+
+    window_Data->showMaximized();
+}
 
 void MainWindow::on_actionAnalyse_des_zones_et_des_volontaires_triggered()
 {
-    if((pro->getVolontaires()->size() != 0)&&(pro->getZones()->size() != 0))
+    if((pro->getVolontaires()->size() != 0)&&(pro->getZones()->size() != 0)){
         Analyse analyse(pro);
+        QStringList data = analyse.getData();
+        openWindow_Data(data);
+    }
+}
+
+bool MainWindow::saveDonnees(){
+    save(textEdit->toPlainText());
+}
+
+bool MainWindow::save(QString data)
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save As"), QDir::homePath());
+    if (fileName.isEmpty())
+        return false;
+
+    QFile file(fileName);
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("MDI"),
+                             tr("Cannot write file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return false;
+    }
+
+    QTextStream out(&file);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    out << data;
+    QApplication::restoreOverrideCursor();
+
+    return true;
+}
+
+void MainWindow::on_actionExporter_les_zones_triggered()
+{
+    save(pro->getZones()->serialisation());
 }

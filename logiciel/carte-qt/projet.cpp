@@ -11,7 +11,6 @@ Projet::Projet()
     carte = NULL;
     path_carte = "";
     name = "";
-    nb_zones = 0;
 
     zones = new Groupe_selection(NULL);
     zones->setLabel("Root Item");
@@ -112,16 +111,4 @@ IplImage * Projet::get_carte(){
 
 void Projet::freeCarte(){
     cvReleaseImage(&carte);
-}
-
-int Projet::getNb_zone(){
-    return nb_zones;
-}
-
-void Projet::upNb_zone(){
-    nb_zones++;
-}
-
-void Projet::downNb_zone(){
-    nb_zones--;
 }

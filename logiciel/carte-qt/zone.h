@@ -35,12 +35,17 @@ public:
     void switchEtat();
     int size(){return 0;}
 
+    virtual QString serialisation();
+    virtual void deserialisation(QString datas);
+
 protected:
     int id;
     type_zone type;
     QString label;
     Groupe_selection *parent;
     Qt::CheckState Displayed;
-};
 
+    QString sub_serialisation();
+
+};
 #endif // ZONE_H

@@ -3,11 +3,13 @@
 #include <math.h>
 #include <QDebug>
 
+#include "myqpointf.h"
+
 Cercle::Cercle(Groupe_selection *parent) : Zone(parent)
 {
-    type = cercle;
-    cointHG = QPointF(-1,-1);
-    cointBD = QPointF(-1,-1);
+    type = Zone::cercle;
+    cointHG = MyQPointF(-1,-1);
+    cointBD = MyQPointF(-1,-1);
     label = QObject::tr("Cercle ") + QString::number(id);
 }
 
@@ -15,15 +17,15 @@ Cercle::~Cercle(){
 }
 
 QPointF Cercle::getCentre(){
-    return centre;
+    return QPointF(centre.x(), centre.y());
 }
 
 QPointF Cercle::getCointHG(){
-    return cointHG;
+    return QPointF(cointHG.x(), cointHG.y());
 }
 
 QPointF Cercle::getCointBD(){
-    return cointBD;
+    return QPointF(cointBD.x(), cointBD.y());
 }
 
 int Cercle::getDiametre(){
@@ -45,4 +47,13 @@ bool Cercle::positionClick(QPointF point){
         return true;
     }
     return true;
+}
+
+QString Cercle::serialisation()
+{
+    return "{" + Zone::sub_serialisation() + ",chg=" + cointHG.serialisation() + ",cbd=" + cointBD.serialisation() + ",centre=" + centre.serialisation() + ",diametre=" + QString::number(diametre) + "}";
+}
+
+void Cercle::deserialisation(QString datas)
+{
 }

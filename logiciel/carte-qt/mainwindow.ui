@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>257</width>
-    <height>85</height>
+    <width>570</width>
+    <height>337</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,7 +59,7 @@ QGroupBox{
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>257</width>
+     <width>570</width>
      <height>25</height>
     </rect>
    </property>
@@ -67,6 +67,9 @@ QGroupBox{
     <property name="title">
      <string>&amp;Fichier</string>
     </property>
+    <addaction name="separator"/>
+    <addaction name="separator"/>
+    <addaction name="actionExporter_les_zones"/>
     <addaction name="actionQuiter"/>
    </widget>
    <widget class="QMenu" name="menuDonnees">
@@ -127,6 +130,19 @@ QGroupBox{
    </property>
    <property name="shortcut">
     <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionSauvgarder_la_relation">
+   <property name="text">
+    <string>Sauvgarder la relation</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionExporter_les_zones">
+   <property name="text">
+    <string>Exporter les zones</string>
    </property>
   </action>
  </widget>

@@ -91,7 +91,7 @@ void MyGraphicsView::mouseReleaseEvent(QMouseEvent* event) {
 /**
 *Handles the mouse move event
 */
-
+/*
 void MyGraphicsView::mouseMoveEvent(QMouseEvent* event) {
     if(!LastPanPoint.isNull()) {
         //Get how much we panned
@@ -103,7 +103,7 @@ void MyGraphicsView::mouseMoveEvent(QMouseEvent* event) {
     }
     QString titre = "[carte] (" + QString::number(LastPanPoint.x()) + " ; " + QString::number(LastPanPoint.y())  + ")";
     setWindowTitle(titre);
-}
+}*/
 
 
 /**

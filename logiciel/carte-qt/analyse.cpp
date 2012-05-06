@@ -10,7 +10,14 @@
 Analyse::Analyse(Projet *projet)
 {
     this->projet = projet;
+    data << "Identifiant du volontaire;Numerot du point;Identifiant de la zone;Nom de la zone";
+
     appartenance();
+}
+
+QStringList Analyse::getData()
+{
+    return data;
 }
 
 void Analyse::appartenance(){
@@ -72,6 +79,8 @@ void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle){
         if((pointx >= recxu)&&(pointx <= recxd)&&(pointy >= recyu)&&(pointy <= recyd)){
             volontaire->appendZone(rectangle->getId(), rectangle->getLable(), point.numerot);
             //qDebug() << "rectangle find" << "" << volontaire->getId_Volontaire() << " " << rectangle->getId() << " " << rectangle->getLable() << " " << point.numerot;
+
+            data << volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(rectangle->getId()) + ";" + rectangle->getLable();
         }
     }
 }
@@ -100,6 +109,8 @@ void Analyse::cercleTest(Volontaire *volontaire, Cercle *cercle){
         if(distance <= diametre){
             volontaire->appendZone(cercle->getId(), cercle->getLable(), point.numerot);
             //qDebug() << "cercle find" << "" << volontaire->getId_Volontaire() << " " << cercle->getId() << " " << cercle->getLable() << " " << point.numerot;
+
+            data << volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(cercle->getId()) + ";" + cercle->getLable();
         }
     }
 }

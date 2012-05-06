@@ -58,6 +58,7 @@ CvSeq *Carte_select::Selection(int x, int y){
 
     //renvoi de la sequance
     cvReleaseMemStorage(&storage);
+
     return first_contour;
 }
 

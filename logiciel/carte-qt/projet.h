@@ -8,6 +8,7 @@
 #include <QRegExp>
 #include <QDebug>
 #include <QStringList>
+#include <QVariant>
 
 //#include "groupe_selection.h"
 class Groupe_selection;
@@ -21,7 +22,6 @@ private:
     QString path_carte;
     QVector<Volontaire*> v_Volontaires;
     Groupe_selection *zones;
-    int nb_zones;
     QString name;
 
 public:
@@ -44,10 +44,6 @@ public:
     void charger_Volontaires(QStringList liste_Volontaire);
     void supprimer_Volontaires(QVector<Volontaire*> liste_Volontaire);
     void supprimer_Volontaire(int row);
-
-    int getNb_zone();
-    void upNb_zone();
-    void downNb_zone();
 };
 
 #endif // PROJET_H

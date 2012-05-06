@@ -5,14 +5,17 @@
 #include <QPoint>
 #include <QPointF>
 
+//class MyQPointF;
+#include "myqpointf.h"
+
 class Groupe_selection;
 
 class Cercle : public Zone
 {
 private:
-    QPointF centre;
-    QPointF cointBD;
-    QPointF cointHG;
+    MyQPointF centre;
+    MyQPointF cointBD;
+    MyQPointF cointHG;
 
     int diametre;
     int nb_poisitions;
@@ -28,6 +31,8 @@ public:
 
     bool positionClick(QPointF point);
 
+    QString serialisation();
+    void deserialisation(QString datas);
 };
 
 #endif // CERCLE_H

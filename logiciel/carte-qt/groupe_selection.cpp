@@ -49,6 +49,30 @@ int Groupe_selection::size()
     return nombre;
 }
 
+QString Groupe_selection::serialisation()
+{
+    QString datas;
+
+    datas = "{";
+    datas += Zone::sub_serialisation();
+    datas += ",group=[";
+    Zone *zone;
+
+    if(groupe.size() != 0){
+        foreach(zone, groupe){
+            datas += zone->serialisation() + ",";
+        }
+
+        datas.remove(datas.size() -1, 1);
+    }
+    datas += "]}";
+    return datas;
+}
+
+void Groupe_selection::deserialisation(QString datas)
+{
+}
+
 QVector<Zone*> Groupe_selection::getZones(){
     return groupe;
 }

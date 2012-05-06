@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     mytreezonemodel.cpp \
     rectangle.cpp \
     mygraphicsview.cpp \
-    analyse.cpp
+    analyse.cpp \
+    myqpointf.cpp
 
 HEADERS  += \
     cercle.h \
@@ -44,7 +45,8 @@ HEADERS  += \
     carte_select.h \
     rectangle.h \
     mygraphicsview.h \
-    analyse.h
+    analyse.h \
+    myqpointf.h
 
 FORMS    += \
     dialog.ui \

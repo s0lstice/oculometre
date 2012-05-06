@@ -4,21 +4,25 @@
 #include <cv.h>
 
 #include "zone.h"
-//class Zone;
-//#include "carte_select.h"
+#include "myqpointf.h"
+
 class Carte_select;
 class Groupe_selection;
 
 class Selection : public Zone
 {
 protected:
-    Carte_select *methode_selection;
     CvSeq *contour;
+
 public:
     Selection(Groupe_selection *parent);
     void setPerimetre(CvSeq *contour);
     CvSeq * getPerimetre();
+    QVector<MyQPointF> getQtPerimetre();
     ~Selection();
+
+    QString serialisation();
+    void deserialisation(QString datas);
 };
 
 #endif // SELECTION_H

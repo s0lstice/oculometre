@@ -1,7 +1,6 @@
 #include "zone.h"
 
 #include <QDateTime>
-#include <QDateTime>
 #include "groupe_selection.h"
 
 Zone::Zone(Groupe_selection *parent)
@@ -63,4 +62,27 @@ void Zone::switchEtat(){
         Displayed = Qt::Unchecked;
     else
         Displayed = Qt::Checked;
+}
+
+QString Zone::serialisation()
+{
+    return "{" + sub_serialisation() + "}";
+}
+
+void Zone::deserialisation(QString datas)
+{
+}
+
+QString Zone::sub_serialisation()
+{
+    QString datas;
+    datas = "id=" + QString::number(id) + ",";
+    datas += "type=" + QString::number((int)type) + ",";
+    datas += "label=\"" + label + "\",";
+    if(Displayed == Qt::Checked)
+        datas += "display=1";
+    else
+        datas += "display=0";
+
+    return datas;
 }
