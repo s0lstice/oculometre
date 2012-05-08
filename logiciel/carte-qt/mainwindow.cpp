@@ -422,6 +422,8 @@ void MainWindow::openWindow_Data(QStringList liste_data)
 
 void MainWindow::on_actionAnalyse_des_zones_et_des_volontaires_triggered()
 {
+    qDebug() << pro->getVolontaires()->size();
+    qDebug() << pro->getZones()->size();
     if((pro->getVolontaires()->size() != 0)&&(pro->getZones()->size() != 0)){
         Analyse analyse(pro);
         QStringList data = analyse.getData();
@@ -431,6 +433,7 @@ void MainWindow::on_actionAnalyse_des_zones_et_des_volontaires_triggered()
 
 bool MainWindow::saveDonnees(){
     save(textEdit->toPlainText());
+    return true;
 }
 
 bool MainWindow::save(QString data)

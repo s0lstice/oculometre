@@ -9,16 +9,19 @@ Selection::Selection(Groupe_selection *parent) : Zone(parent)
 {
     type = selection;
     label = QObject::tr("Sélection ") + QString::number(id);
+    storage = cvCreateMemStorage();
 }
 
 Selection::~Selection(){
+    cvReleaseMemStorage(&storage);
+    cvReleaseImage(&mask);
 }
 
 QString Selection::serialisation()
 {
     QString datas;
 
-    /*QVector<MyQPointF> contourQt = getQtPerimetre();
+    QVector<MyQPointF> contourQt = getQtPerimetre();
     MyQPointF point;
 
     datas = "{" + Zone::serialisation();
@@ -28,12 +31,32 @@ QString Selection::serialisation()
     }
 
     datas.remove(datas.size() -1, 1);
-    datas += "]}";*/
+    datas += "]}";
     return datas;
 }
 
 void Selection::deserialisation(QString datas)
 {
+}
+
+CvMemStorage *Selection::getStorage()
+{
+    return storage;
+}
+
+void Selection::setStorage(CvMemStorage * storage)
+{
+    this->storage = storage;
+}
+
+void Selection::setMask(IplImage *mask)
+{
+    this->mask = mask;
+}
+
+IplImage *Selection::getMask()
+{
+    return mask;
 }
 
 void Selection::setPerimetre(CvSeq *contour){
@@ -46,19 +69,15 @@ CvSeq * Selection::getPerimetre(){
 
 QVector<MyQPointF> Selection::getQtPerimetre()
 {
-    CvMemStorage* storage = cvCreateMemStorage();
-    QVector<MyQPointF> contourQt;
-    CvSeq *tmp;
-    //tmp = cvCloneSeq(contour, storage); << ca plante
     int i;
-    CvPoint cvPoint;
+    QVector<MyQPointF> contourQt;
+    CvPoint *cvPoint;
 
-    for(i = 0; i < tmp->total; ++i){
-        cvSeqPop(tmp,&cvPoint);
-        MyQPointF myPoint(cvPoint.x, cvPoint.y);
+    for(i = 0; i < contour->total; ++i){
+        cvPoint = CV_GET_SEQ_ELEM(CvPoint, contour, i);
+        MyQPointF myPoint(cvPoint->x, cvPoint->y);
         contourQt.append(myPoint);
     }
 
-    cvReleaseMemStorage(&storage);
     return contourQt;
 }

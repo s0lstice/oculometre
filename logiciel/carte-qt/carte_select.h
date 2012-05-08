@@ -23,12 +23,16 @@ private:
     IplImage *maskSelection;
     IplImage *image_trace;
     IplImage *hsv;
-    CvSeq* first_contour;
+    CvSeq* contour;
     MainWindow *parent;
+    CvMemStorage* storage;
 
 public:
     CvSeq *Selection(int x, int y);
     Carte_select(MainWindow *parent);
+    void setStorage(CvMemStorage* storage);
+    CvSeq* getContour();
+    IplImage* getMask();
     ~Carte_select();
 };
 

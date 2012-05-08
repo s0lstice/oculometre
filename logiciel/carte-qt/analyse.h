@@ -8,6 +8,7 @@ class Groupe_selection;
 class Rectangle;
 class Cercle;
 class Volontaire;
+class Selection;
 
 class Analyse
 {
@@ -19,7 +20,7 @@ private :
     void appartenance(Volontaire *volontaire, Groupe_selection *group);
     void rectangleTest(Volontaire *volontaire, Rectangle *rectangle);
     void cercleTest(Volontaire *volontaire, Cercle *cercle);
-
+    void selectionTest(Volontaire *volontaire, Selection *selection);
 public:
     Analyse(Projet *projet);
     QStringList getData();

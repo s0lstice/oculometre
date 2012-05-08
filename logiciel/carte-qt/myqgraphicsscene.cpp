@@ -99,9 +99,10 @@ void MyQGraphicsScene::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
     if(creation_encours == true){
         switch(type_creation){
             case Zone::selection :{
-
+                carte_selection->setStorage(((Selection *)zone_courante)->getStorage());
                 CvSeq* contour = carte_selection->Selection(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
                 ((Selection *)zone_courante)->setPerimetre(contour);
+                ((Selection *)zone_courante)->setMask(carte_selection->getMask());
 
                 QGraphicsPixmapItem * pixmap = drawSelection(contour);
 

@@ -1,4 +1,5 @@
 #include "analyse.h"
+
 #include "projet.h"
 #include "groupe_selection.h"
 #include "zone.h"
@@ -6,6 +7,10 @@
 #include "rectangle.h"
 #include "cercle.h"
 #include <QDebug>
+#include "selection.h"
+
+#include <cv.h>
+#include <highgui.h>
 
 Analyse::Analyse(Projet *projet)
 {
@@ -48,6 +53,7 @@ void Analyse::appartenance(Volontaire *volontaire, Groupe_selection *group){
                 cercleTest(volontaire, (Cercle *)zone);
                 break;
             case Zone::selection:
+                selectionTest(volontaire, (Selection *)zone);
                 break;
             case Zone::composite://cas imporbable
                 break;
@@ -111,6 +117,30 @@ void Analyse::cercleTest(Volontaire *volontaire, Cercle *cercle){
             //qDebug() << "cercle find" << "" << volontaire->getId_Volontaire() << " " << cercle->getId() << " " << cercle->getLable() << " " << point.numerot;
 
             data << volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(cercle->getId()) + ";" + cercle->getLable();
+        }
+    }
+}
+
+void Analyse::selectionTest(Volontaire *volontaire, Selection *selection){
+    QVector<Volontaire::point> points;
+    Volontaire::point point;
+
+    IplImage * mask = selection->getMask();
+
+    qreal u_carte_x = (mask->width/2)/20;
+    qreal u_carte_y = (mask->height/2)/15;
+
+    points = volontaire->get_points();
+    foreach(point, points){
+
+        int pointx = mask->width/2 + u_carte_x*point.x;
+        int pointy = mask->height/2 + u_carte_y*point.y;
+
+        if(((uchar *)(mask->imageData + ((int)pointx)*mask->widthStep))[((int)pointy)] == 255){
+            volontaire->appendZone(selection->getId(), selection->getLable(), point.numerot);
+            qDebug() << "selection find" << "" << volontaire->getId_Volontaire() << " " << selection->getId() << " " << selection->getLable() << " " << point.numerot;
+
+            data << volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(selection->getId()) + ";" + selection->getLable();
         }
     }
 }

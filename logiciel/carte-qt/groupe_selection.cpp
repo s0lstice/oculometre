@@ -37,7 +37,7 @@ int Groupe_selection::size()
     int nombre = 0;
 
     foreach(zone, groupe){
-        if(zone->getType() == Zone::selection){
+        if(zone->getType() == Zone::composite){
             nombre += zone->size();
         }
         else
