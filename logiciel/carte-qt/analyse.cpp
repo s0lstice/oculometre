@@ -190,7 +190,6 @@ void Analyse::selectionTest(Volontaire *volontaire, Selection *selection){
         int pointx = mask->width/2 + u_carte_x*point.x;
         int pointy = mask->height/2 + u_carte_y*point.y;
 
-        cvShowImage("tut", mask);
         if(((uchar *)(mask->imageData + ((int)pointx)*mask->widthStep))[((int)pointy)] == 255){
             volontaire->appendZone(selection->getId(), selection->getLable(), point.numerot);
             //qDebug() << "selection find" << "" << volontaire->getId_Volontaire() << " " << selection->getId() << " " << selection->getLable() << " " << point.numerot;

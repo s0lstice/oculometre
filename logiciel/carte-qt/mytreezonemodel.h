@@ -17,18 +17,12 @@ public:
     ~MyTreeZoneModel();
 
     void setRootNode(Groupe_selection *node);
-    QModelIndex index(int row, int column, const QModelIndex &parent) const;
-    Groupe_selection *nodeFromIndex(const QModelIndex &index) const;
-    int rowCount(const QModelIndex &parent) const;
-    int columnCount(const QModelIndex &parent) const;
-    QModelIndex parent(const QModelIndex &child) const;
-    QVariant data(const QModelIndex &index, int role) const;
-    Qt::ItemFlags flags (const QModelIndex  &index ) const;
-    bool setData (const QModelIndex &index, const QVariant &value, int role);
     Groupe_selection *addGroup(QModelIndex item);
     Selection *addSelection(QModelIndex item);
     Rectangle * addRect(QModelIndex item);
     Cercle * addCercle(QModelIndex item);
+    Groupe_selection *nodeFromIndex(const QModelIndex &index) const;
+
 signals:
 
 public slots:
@@ -36,6 +30,14 @@ public slots:
 private:
     Groupe_selection *rootNode;
     MainWindow *mainwindow;
+
+    QModelIndex index(int row, int column, const QModelIndex &parent) const;
+    int rowCount(const QModelIndex &parent) const;
+    int columnCount(const QModelIndex &parent) const;
+    QModelIndex parent(const QModelIndex &child) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    Qt::ItemFlags flags (const QModelIndex  &index ) const;
+    bool setData (const QModelIndex &index, const QVariant &value, int role);
 
 };
 

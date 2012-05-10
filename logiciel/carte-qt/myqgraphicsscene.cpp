@@ -103,7 +103,7 @@ void MyQGraphicsScene::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 CvSeq* contour = carte_selection->Selection(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
                 ((Selection *)zone_courante)->setPerimetre(contour);
                 ((Selection *)zone_courante)->setMask(carte_selection->getMask());
-                cvShowImage("tut", carte_selection->getMask());
+
                 QGraphicsPixmapItem * pixmap = drawSelection(contour);
 
                 if(itemDraw.size() > 0){
