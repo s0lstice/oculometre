@@ -1,3 +1,13 @@
+/**
+ * \file analyse.cpp
+ * \brief classe gérant la meise en relation entre les points de vue des volontaire et les zones.
+ * \author Mickael Puret
+ *
+ * Tous les volontaires sont parcouruent. Dès qu'un point appartien à une zone,
+ * le vecteur d'appartement du volontaire est mis à jour et cette information est enregistré dans une chaine de caracteres.
+ *
+ */
+
 #include "analyse.h"
 
 #include "projet.h"
@@ -12,6 +22,12 @@
 #include <cv.h>
 #include <highgui.h>
 
+/*!
+  @fn Analyse::Analyse(Projet *projet)
+
+  @brief constructeur de l'application.
+  @param Projet *projet : projet courant, permet de gérer les zones et les volontaires.
+*/
 Analyse::Analyse(Projet *projet)
 {
     this->projet = projet;
@@ -20,11 +36,23 @@ Analyse::Analyse(Projet *projet)
     appartenance();
 }
 
+/*!
+  @fn Analyse::getData()
+
+  @brief permet de récuperer les données apres l'analyse.
+  @return QStringList, liste de chaine de carataire. La premire ligne est l'entête de chaque colone, les autres sont les données.
+*/
 QStringList Analyse::getData()
 {
     return data;
 }
 
+/*!
+  @fn void Analyse::appartenance()
+  @brief initialise la recherche d'appartemence d'un point a une zone
+  @note pour chaque volontaire du projet, la fonction appelle (void Analyse::appartenance(Volontaire *volontaire, Groupe_selection *group)).
+    Les parametres sont : le volontaire testé et la racine de l'arbre des zones.
+  */
 void Analyse::appartenance(){
     QVector<Volontaire*> volontaires = projet->get_Volontaire();
     Volontaire *volontaire;
@@ -35,6 +63,14 @@ void Analyse::appartenance(){
     }
 }
 
+/*!
+  @fn void Analyse::appartenance(Volontaire *volontaire, Groupe_selection *group)
+  @brief pour le volontaire passé en parametre, toutes les zones sont tésté.
+  @param Volontaire *volontaire : pointeur sur un volontaire
+  @param Groupe_selection *group : pointeur sur un groupe
+  @note La fonction testé est choisi en fonction du type de la zone. Si c'est un groupe de zone alors la fonction (void Analyse::appartenance(Volontaire *volontaire, Groupe_selection *group)) est appellé.
+    Les parametres sont : le volontaire testé et le groupe testé.
+  */
 void Analyse::appartenance(Volontaire *volontaire, Groupe_selection *group){
 
     QVector<Zone*> zones = group->getGroupe();
@@ -62,6 +98,12 @@ void Analyse::appartenance(Volontaire *volontaire, Groupe_selection *group){
     }
 }
 
+/*!
+  @fn void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle)
+  @param Volontaire *volontaire : pointeur sur un volontaire
+  @param Rectangle *rectangle : pointeur sur une zone de type rectangle
+  @brief teste tout les points du volontaire pour determiner les quelles font parties du rectangle
+  */
 void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle){
 
     QVector<Volontaire::point> points;
@@ -86,11 +128,17 @@ void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle){
             volontaire->appendZone(rectangle->getId(), rectangle->getLable(), point.numerot);
             //qDebug() << "rectangle find" << "" << volontaire->getId_Volontaire() << " " << rectangle->getId() << " " << rectangle->getLable() << " " << point.numerot;
 
-            data << volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(rectangle->getId()) + ";" + rectangle->getLable();
+            data << projet->getName() + ";" + volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(rectangle->getId()) + ";" + rectangle->getLable();
         }
     }
 }
 
+/*!
+  @fn void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle)
+  @param Volontaire *volontaire : pointeur sur un volontaire
+  @param Cercle *cercle : pointeur sur une zone de type cercle
+  @brief teste tout les points du volontaire pour determiner les quelles font parties du cercle
+  */
 void Analyse::cercleTest(Volontaire *volontaire, Cercle *cercle){
     QVector<Volontaire::point> points;
     Volontaire::point point;
@@ -116,11 +164,17 @@ void Analyse::cercleTest(Volontaire *volontaire, Cercle *cercle){
             volontaire->appendZone(cercle->getId(), cercle->getLable(), point.numerot);
             //qDebug() << "cercle find" << "" << volontaire->getId_Volontaire() << " " << cercle->getId() << " " << cercle->getLable() << " " << point.numerot;
 
-            data << volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(cercle->getId()) + ";" + cercle->getLable();
+            data << projet->getName() + ";" + volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(cercle->getId()) + ";" + cercle->getLable();
         }
     }
 }
 
+/*!
+  @fn void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle)
+  @param Volontaire *volontaire : pointeur sur un volontaire
+  @param Selection *selection : pointeur sur une zone de type sélection
+  @brief teste tout les points du volontaire pour determiner les quelles font parties de la sélection
+  */
 void Analyse::selectionTest(Volontaire *volontaire, Selection *selection){
     QVector<Volontaire::point> points;
     Volontaire::point point;
@@ -136,11 +190,12 @@ void Analyse::selectionTest(Volontaire *volontaire, Selection *selection){
         int pointx = mask->width/2 + u_carte_x*point.x;
         int pointy = mask->height/2 + u_carte_y*point.y;
 
+        cvShowImage("tut", mask);
         if(((uchar *)(mask->imageData + ((int)pointx)*mask->widthStep))[((int)pointy)] == 255){
             volontaire->appendZone(selection->getId(), selection->getLable(), point.numerot);
-            qDebug() << "selection find" << "" << volontaire->getId_Volontaire() << " " << selection->getId() << " " << selection->getLable() << " " << point.numerot;
+            //qDebug() << "selection find" << "" << volontaire->getId_Volontaire() << " " << selection->getId() << " " << selection->getLable() << " " << point.numerot;
 
-            data << volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(selection->getId()) + ";" + selection->getLable();
+            data << projet->getName() + ";" + volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(selection->getId()) + ";" + selection->getLable();
         }
     }
 }

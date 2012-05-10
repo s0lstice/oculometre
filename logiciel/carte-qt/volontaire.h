@@ -6,6 +6,7 @@
 
 #include <QVariant>
 
+class Projet;
 class Volontaire
 {
 
@@ -32,13 +33,14 @@ private:
     QString id_Volontaire;
     QVector<point> v_points;
     QVector<zone> appartenance;
+    Projet *projet;
 
     void charger_points();
     void path_VolontaireToId_Volontaire();
 
 public:
 
-    Volontaire(const QString path);
+    Volontaire(Projet *projet,const QString path);
 
     QVector<point> get_points();
     QString getPath_Volontaire();

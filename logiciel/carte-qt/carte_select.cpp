@@ -1,3 +1,12 @@
+/**
+ * \file carte_select.cpp
+ * \brief Classe permetant la selection des couleur sur une carte.
+ * \author Mickael Puret
+ *
+ * Determine un masque et une sequance de point en fonction de la zone cliqué.
+ *
+ */
+
 #include "carte_select.h"
 #include <QDebug>
 
@@ -7,8 +16,10 @@
 
 using namespace std;
 
-/*
- * Binarisation en fonction de la couleur selectionne
+/*!
+  @fn void Carte_select::binarisation(IplImage *image)
+  @param IplImage *image : pointeur sur l'image à binariser
+  @brief Binarisation en fonction de la couleur selectionne, la couleur fait partie des parametre de la classe.
  */
 void Carte_select::binarisation(IplImage *image) {
 
@@ -29,6 +40,13 @@ void Carte_select::binarisation(IplImage *image) {
     cvReleaseStructuringElement(&kernel);
 }
 
+/*!
+  @fn CvSeq *Carte_select::Selection(int x, int y)
+  @param int x : coordonée x de la couleur cherché
+  @param int y : coordonée y de la couleur cherché
+  @return CvSeq * pointeur sur une sequance d'opencv.
+  @brief isole la couleur selectionné, si ce n'est pas la prmeiere selection, la couleur est ajouter au reste de la sélection.
+  */
 //sequance de points, definissant un contour, en fonction de la couleur se trouvant a la position x y
 CvSeq *Carte_select::Selection(int x, int y){
     CvScalar pixel;
@@ -41,6 +59,7 @@ CvSeq *Carte_select::Selection(int x, int y){
 
     //definitntion du mask
     IplImage *img_selection = cvCreateImage( cvGetSize(image), 8, 1 );
+    IplImage *mask_contour = cvCreateImage( cvGetSize(image), 8, 1 );
     cvZero(img_selection);
 
     binarisation(img_selection);
@@ -50,26 +69,28 @@ CvSeq *Carte_select::Selection(int x, int y){
     if(img_selection != NULL)
         cvReleaseImage(&img_selection);
 
-   //cvCopy(maskSelection, mask_contour);
+    cvCopy(maskSelection, mask_contour);
     //detourage du mask
-    cvFindContours(maskSelection, storage, &contour, sizeof(CvContour), CV_RETR_LIST );
-
+    cvFindContours(mask_contour, storage, &contour, sizeof(CvContour), CV_RETR_LIST );
+    cvReleaseImage(&mask_contour);
 
     return contour;
 }
 
+/*!
+ @fn Carte_select::Carte_select(Projet * projet)
+ @param Projet * projet : pointeur sur le projet pour recupere la carte courante
+  */
 //initialisation de l'outil de selection
-Carte_select::Carte_select( MainWindow *parent)
+Carte_select::Carte_select(Projet * projet)
 {
     maskSelection = NULL;
     hsv = NULL;
     contour = NULL;
     this->parent = parent;
 
-    Projet * pro = parent->getCurent_projet();
-
     h = 0, s = 0, v = 0, tolerance = 5;
-    image = pro->get_carte();
+    image = projet->get_carte();
 
     hsv = cvCloneImage(image);
     cvCvtColor(image, hsv, CV_BGR2HSV);
@@ -78,22 +99,39 @@ Carte_select::Carte_select( MainWindow *parent)
     cvZero(maskSelection);
 }
 
+/*!
+  @fn void Carte_select::setStorage(CvMemStorage *storage)
+  @brief initialise l'espace memoire de la sequance pour cette sélection
+  */
 void Carte_select::setStorage(CvMemStorage *storage)
 {
     this->storage = storage;
 }
 
+/*!
+  @fn CvSeq *Carte_select::getContour()
+  @return CvSeq * : sequance opencv
+  @brief retourne la zone selectionné
+  */
 CvSeq *Carte_select::getContour()
 {
     return contour;
 }
 
+/*!
+  @fn IplImage *Carte_select::getMask()
+  @return IplImage * : IplImage opencv
+  @brief retourne le masque de la selection
+  */
 IplImage *Carte_select::getMask()
 {
     return maskSelection;
 }
 
-//destruction de l'outil de selection
+/*!
+  @fn Carte_select::~Carte_select()
+  @brief destructeur
+  */
 Carte_select::~Carte_select(){
     //Libération de l'IplImage (on lui passe un IplImage**).
     //cvReleaseImage(&maskSelection);

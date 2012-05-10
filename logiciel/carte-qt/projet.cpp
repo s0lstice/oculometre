@@ -47,7 +47,7 @@ void Projet::charger_Volontaires(QStringList liste_Volontaire){
                 find = true;
         }
         if(find == false){
-            points =  new Volontaire(s_Volontaire);
+            points =  new Volontaire(this, s_Volontaire);
             if(points->getId_Volontaire() != "")
                 v_Volontaires.push_back(points);
         }
@@ -111,4 +111,12 @@ IplImage * Projet::get_carte(){
 
 void Projet::freeCarte(){
     cvReleaseImage(&carte);
+}
+
+void Projet::setName(QString name){
+    this->name = name;
+}
+
+QString Projet::getName(){
+    return name;
 }

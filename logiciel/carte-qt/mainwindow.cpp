@@ -15,13 +15,11 @@
 #include <QGroupBox>
 #include <QTextBrowser>
 
+#include "carte_select.h"
 #include "zone.h"
 #include "cercle.h"
 #include "selection.h"
 #include "rectangle.h"
-#include "carte_select.h"
-#include "dialog.h"
-
 #include "projet.h"
 //class Projet;
 #include "groupe_selection.h"
@@ -301,7 +299,7 @@ void MainWindow::ceratSelection()
         if(carteScene->getEtatCreation() == false){
             Selection *select = zoneModel->addSelection(zoneView->selectionModel()->currentIndex());
 
-            Carte_select *selction_tool = new Carte_select(this);
+            Carte_select *selction_tool = new Carte_select(pro);
             carteScene->setZone_courante((Zone *)select);
             carteScene->setTool(selction_tool);
 

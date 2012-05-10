@@ -103,7 +103,7 @@ void MyQGraphicsScene::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 CvSeq* contour = carte_selection->Selection(mouseEvent->scenePos().x(), mouseEvent->scenePos().y());
                 ((Selection *)zone_courante)->setPerimetre(contour);
                 ((Selection *)zone_courante)->setMask(carte_selection->getMask());
-
+                cvShowImage("tut", carte_selection->getMask());
                 QGraphicsPixmapItem * pixmap = drawSelection(contour);
 
                 if(itemDraw.size() > 0){
@@ -347,9 +347,12 @@ void MyQGraphicsScene::DrawVolontaires(){
         if(volontaire->getDisplayed() == Qt::Checked){
             v_points = volontaire->get_points();
             foreach(s_point, v_points){
-                QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(carte->width/2 + u_carte_x*s_point.x, carte->height/2 + u_carte_y*s_point.y, 2*u_carte_x,2*u_carte_x);
+                QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(carte->width/2 + u_carte_x*s_point.x -2*u_carte_x, carte->height/2 + u_carte_y*s_point.y - 2*u_carte_x, 4*u_carte_x, 4*u_carte_x);
+                QGraphicsEllipseItem *ellipsecentre = new QGraphicsEllipseItem(carte->width/2 + u_carte_x*s_point.x -1, carte->height/2 + u_carte_y*s_point.y -1, 2,2);
                 itemsVolontaire.append(ellipse);
                 groupVolontaire->addToGroup(ellipse);
+                itemsVolontaire.append(ellipsecentre);
+                groupVolontaire->addToGroup(ellipsecentre);
             }
         }
     }

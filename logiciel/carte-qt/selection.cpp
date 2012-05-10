@@ -10,11 +10,13 @@ Selection::Selection(Groupe_selection *parent) : Zone(parent)
     type = selection;
     label = QObject::tr("Sélection ") + QString::number(id);
     storage = cvCreateMemStorage();
+    mask = NULL;
 }
 
 Selection::~Selection(){
     cvReleaseMemStorage(&storage);
-    cvReleaseImage(&mask);
+    if(mask != NULL)
+        cvReleaseImage(&mask);
 }
 
 QString Selection::serialisation()

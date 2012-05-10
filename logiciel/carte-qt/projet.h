@@ -44,6 +44,9 @@ public:
     void charger_Volontaires(QStringList liste_Volontaire);
     void supprimer_Volontaires(QVector<Volontaire*> liste_Volontaire);
     void supprimer_Volontaire(int row);
+
+    void setName(QString name);
+    QString getName();
 };
 
 #endif // PROJET_H

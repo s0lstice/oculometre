@@ -10,6 +10,7 @@
 
 //#include "mainwindow.h"
 class MainWindow;
+class Projet;
 
 class Carte_select
 {
@@ -29,7 +30,7 @@ private:
 
 public:
     CvSeq *Selection(int x, int y);
-    Carte_select(MainWindow *parent);
+    Carte_select(Projet *projet);
     void setStorage(CvMemStorage* storage);
     CvSeq* getContour();
     IplImage* getMask();
