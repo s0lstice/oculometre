@@ -330,7 +330,7 @@ void MainWindow::Selpoints_clicked()
 //ouverture de la map
 void MainWindow::on_actionCharger_une_carte_triggered()
 {
-    QString File = QFileDialog::getOpenFileName(this,tr("Choisir une carte"), QDir::homePath(), tr("carte (*.bmp)"));
+    QString File = QFileDialog::getOpenFileName(this,tr("Choisir une carte"), QDir::homePath(), tr("carte (*)"));
 
     if (!File.isEmpty())
          {
@@ -420,10 +420,9 @@ void MainWindow::openWindow_Data(QStringList liste_data)
 
 void MainWindow::on_actionAnalyse_des_zones_et_des_volontaires_triggered()
 {
-    qDebug() << pro->getVolontaires()->size();
-    qDebug() << pro->getZones()->size();
     if((pro->getVolontaires()->size() != 0)&&(pro->getZones()->size() != 0)){
         Analyse analyse(pro);
+        analyse.start();
         QStringList data = analyse.getData();
         openWindow_Data(data);
     }
@@ -457,7 +456,44 @@ bool MainWindow::save(QString data)
     return true;
 }
 
+QStringList MainWindow::open()
+{
+    QStringList data;
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "", tr("Files (*)"));
+    if (fileName.isEmpty())
+        return QStringList();
+
+    QFile file(fileName);
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        QMessageBox::warning(this, tr("MDI"),
+                             tr("Cannot read file %1:\n%2.")
+                             .arg(fileName)
+                             .arg(file.errorString()));
+        return QStringList();
+    }
+
+    QTextStream stream(&file);
+
+    while( !stream.atEnd() ) {
+        data << stream.readLine();
+    }
+
+    file.close();
+
+    return data;
+}
+
 void MainWindow::on_actionExporter_les_zones_triggered()
 {
     save(pro->getZones()->serialisation());
+}
+
+void MainWindow::on_actionImporter_des_zones_triggered()
+{
+    Groupe_selection *groupe = new Groupe_selection(pro->getZones());
+    groupe->Groupe_selection::deserialisation(open().at(0));
+
+    zoneModel->beginReset();
+    pro->getZones()->appendChild(groupe) ;
+    zoneModel->endReset();
 }

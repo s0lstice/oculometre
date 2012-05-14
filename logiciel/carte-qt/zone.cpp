@@ -1,5 +1,7 @@
 #include "zone.h"
 
+#include <QStringList>
+#include <QDebug>
 #include <QDateTime>
 #include "groupe_selection.h"
 
@@ -71,13 +73,32 @@ QString Zone::serialisation()
 
 void Zone::deserialisation(QString datas)
 {
+    QString str;
+    QStringList liste = datas.split(",");
+
+    foreach(str, liste){
+        QStringList split = str.split("=");
+        if(split[0] == "type"){
+            type = (Zone::type_zone)split[1].toInt();
+        }else if(split[0] == "id"){
+            id = split[1].toInt();
+        }else if(split[0] == "label"){
+            label = split[1];
+        }else if(split[0] == "display"){
+            if(split[1].toInt() == 1){
+                Displayed = Qt::Checked;
+            }
+            else
+                Displayed = Qt::Unchecked;
+        }
+    }
 }
 
 QString Zone::sub_serialisation()
 {
     QString datas;
-    datas = "id=" + QString::number(id) + ",";
-    datas += "type=" + QString::number((int)type) + ",";
+    datas = "type=" + QString::number((int)type) + ",";
+    datas += "id=" + QString::number(id) + ",";
     datas += "label=\"" + label + "\",";
     if(Displayed == Qt::Checked)
         datas += "display=1";

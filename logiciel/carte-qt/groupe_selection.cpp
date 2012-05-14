@@ -1,5 +1,11 @@
 #include "groupe_selection.h"
 #include <QVariant>
+#include <QRegExp>
+#include "cercle.h"
+#include "selection.h"
+#include "rectangle.h"
+#include <QDebug>
+#include <QStringList>
 
 Groupe_selection::Groupe_selection(Groupe_selection *parent) : Zone(parent)
 {
@@ -31,6 +37,11 @@ void Groupe_selection::removeChild(Zone *zone){
     }
 }
 
+/*!
+  @fn int Groupe_selection::size()
+  @return int : entier
+  @brief donne le nombre délements dans l'arbre
+  */
 int Groupe_selection::size()
 {
     Zone *zone;
@@ -55,7 +66,7 @@ QString Groupe_selection::serialisation()
 
     datas = "{";
     datas += Zone::sub_serialisation();
-    datas += ",group=[";
+    datas += ",groupe=[";
     Zone *zone;
 
     if(groupe.size() != 0){
@@ -71,6 +82,53 @@ QString Groupe_selection::serialisation()
 
 void Groupe_selection::deserialisation(QString datas)
 {
+    QStringList listeZone;
+
+    datas.remove(0,1);
+    datas.remove(datas.size() -1,1);
+
+    QString str = datas.split(",groupe")[0];
+    Zone::deserialisation(str);
+
+    str = datas.split(",groupe")[1];
+    str.remove(0,2);
+    str.remove(str.size() -1, 1);
+    listeZone = str.split("{type=");
+    //liste = datas.split(",groupe")[1].split(",");
+
+    listeZone.pop_front();
+    foreach(str, listeZone){
+        int type = str.at(0).digitValue();
+        str = "{type=" +  str;
+        if(str[str.size() -1] == ',')
+            str.remove(str.size() - 1, 1);
+        switch(type){
+            case Zone::cercle :{
+                Cercle * cercle = new Cercle(this);
+                cercle->deserialisation(str);
+                groupe.append(cercle);
+            }
+            break;
+            case Zone::selection :{
+                Selection * selection = new Selection(this);
+                selection->deserialisation(str);
+                groupe.append(selection);
+            }
+            break;
+            case Zone::rectangle :{
+                Rectangle * rectangle = new Rectangle(this);
+                rectangle->deserialisation(str);
+                groupe.append(rectangle);
+            }
+            break;
+            case Zone::composite :{
+                Groupe_selection * group = new Groupe_selection(this);
+                group->deserialisation(str);
+                groupe.append(group);
+            }
+            break;
+        }
+    }
 }
 
 QVector<Zone*> Groupe_selection::getZones(){

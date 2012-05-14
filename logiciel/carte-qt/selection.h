@@ -23,12 +23,14 @@ public:
     QVector<MyQPointF> getQtPerimetre();
     ~Selection();
 
-    QString serialisation();
-    void deserialisation(QString datas);
     CvMemStorage* getStorage();
     void setStorage(CvMemStorage * storage);
     void setMask(IplImage* mask);
     IplImage *getMask();
+
+    QString serialisation();
+    void deserialisation(QString datas);
+
 };
 
 #endif // SELECTION_H

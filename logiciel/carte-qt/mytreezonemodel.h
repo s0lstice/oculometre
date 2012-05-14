@@ -23,6 +23,9 @@ public:
     Cercle * addCercle(QModelIndex item);
     Groupe_selection *nodeFromIndex(const QModelIndex &index) const;
 
+    void beginReset();
+    void endReset();
+
 signals:
 
 public slots:

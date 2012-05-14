@@ -226,3 +226,11 @@ void MyTreeZoneModel::switchEtat(Groupe_selection *zones){
         }
     }
 }
+
+void MyTreeZoneModel::beginReset(){
+    emit beginResetModel();
+}
+
+void MyTreeZoneModel::endReset(){
+    emit endResetModel();
+}

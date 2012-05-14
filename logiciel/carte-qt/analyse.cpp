@@ -31,9 +31,6 @@
 Analyse::Analyse(Projet *projet)
 {
     this->projet = projet;
-    data << "Identifiant du volontaire;Numerot du point;Identifiant de la zone;Nom de la zone";
-
-    appartenance();
 }
 
 /*!
@@ -44,6 +41,20 @@ Analyse::Analyse(Projet *projet)
 */
 QStringList Analyse::getData()
 {
+    QVector<Volontaire*> volontaires = projet->get_Volontaire();
+    Volontaire *volontaire;
+    Volontaire::zone dataZone;
+    Volontaire::point dataPoint;
+    QStringList data;
+    data << "'Nom du projet';'ID volontaire';'ID point oculaire';'x point oculaire';'y point oculaire';'début de la fixation';'durée de la fixation';'ID de la zone';'Label de la zone'";
+    foreach(volontaire, volontaires){
+        for(int i = 0; i < volontaire->countZone(); ++i){
+            dataZone = volontaire->atZone(i);
+            dataPoint = volontaire->get_points().at(dataZone.numerotPoint -1);
+            data << projet->getName() + ";" + volontaire->getId_Volontaire() + ";" + QString::number(dataPoint.numerot) + ";" + QString::number(dataPoint.x) + ";" + QString::number(dataPoint.y) + ";" + QString::number(dataPoint.debut) + ";" + QString::number(dataPoint.fin) + ";" + QString::number(dataZone.id) + ";" + dataZone.label;
+        }
+    }
+
     return data;
 }
 
@@ -53,7 +64,7 @@ QStringList Analyse::getData()
   @note pour chaque volontaire du projet, la fonction appelle (void Analyse::appartenance(Volontaire *volontaire, Groupe_selection *group)).
     Les parametres sont : le volontaire testé et la racine de l'arbre des zones.
   */
-void Analyse::appartenance(){
+void Analyse::start(){
     QVector<Volontaire*> volontaires = projet->get_Volontaire();
     Volontaire *volontaire;
 
@@ -126,9 +137,6 @@ void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle){
 
         if((pointx >= recxu)&&(pointx <= recxd)&&(pointy >= recyu)&&(pointy <= recyd)){
             volontaire->appendZone(rectangle->getId(), rectangle->getLable(), point.numerot);
-            //qDebug() << "rectangle find" << "" << volontaire->getId_Volontaire() << " " << rectangle->getId() << " " << rectangle->getLable() << " " << point.numerot;
-
-            data << projet->getName() + ";" + volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(rectangle->getId()) + ";" + rectangle->getLable();
         }
     }
 }
@@ -162,9 +170,6 @@ void Analyse::cercleTest(Volontaire *volontaire, Cercle *cercle){
 
         if(distance <= diametre){
             volontaire->appendZone(cercle->getId(), cercle->getLable(), point.numerot);
-            //qDebug() << "cercle find" << "" << volontaire->getId_Volontaire() << " " << cercle->getId() << " " << cercle->getLable() << " " << point.numerot;
-
-            data << projet->getName() + ";" + volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(cercle->getId()) + ";" + cercle->getLable();
         }
     }
 }
@@ -192,9 +197,6 @@ void Analyse::selectionTest(Volontaire *volontaire, Selection *selection){
 
         if(((uchar *)(mask->imageData + ((int)pointx)*mask->widthStep))[((int)pointy)] == 255){
             volontaire->appendZone(selection->getId(), selection->getLable(), point.numerot);
-            //qDebug() << "selection find" << "" << volontaire->getId_Volontaire() << " " << selection->getId() << " " << selection->getLable() << " " << point.numerot;
-
-            data << projet->getName() + ";" + volontaire->getId_Volontaire() + ";"  + QString::number(point.numerot) + ";" + QString::number(selection->getId()) + ";" + selection->getLable();
         }
     }
 }

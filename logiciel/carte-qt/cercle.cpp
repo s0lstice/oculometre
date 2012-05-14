@@ -9,7 +9,8 @@
 #include "groupe_selection.h"
 #include <math.h>
 #include <QDebug>
-
+#include <QRegExp>
+#include <QStringList>
 #include "myqpointf.h"
 
 /*!
@@ -22,6 +23,7 @@ Cercle::Cercle(Groupe_selection *parent) : Zone(parent)
     type = Zone::cercle;
     cointHG = MyQPointF(-1,-1);
     cointBD = MyQPointF(-1,-1);
+    centre = MyQPointF(-1 , -1);
     label = QObject::tr("Cercle ") + QString::number(id);
 }
 
@@ -108,4 +110,20 @@ QString Cercle::serialisation()
   */
 void Cercle::deserialisation(QString datas)
 {
+    QString str = datas.split(",chg=")[0];
+    Zone::deserialisation(str);
+    str = datas.split(",chg=")[1];
+    QString chg = str.split(",cbd=")[0];
+    str = str.split(",cbd=")[1];
+    QString cbd = str.split(",centre=")[0];
+    str = str.split(",centre=")[1];
+    QString ctre = str.split(",diametre=")[0];
+    QString dia = str.split(",diametre=")[1];
+
+    dia.remove(dia.size() - 1, 1);
+
+    cointHG.deserialisation(chg);
+    cointBD.deserialisation(cbd);
+    centre.deserialisation(ctre);
+    diametre = dia.toInt();
 }

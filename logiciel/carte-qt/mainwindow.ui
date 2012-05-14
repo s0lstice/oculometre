@@ -71,6 +71,8 @@ QGroupBox{
     <addaction name="separator"/>
     <addaction name="actionExporter_les_zones"/>
     <addaction name="actionQuiter"/>
+    <addaction name="separator"/>
+    <addaction name="actionImporter_des_zones"/>
    </widget>
    <widget class="QMenu" name="menuDonnees">
     <property name="title">
@@ -143,6 +145,14 @@ QGroupBox{
   <action name="actionExporter_les_zones">
    <property name="text">
     <string>Exporter les zones</string>
+   </property>
+  </action>
+  <action name="actionImporter_des_zones">
+   <property name="text">
+    <string>Importer des zones</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+I</string>
    </property>
   </action>
  </widget>

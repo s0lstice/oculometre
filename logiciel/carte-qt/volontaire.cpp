@@ -15,6 +15,7 @@ using namespace std;
 void Volontaire::path_VolontaireToId_Volontaire(){
     QRegExp file("/(.*)/(.*.txt)$");
     QRegExp name("(.*)_(.*).txt");
+
     file.indexIn(path_Volontaire);
     name.indexIn(file.cap(file.captureCount()));
     id_Volontaire = name.cap(1);
@@ -102,8 +103,18 @@ void Volontaire::appendZone(int id, QString label, int numerotPoint){
     appartenance.append(info);
 }
 
+Volontaire::zone Volontaire::atZone(int i)
+{
+    return appartenance.at(i);
+}
+
 void Volontaire::clearZones()
 {
     appartenance.clear();
+}
+
+int Volontaire::countZone()
+{
+    return appartenance.size();
 }
 

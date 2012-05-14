@@ -19,13 +19,13 @@ public :
         float fin;
     }point;
 
-private:
-
     typedef struct _zone{
         int id;
         QString label;
         int numerotPoint;
     }zone;
+
+private:
 
     Qt::CheckState Displayed;
 
@@ -49,7 +49,9 @@ public:
     void setDisplayed(Qt::CheckState valeur);
     void switchEtat();
     void appendZone(int id, QString label, int numerotPoint);
+    zone atZone(int i);
     void clearZones();
+    int countZone();
 
 };
 

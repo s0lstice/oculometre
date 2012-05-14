@@ -1,5 +1,8 @@
 #include "rectangle.h"
 #include "groupe_selection.h"
+#include <QRegExp>
+#include <QString>
+#include <QStringList>
 
 Rectangle::Rectangle(Groupe_selection *parent) : Zone(parent)
 {
@@ -53,4 +56,13 @@ QString Rectangle::serialisation()
 
 void Rectangle::deserialisation(QString datas)
 {
+    QString str = datas.split(",phg")[0];
+    Zone::deserialisation(str);
+    str = datas.split(",phg=")[1];
+    QString phg = str.split(",pbd=")[0];
+    QString pbd = str.split(",pbd=")[1];
+    pbd.remove(pbd.size() - 1, 1);
+
+    point_haut_gauche.deserialisation(phg);
+    point_bas_droit.deserialisation(pbd);
 }

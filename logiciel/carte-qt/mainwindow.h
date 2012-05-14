@@ -62,6 +62,8 @@ private slots:
 
     void on_actionExporter_les_zones_triggered();
 
+    void on_actionImporter_des_zones_triggered();
+
 private:
     Projet *pro;
     Ui::MainWindow *ui;
@@ -106,6 +108,7 @@ private:
     QTextEdit *textEdit;
 
     bool save(QString data);
+    QStringList open();
 };
 
 #endif // MAINWINDOW_H
