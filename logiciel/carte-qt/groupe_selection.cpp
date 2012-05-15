@@ -4,6 +4,7 @@
 #include "cercle.h"
 #include "selection.h"
 #include "rectangle.h"
+#include "projet.h"
 #include <QDebug>
 #include <QStringList>
 
@@ -80,7 +81,7 @@ QString Groupe_selection::serialisation()
     return datas;
 }
 
-void Groupe_selection::deserialisation(QString datas)
+void Groupe_selection::deserialisation(QString datas, Projet *pro)
 {
     QStringList listeZone;
 
@@ -111,7 +112,7 @@ void Groupe_selection::deserialisation(QString datas)
             break;
             case Zone::selection :{
                 Selection * selection = new Selection(this);
-                selection->deserialisation(str);
+                selection->deserialisation(str, pro);
                 groupe.append(selection);
             }
             break;
@@ -123,7 +124,7 @@ void Groupe_selection::deserialisation(QString datas)
             break;
             case Zone::composite :{
                 Groupe_selection * group = new Groupe_selection(this);
-                group->deserialisation(str);
+                group->deserialisation(str, pro);
                 groupe.append(group);
             }
             break;

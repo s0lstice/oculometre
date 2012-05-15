@@ -4,6 +4,8 @@
 //class Zone;
 #include "carte_select.h"
 //class Carte_select;
+#include "projet.h"
+
 #include <cv.h>
 #include <highgui.h>
 
@@ -50,7 +52,7 @@ QString Selection::serialisation()
     return datas;
 }
 
-void Selection::deserialisation(QString datas)
+void Selection::deserialisation(QString datas, Projet *pro)
 {
 
     QStringList sequences;
@@ -102,6 +104,23 @@ void Selection::deserialisation(QString datas)
             tmp = tmpp;
         }
     }
+
+    mask = cvCreateImage( cvGetSize(pro->get_carte()), 8, 1 );
+    cvZero(mask);
+
+    CvScalar blanc = cvScalar(255,255,255,255);
+    CvScalar noir = cvScalar(0,0,0,255);
+
+    for( CvSeq* c=contour; c!=NULL; c=c->h_next ){
+        cvDrawContours(
+            mask,
+            c,
+            blanc,		// Red
+            noir,		// Blue
+            0.1,        // Vary max_level and compare results
+            -1,
+            8 );
+    }
 }
 
 CvMemStorage *Selection::getStorage()
@@ -130,23 +149,4 @@ void Selection::setPerimetre(CvSeq *contour){
 
 CvSeq * Selection::getPerimetre(){
     return contour;
-}
-
-QVector<MyQPointF> Selection::getQtPerimetre()
-{
-    int i;
-    QVector<MyQPointF> contourQt;
-    CvPoint *cvPoint;
-    CvSeq *tmp = contour;
-
-    qDebug() << "header_size" + tmp->header_size;
-    do{
-        for(i = 0; i < tmp->total; ++i){
-            cvPoint = CV_GET_SEQ_ELEM(CvPoint, tmp, i);
-            MyQPointF myPoint(cvPoint->x, cvPoint->y);
-            contourQt.append(myPoint);
-        }
-    }while((tmp = tmp->h_next) != NULL);
-
-    return contourQt;
 }

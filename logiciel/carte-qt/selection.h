@@ -8,6 +8,7 @@
 
 class Carte_select;
 class Groupe_selection;
+class Projet;
 
 class Selection : public Zone
 {
@@ -20,7 +21,6 @@ public:
     Selection(Groupe_selection *parent);
     void setPerimetre(CvSeq *contour);
     CvSeq * getPerimetre();
-    QVector<MyQPointF> getQtPerimetre();
     ~Selection();
 
     CvMemStorage* getStorage();
@@ -29,7 +29,7 @@ public:
     IplImage *getMask();
 
     QString serialisation();
-    void deserialisation(QString datas);
+    void deserialisation(QString datas, Projet *pro);
 
 };
 

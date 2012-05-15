@@ -14,6 +14,7 @@
 #include <QStackedWidget>
 #include <QGroupBox>
 #include <QTextBrowser>
+#include "about.h"
 
 #include "carte_select.h"
 #include "zone.h"
@@ -491,9 +492,17 @@ void MainWindow::on_actionExporter_les_zones_triggered()
 void MainWindow::on_actionImporter_des_zones_triggered()
 {
     Groupe_selection *groupe = new Groupe_selection(pro->getZones());
-    groupe->Groupe_selection::deserialisation(open().at(0));
+    groupe->Groupe_selection::deserialisation(open().at(0), pro);
+    Zone *zone;
 
     zoneModel->beginReset();
-    pro->getZones()->appendChild(groupe) ;
+    foreach(zone, groupe->getZones())
+        pro->getZones()->appendChild(zone);
     zoneModel->endReset();
+}
+
+void MainWindow::on_actionA_propos_de_triggered()
+{
+    About about;
+    about.show();
 }

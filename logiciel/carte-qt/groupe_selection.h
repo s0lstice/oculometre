@@ -5,7 +5,7 @@
 #include <QVector>
 
 #include <QVariant>
-
+class Projet;
 class Groupe_selection : public Zone
 {
 private:
@@ -25,7 +25,7 @@ public:
     int size();
 
     QString serialisation();
-    void deserialisation(QString datas);
+    void deserialisation(QString datas, Projet *pro);
 };
 
 #endif // GROUPE_SELECTION_H

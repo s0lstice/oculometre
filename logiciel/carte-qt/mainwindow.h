@@ -64,6 +64,8 @@ private slots:
 
     void on_actionImporter_des_zones_triggered();
 
+    void on_actionA_propos_de_triggered();
+
 private:
     Projet *pro;
     Ui::MainWindow *ui;
