@@ -143,7 +143,3 @@ void Groupe_selection::appendChilds(QVector<Zone*> zone){
 int Groupe_selection::childCount() const{
     return groupe.size();
 }
-
-QVector<Zone *> Groupe_selection::getGroupe(){
-    return groupe;
-}

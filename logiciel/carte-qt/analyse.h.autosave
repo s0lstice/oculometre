@@ -19,6 +19,10 @@ class Cercle;
 class Volontaire;
 class Selection;
 
+/*!
+  @class Analyse
+  @brief Rendu de l'application.
+  */
 class Analyse
 {
 private :

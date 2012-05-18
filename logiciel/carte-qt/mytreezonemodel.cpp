@@ -34,7 +34,7 @@ QModelIndex MyTreeZoneModel::index(int row, int column, const QModelIndex &paren
     if(!rootNode || row < 0 || column < 0)
         return QModelIndex();
     Groupe_selection *parentNode = nodeFromIndex(parent);
-    Zone *childNode = parentNode->getGroupe().value(row);
+    Zone *childNode = parentNode->getZones().value(row);
 
     if(!childNode)
         return QModelIndex();
@@ -56,7 +56,7 @@ int MyTreeZoneModel::rowCount(const QModelIndex &parent) const{
         return 0;
     if(!parentNode)
         return 0;
-    return parentNode->getGroupe().count();
+    return parentNode->getZones().count();
 }
 
 int MyTreeZoneModel::columnCount(const QModelIndex &parent) const{
@@ -74,7 +74,7 @@ QModelIndex MyTreeZoneModel::parent(const QModelIndex &child) const{
     if(!grandparentNode)
         return QModelIndex();
 
-    int row = grandparentNode->getGroupe().indexOf(parentNode);
+    int row = grandparentNode->getZones().indexOf(parentNode);
     return createIndex(row, 0, parentNode);
 }
 

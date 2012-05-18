@@ -35,17 +35,11 @@ Groupe_selection *Zone::getParent(){
     return parent;
 }
 
-QVector<QVariant> Zone::data() const {
-    QVector<QVariant> datas;
-    datas << id << type << label;
-    return datas;
-}
-
 int Zone::row() const
 {
     if(parent)
         if(parent->getType() == composite)
-            return parent->getGroupe().indexOf(const_cast<Zone*>(this));
+            return parent->getZones().indexOf(const_cast<Zone*>(this));
 
     return 0;
 }

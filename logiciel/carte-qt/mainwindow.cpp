@@ -14,7 +14,7 @@
 #include <QStackedWidget>
 #include <QGroupBox>
 #include <QTextBrowser>
-#include "about.h"
+#include <QLabel>
 
 #include "carte_select.h"
 #include "zone.h"
@@ -317,7 +317,7 @@ void MainWindow::ceratSelection()
     }
 }
 
-//invetion de la selection des volontaires, non nom n'est pas terible
+//invetion de la selection des volontaires, le nom n'est pas terible
 void MainWindow::Selpoints_clicked()
 {
     if(listeVolontaireModel->rowCount() != 0){
@@ -503,6 +503,8 @@ void MainWindow::on_actionImporter_des_zones_triggered()
 
 void MainWindow::on_actionA_propos_de_triggered()
 {
-    About about;
-    about.show();
+    QLabel  *about  = new QLabel;
+    QPixmap *img = new QPixmap("ressources/images/about/about.png");
+    about->setPixmap(*img);
+    about->show();
 }

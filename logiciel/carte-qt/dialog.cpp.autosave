@@ -31,6 +31,10 @@ Dialog::~Dialog()
     delete ui;
 }
 
+/*!
+  @fn void Dialog::on_ok_clicked()
+  @brief Evenement du clique.
+  */
 void Dialog::on_ok_clicked()
 {
     this->close();

@@ -84,7 +84,7 @@ void Analyse::start(){
   */
 void Analyse::appartenance(Volontaire *volontaire, Groupe_selection *group){
 
-    QVector<Zone*> zones = group->getGroupe();
+    QVector<Zone*> zones = group->getZones();
     Zone *zone;
 
     foreach(zone, zones){
