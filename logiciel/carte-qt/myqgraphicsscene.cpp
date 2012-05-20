@@ -153,7 +153,7 @@ void MyQGraphicsScene::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 }
                 else{
                     //affichage du resultat
-                    QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)zone_courante)->getpoints().at(0),((Rectangle *)zone_courante)->getpoints().at(1));
+                    QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)zone_courante)->getPoints().at(0),((Rectangle *)zone_courante)->getPoints().at(1));
                     itemsZone.append(rectangle);
                     groupZone->addToGroup(rectangle);
 
@@ -258,7 +258,7 @@ void MyQGraphicsScene::drawZones(Groupe_selection *zones){
                         }
                         break;
                     case Zone::rectangle :{
-                            QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)child)->getpoints().at(0),((Rectangle *)child)->getpoints().at(1));
+                            QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)child)->getPoints().at(0),((Rectangle *)child)->getPoints().at(1));
                             itemsZone.append(rectangle);
                             groupZone->addToGroup(rectangle);
                         }
@@ -331,7 +331,7 @@ void MyQGraphicsScene::DrawVolontaires(){
     }
 
     Projet *pro = mainwindow->getCurent_projet();
-    QVector<Volontaire*> v_Volontaires = pro->get_Volontaire();
+    QVector<Volontaire*> v_Volontaires = pro->get_Volontaires();
 
     carte = pro->get_carte(); //pour avoir les dimantions
     u_carte_x = (carte->width/2)/20;

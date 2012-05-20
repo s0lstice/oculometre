@@ -55,14 +55,6 @@ void Projet::charger_Volontaires(QStringList liste_Volontaire){
     }
 }
 
-//efface un Volontaire
-void Projet::supprimer_Volontaires(QVector<Volontaire*> liste_Volontaire){
-    Volontaire *s_Volontaire;
-    foreach(s_Volontaire, liste_Volontaire){
-        delete s_Volontaire;
-    }
-}
-
 void Projet::supprimer_Volontaire(int row){
         delete v_Volontaires.at(row);
         v_Volontaires.remove(row);
@@ -71,10 +63,10 @@ void Projet::supprimer_Volontaire(int row){
 Groupe_selection *Projet::getZones(){
     return zones;
 }
-Volontaire *Projet::get_Volontaire(int i){
+Volontaire *Projet::get_Volontaires(int i){
     return v_Volontaires.value(i);
 }
-QVector<Volontaire*> Projet::get_Volontaire(){
+QVector<Volontaire*> Projet::get_Volontaires(){
     return v_Volontaires;
 }
 QVector<Volontaire*> *Projet::getVolontaires(){

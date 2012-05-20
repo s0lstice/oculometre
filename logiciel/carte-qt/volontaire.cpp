@@ -24,7 +24,6 @@ void Volontaire::path_VolontaireToId_Volontaire(){
         projet->setName(name.cap(2));
 }
 
-//metre en place une gestion derreur pour supprimer la classe instancie alors que ce n'est pas un Volontaire !!!
 void Volontaire::charger_points(){
     QStringList liste_info_point;
     point temp_point;

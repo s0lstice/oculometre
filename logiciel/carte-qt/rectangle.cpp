@@ -14,7 +14,7 @@ Rectangle::Rectangle(Groupe_selection *parent) : Zone(parent)
 Rectangle::~Rectangle(){
 }
 
-QVector<QPointF> Rectangle::getpoints(){
+QVector<QPointF> Rectangle::getPoints(){
     QVector<QPointF> points;
     points.append(point_haut_gauche);
     points.append(point_bas_droit);

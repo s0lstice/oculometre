@@ -41,7 +41,7 @@ Analyse::Analyse(Projet *projet)
 */
 QStringList Analyse::getData()
 {
-    QVector<Volontaire*> volontaires = projet->get_Volontaire();
+    QVector<Volontaire*> volontaires = projet->get_Volontaires();
     Volontaire *volontaire;
     Volontaire::zone dataZone;
     Volontaire::point dataPoint;
@@ -65,7 +65,7 @@ QStringList Analyse::getData()
     Les parametres sont : le volontaire testé et la racine de l'arbre des zones.
   */
 void Analyse::start(){
-    QVector<Volontaire*> volontaires = projet->get_Volontaire();
+    QVector<Volontaire*> volontaires = projet->get_Volontaires();
     Volontaire *volontaire;
 
     foreach(volontaire, volontaires){
@@ -124,10 +124,10 @@ void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle){
     qreal u_carte_x = (carte->width/2)/20;
     qreal u_carte_y = (carte->height/2)/15;
 
-    qreal recxu = rectangle->getpoints().at(0).x();
-    qreal recyu = rectangle->getpoints().at(0).y();
-    qreal recxd = rectangle->getpoints().at(1).x();
-    qreal recyd = rectangle->getpoints().at(1).y();
+    qreal recxu = rectangle->getPoints().at(0).x();
+    qreal recyu = rectangle->getPoints().at(0).y();
+    qreal recxd = rectangle->getPoints().at(1).x();
+    qreal recyd = rectangle->getPoints().at(1).y();
 
 
     points = volontaire->get_points();
