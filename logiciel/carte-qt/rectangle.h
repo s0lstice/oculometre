@@ -16,8 +16,8 @@
 class Groupe_selection;
 
 /*!
-  @class class Rectangle : public Zone
-  @brief Classe Recangle pour geréer des zones rectangulaires.
+  @class class Rectangle : Public Zone
+  @brief Classe Rectangle pour géréer des zones rectangulaires.
   */
 class Rectangle : public Zone
 {
@@ -43,45 +43,45 @@ public:
     /*!
       @fn QVector<QPointF> getPoints();
       @return QVector<QPointF> : deux QPointF dans un vecteur.
-      @brief Recourne les cordonnées du carrée.\n La premiere valeur du vecteur est un QpointF contement les coodonnées haut gauche. \n La dexieme valeur du vecteur est un QpointF contement les coodonnées bas droit.
+      @brief Retourne les cordonnées du carré.\n La première valeur du vecteur est un QpointF contenant les coodonnées haut gauche. \n La deuxième valeur du vecteur est un QpointF contenant les coodonnées bas droit.
       */
     QVector<QPointF> getPoints();
 
     /*!
       @fn bool positionClick(QPointF point);
-      @param QPointF point : position du clic.
-      @return bool : indique si d'autre position sont attendus. (flase : il manque des parametres, true : toutes les informations sont presentes.)
-      @brief Determine les parametres du rectangle.
-      @note Au premier clic, la fonction mémorise la position de la sourie et renvoie false.
-        Au dexieme clic, la fonction mémorise les postion de la sourie er renvoie true.
+      @param QPointF point : Position du clic.
+      @return bool : Indique si d'autres positions sont attendues. (flase : il manque des paramètres, true : toutes les informations sont présentes.)
+      @brief Détermine les paramètres du rectangle.
+      @note Au premier clic, la fonction mémorise la position de la souris et renvoie false.
+        Au deuxième clic, la fonction mémorise les positions de la souris et renvoie true.
       */
     bool positionClick(QPointF point);
 
     /*!
       @fn qreal getWidth();
-      @return qreal : lageur du renctangle
-      @brief renvoie la largeur du rectangle.
+      @return qreal : Largeur du renctangle
+      @brief Renvoie la largeur du rectangle.
       */
     qreal getWidth();
 
     /*!
       @fn qreal getHeight();
       @return qreal : Hauteur du renctangle
-      @brief renvoie la hauteur du rectangle.
+      @brief Renvoie la hauteur du rectangle.
       */
     qreal getHeight();
 
     /*!
       @fn QString serialisation();
-      @return QString : chaine comportant les attibuts et leurs valeurs sous la norme JSun.
-      @brief : cette chaine ne sérialise que les parametres de la classe Zone et non ceux des enfants.
+      @return QString : Chaine comportant les attibuts et leurs valeurs sous la norme JSun.
+      @brief : Cette chaine ne sérialise que les paramètres de la classe Zone et non ceux des enfants.
       */
     virtual QString serialisation();
 
     /*!
       @fn QString deserialisation(QString datas);
-      @param QString datas : chaine comportant les attibuts et leurs valeurs sous la norme JSun.
-      @brief : permet l'initialisation des attributs de Zone.
+      @param QString datas : Chaine comportant les attibuts et leurs valeurs sous la norme JSun.
+      @brief : Permet l'initialisation des attributs de Zone.
       */
     virtual void deserialisation(QString datas);
 };

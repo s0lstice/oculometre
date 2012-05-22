@@ -17,8 +17,8 @@ class Carte_select;
 class Groupe_selection;
 class Projet;
 /*!
-  @class Selection
-  @brief Etant la classe Zone en lui permetant de gérer la selection d'une couleur.
+  @class Sélection
+  @brief Etant la classe Zone en lui permettant de gérer la sélection d'une couleur.
   */
 class Selection : public Zone
 {
@@ -31,70 +31,70 @@ public:
     /*!
       @fn Selection(Groupe_selection *parent);
       @param Groupe_selection *parent : Zone parent de type Groupe_selection.
-      @brief Constructeur de la Selection.
+      @brief Constructeur de la sélection.
       */
     Selection(Groupe_selection *parent);
 
     /*!
       @fn ~Selection();
-      @brief Destructeur de Selection.
+      @brief Destructeur de sélection.
       */
     ~Selection();
 
     /*!
       @fn void setPerimetre(CvSeq *contour);
-      @param CvSeq *contour : sequance opencv pour la gestion de contour.
-      @brief Initialise le contour de la Selection
+      @param CvSeq *contour : Séquence opencv pour la gestion de contour.
+      @brief Initialise le contour de la sélection.
       */
     void setPerimetre(CvSeq *contour);
 
     /*!
       @fn CvSeq * getPerimetre();
-      @return CvSeq * : sequance opencv pour la gestion de contour.
-      @brief Rencoir le contour de la Selection
+      @return CvSeq * : Séquence opencv pour la gestion de contour.
+      @brief Renvoie le contour de la sélection.
       */
     CvSeq * getPerimetre();
 
     /*!
       @fn CvMemStorage* getStorage();
-      @return CvMemStorage * : memoire opencv pour la gestion de sequance.
-      @brief Renvoie la memoire permetant la gestion de la sequance de cette Selection.
+      @return CvMemStorage * : Mémoire opencv pour la gestion de séquence.
+      @brief Renvoie la memoire permetant la gestion de la séquence de cette sélection.
       */
     CvMemStorage* getStorage();
 
     /*!
       @fn void setStorage(CvMemStorage * storage);
-      @param CvMemStorage * storage : memoire opencv pour la gestion de sequance.
-      @brief initialise la memoire permetant la gestion de la sequance de cette Selection.
+      @param CvMemStorage * storage : Mémoire opencv pour la gestion de séquence.
+      @brief Initialise la mémoire permetant la gestion de la séquence de cette sélection.
       */
     void setStorage(CvMemStorage * storage);
 
     /*!
       @fn void setMask(IplImage* mask);
-      @param IplImag * mask : Image opencv. Cette image est monochome et est codé sur un canal.
-      @brief Initialise le mask permetant de determinier l'appartenance d'un point a la Selection.
+      @param IplImag * mask : Image opencv. Cette image est monochrome et est codée sur un canal.
+      @brief Initialise le mask permetant de déterminier l'appartenance d'un point à la sélection.
     */
     void setMask(IplImage* mask);
 
     /*!
       @fn IplImage *getMask();
-      @return IplImag * : Image opencv. Cette image est monochome et est codé sur un canal.
-      @brief Renvoie le mask permetant de determinier l'appartenance d'un point a la Selection.
+      @return IplImag * : Image opencv. Cette image est monochrome et est codée sur un canal.
+      @brief Renvoie le mask permetant de déterminier l'appartenance d'un point à la sélection.
     */
     IplImage *getMask();
 
     /*!
       @fn QString serialisation();
-      @return QString : chaine comportant les attibuts et leurs valeurs sous la norme JSun.
-      @brief : cette chaine ne sérialise que les parametres de la classe Zone et non ceux des enfants.
+      @return QString : Chaine comportant les attibuts et leurs valeurs sous la norme JSun.
+      @brief : Cette chaine ne sérialise que les paramètres de la classe Zone et non ceux des enfants.
       */
     QString serialisation();
 
     /*!
       @fn void deserialisation(QString datas, Projet *pro);
-      @param QString datas : chaine comportant les attibuts et leurs valeurs sous la norme JSun.
-      @param Projet *pro : Projet courant. Necessaire pour la creation du masque.
-      @brief : permet l'initialisation des attributs de Zone.
+      @param QString datas : Chaine comportant les attibuts et leurs valeurs sous la norme JSun.
+      @param Projet *pro : Projet courant. Nécessaire pour la création du masque.
+      @brief : Permet l'initialisation des attributs de Zone.
       */
     void deserialisation(QString datas, Projet *pro);
 

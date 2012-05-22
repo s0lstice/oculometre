@@ -27,15 +27,15 @@ protected:
 
     /*!
       @fn void SetCenter(const QPointF& centerPoint);
-      @param const QPointF& centerPoint : coordonnée du point sur le quelle il faut se centrer.
-      @brief Recarde la vue sur les coordonnées.
+      @param const QPointF& centerPoint : Coordonnée du point sur lequel il faut se centrer.
+      @brief Regarde la vue sur les coordonnées.
       */
     void SetCenter(const QPointF& centerPoint);
 
     /*!
       @fn QPointF GetCenter();
-      @return QPointF : Coordonnée du cente de l'affichage.
-      @brief Retourne les coordonnées du cente de l'affichage.
+      @return QPointF : Coordonnée du centre de l'affichage.
+      @brief Retourne les coordonnées du centre de l'affichage.
       */
     QPointF GetCenter();
 
@@ -46,7 +46,7 @@ protected:
 
     /*!
       @fn virtual void wheelEvent(QWheelEvent* event);
-      @param QWheelEvent* event : action de la molette.
+      @param QWheelEvent* event : Action de la molette.
       @brief Zoome et dézoome
       */
     virtual void wheelEvent(QWheelEvent* event);

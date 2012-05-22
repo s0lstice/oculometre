@@ -23,8 +23,8 @@ class Groupe_selection;
 class Volontaire;
 
 /*!
-  @class projet
-  @brief Parametre du projet
+  @class Projet
+  @brief Paramètre du projet
   */
 class Projet
 {
@@ -41,15 +41,15 @@ public:
 
     /*!
       @fn Groupe_selection *getZones();
-      @return Groupe_selection * : renvoie le groupe principale, racine de l'arbre.
-      @brief Cette fonction premet d'obtenir la racine de toutes Zones.
+      @return Groupe_selection * : Renvoie le groupe principal, racine de l'arbre.
+      @brief Cette fonction permet d'obtenir la racine de toutes les Zones.
       */
     Groupe_selection *getZones();
 
     /*!
       @fn Volontaire *get_Volontaire(int i);
-      @param int i : position du volontaire.
-      @return Volontaire * : pointeur sur un volontaire.
+      @param int i : Position du volontaire.
+      @return Volontaire * : Pointeur sur un volontaire.
       @brief Cette fonction renvoie le volontaire demandé.
     */
     Volontaire *get_Volontaires(int i);
@@ -63,44 +63,44 @@ public:
 
     /*!
       @fn QVector<Volontaire*> *getVolontaires();
-      @return QVector<Volontaire*> * : pointeur vers un vecteur de volontaire
+      @return QVector<Volontaire*> * : Pointeur vers un vecteur de volontaires
       @brief Cette fonction renvoie un pointeur vers un vecteur avec tous les volontaires
     */
     QVector<Volontaire*> *getVolontaires();
 
     /*!
       @fn void rm_Volontaire(int i);
-      @param int i : position du volontaire.
+      @param int i : Position du volontaire.
       @brief Cette fonction supprime le volontaire.
     */
     void rm_Volontaire(int i);
 
     /*!
       @fn int get_nb_Volontaire();
-      @return int : nombre de volontaires
-      @brief renvoie le nombre de volontaires.
+      @return int : Nombre de volontaires
+      @brief Renvoie le nombre de volontaires.
       */
     int get_nb_Volontaire();
 
     /*!
       @fn void set_carte(QString path, IplImage *image);
-      @param QString path : adresse de l'image
-      @param IplImage *image : pointeur sur l'instance de l'image au format opencv.
-      @brief Initialise les parametres du projet en definissant l'adresse de l'image et possedant un pointeur dessus.
+      @param QString path : Adresse de l'image
+      @param IplImage *image : Pointeur sur l'instance de l'image au format opencv.
+      @brief Initialise les paramètres du projet en définissant l'adresse de l'image et possédant un pointeur dessus.
       */
     void set_carte(QString path, IplImage *image);
 
     /*!
       @fn QString get_path_carte();
-      @return QString : adresse de l'image ou une chaine vide.
-      @brief renvoie l'adresse de l'image ou une chaine vide.
+      @return QString : Adresse de l'image ou une chaine vide.
+      @brief Renvoie l'adresse de l'image ou une chaine vide.
       */
     QString get_path_carte();
 
     /*!
       @fn IplImage *get_carte();
       @return IplImage : Pointeur sur l'image au format opencv.
-      @brief pointeur sur la carte.
+      @brief Pointeur sur la carte.
       */
     IplImage *get_carte();
 
@@ -112,21 +112,21 @@ public:
 
     /*!
       @fn void charger_Volontaires(QStringList liste_Volontaire);
-      @param QStringList liste_Volontaire : liste d'adresse de fichier de volontaires.
-      @brief Charge en memoire plusieurs volontaires.
+      @param QStringList liste_Volontaire : Liste d'adresses du fichier de volontaires.
+      @brief Charge en mémoire plusieurs volontaires.
       */
     void charger_Volontaires(QStringList liste_Volontaire);
 
     /*!
       @fn void supprimer_Volontaire(int row);
-      @param int row : position du volontaire a supprimer.
+      @param int row : Position du volontaire à supprimer.
       @brief Supprimer un volontaire.
       */
     void supprimer_Volontaire(int row);
 
     /*!
       @fn void setName(QString name);
-      @param QString name : nom du projet.
+      @param QString name : Nom du projet.
       @brief Definit un nom au projet.
       */
     void setName(QString name);

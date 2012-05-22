@@ -69,8 +69,6 @@ QGroupBox{
     </property>
     <addaction name="separator"/>
     <addaction name="separator"/>
-    <addaction name="actionCharger_des_Volontaires"/>
-    <addaction name="actionCharger_une_carte"/>
     <addaction name="actionImporter_des_zones"/>
     <addaction name="actionExporter_les_zones"/>
     <addaction name="actionQuiter"/>
@@ -80,13 +78,15 @@ QGroupBox{
     <property name="title">
      <string>&amp;Données</string>
     </property>
+    <addaction name="actionCharger_une_carte"/>
+    <addaction name="actionCharger_des_Volontaires"/>
     <addaction name="separator"/>
     <addaction name="separator"/>
     <addaction name="actionAnalyse_des_zones_et_des_volontaires"/>
    </widget>
    <widget class="QMenu" name="menuInformations">
     <property name="title">
-     <string>informations</string>
+     <string>&amp;Informations</string>
     </property>
     <addaction name="actionAide"/>
     <addaction name="actionA_propos_de"/>
