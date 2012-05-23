@@ -24,22 +24,22 @@ class Dialog : public QDialog
 public:
     /*!
       @fn Dialog::Dialog(QString msg,QWidget *parent) : QDialog(parent), ui(new Ui::Dialog)
-      @param QString msg : message à afficher.
-      @param QWidget *parent : classe applemente.
-      @brief constructeur de la fenetre
+      @param QString msg : Message à afficher.
+      @param QWidget *parent : classe applementée.
+      @brief Constructeur de la fenêtre
       */
     Dialog(QString msg,QWidget *parent = 0);
 
     /*!
       @fn Dialog::Dialog(QString msg,QWidget *parent) : QDialog(parent), ui(new Ui::Dialog)
-      @brief constructeur de la fenetre
+      @brief Constructeur de la fenêtre
       */
     ~Dialog();
 
 private slots:
     /*!
       @fn void Dialog::on_ok_clicked()
-      @brief Evenement du clique.
+      @brief Evènement du clic.
       */
     void on_ok_clicked();
 

@@ -27,7 +27,7 @@ void Carte_select::binarisation(IplImage *image) {
     IplConvKernel *kernel;
 
     // We create the mask
-    cvInRangeS(hls, cvScalar(h - tolerance, l - tolerance, 0), cvScalar(h + tolerance, l + tolerance, 255), image);
+    cvInRangeS(hsv, cvScalar(h - tolerance -1, s - tolerance, 0), cvScalar(h + tolerance -1, s + tolerance, 255), image);
 
     // Create kernels for the morphological operation
     kernel = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_ELLIPSE);
@@ -51,11 +51,11 @@ void Carte_select::binarisation(IplImage *image) {
 CvSeq *Carte_select::Selection(int x, int y){
     CvScalar pixel;
 
-    //couleur a la position donnée
-    pixel = cvGet2D(hls, y, x);
+    //couleur a la position donne
+    pixel = cvGet2D(hsv, y, x);
     h = (int)pixel.val[0];
-    l = (int)pixel.val[1];
-    s = (int)pixel.val[2];
+    s = (int)pixel.val[1];
+    v = (int)pixel.val[2];
 
     //definitntion du mask
     IplImage *img_selection = cvCreateImage( cvGetSize(image), 8, 1 );
@@ -80,20 +80,21 @@ CvSeq *Carte_select::Selection(int x, int y){
 /*!
  @fn Carte_select::Carte_select(Projet * projet)
  @param Projet * projet : pointeur sur le projet pour recupere la carte courante
+ @brief Constructeur de la classe
   */
 //initialisation de l'outil de selection
 Carte_select::Carte_select(Projet * projet)
 {
     maskSelection = NULL;
-    hls = NULL;
+    hsv = NULL;
     contour = NULL;
     this->parent = parent;
 
-    h = 0, l = 0, s = 0, tolerance = 7;
+    h = 0, s = 0, v = 0, tolerance = 5;
     image = projet->get_carte();
 
-    hls = cvCloneImage(image);
-    cvCvtColor(image, hls, CV_BGR2HLS);
+    hsv = cvCloneImage(image);
+    cvCvtColor(image, hsv, CV_BGR2HSV);
 
     maskSelection = cvCreateImage( cvGetSize(image), 8, 1 );
     cvZero(maskSelection);
@@ -135,5 +136,5 @@ IplImage *Carte_select::getMask()
 Carte_select::~Carte_select(){
     //Libération de l'IplImage (on lui passe un IplImage**).
     //cvReleaseImage(&maskSelection);
-    cvReleaseImage(&hls);
+    cvReleaseImage(&hsv);
 }

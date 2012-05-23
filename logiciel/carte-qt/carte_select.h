@@ -41,8 +41,8 @@ private:
 
     /*!
       @fn void Carte_select::binarisation(IplImage *image)
-      @param IplImage *image : pointeur sur l'image à binariser
-      @brief Binarisation en fonction de la couleur selectionne, la couleur fait partie des parametre de la classe.
+      @param IplImage *image : Pointeur sur l'image à binariser
+      @brief Binarisation en fonction de la couleur sélectionnée, la couleur fait partie des paramètres de la classe.
      */
     void binarisation(IplImage *image);
 
@@ -50,7 +50,7 @@ public:
 
     /*!
      @fn Carte_select::Carte_select(Projet * projet)
-     @param Projet * projet : pointeur sur le projet pour recupere la carte courante
+     @param Projet * projet : Pointeur sur le projet pour récupérer la carte courante
      @brief Constructeur de la classe
       */
     Carte_select(Projet *projet);
@@ -63,30 +63,30 @@ public:
 
     /*!
       @fn CvSeq *Carte_select::Selection(int x, int y)
-      @param int x : coordonée x de la couleur cherché
-      @param int y : coordonée y de la couleur cherché
-      @return CvSeq * pointeur sur une sequance d'opencv.
-      @brief isole la couleur selectionné, si ce n'est pas la prmeiere selection, la couleur est ajouter au reste de la sélection.
+      @param int x :Coordonée x de la couleur cherchée
+      @param int y : Coordonée y de la couleur cherchée
+      @return CvSeq * pointeur sur une séquence d'opencv.
+      @brief Isole la couleur sélectionnée, si ce n'est pas la première sélection, la couleur est ajoutée au reste de la sélection.
       */
     CvSeq *Selection(int x, int y);
 
     /*!
       @fn void Carte_select::setStorage(CvMemStorage *storage)
-      @brief initialise l'espace memoire de la sequance pour cette sélection
+      @brief Initialise l'espace mémoire de la séquence pour cette sélection
       */
     void setStorage(CvMemStorage* storage);
 
     /*!
       @fn CvSeq *Carte_select::getContour()
-      @return CvSeq * : sequance opencv
-      @brief retourne la zone selectionné
+      @return CvSeq * : Séquence opencv
+      @brief Retourne la zone sélectionnée
       */
     CvSeq* getContour();
 
     /*!
       @fn IplImage *Carte_select::getMask()
       @return IplImage * : IplImage opencv
-      @brief retourne le masque de la selection
+      @brief Retourne le masque de la sélection
       */
     IplImage* getMask();
 

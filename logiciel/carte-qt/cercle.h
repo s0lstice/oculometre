@@ -18,7 +18,7 @@
 class Groupe_selection;
 
 /*!
-  @class Cercle : public Zone
+  @class Cercle : Public Zone
   @brief Définit une zone circulaire.
   */
 class Cercle : public Zone
@@ -35,14 +35,14 @@ public:
 
     /*!
       @fn Cercle::Cercle(Groupe_selection *parent) : Zone(parent)
-      @brief constructeur du cercle
+      @brief Constructeur du cercle
       @param Groupe_selection *parent : pointeur sur le groupe contenant cette zone
       */
     Cercle(Groupe_selection *parent);
 
     /*!
       @fn Cercle::~Cercle()
-      @brief destructeur du cercle
+      @brief Destructeur du cercle
       */
     ~Cercle();
 
@@ -50,44 +50,44 @@ public:
 
     /*!
       @fn QPointF Cercle::getCointBD()
-      @return QPointF : objet à deux dimantions de Qt, il contient des coordonnées réel
-      @brief retourne le coint haut bas droit
-      @note En metant dans un carret le cercle, cette fonction renvoie le coint bas droit. \n Utilisé pour le dessin du cercle.
+      @return QPointF : Objet à deux dimentions de Qt, il contient des coordonnées réelles
+      @brief Retourne le coin haut bas droit
+      @note En mettant le cercle dans un carré , cette fonction renvoie le coin bas droit. \n Utilisé pour le dessin du cercle.
       */
     QPointF getCointBD();
 
     /*!
       @fn QPointF Cercle::getCointHG()
-      @return QPointF : objet à deux dimantions de Qt, il contient des coordonnées réel
-      @brief retourne le coint haut gauche du cercle
-      @note En metant dans un carret le cercle, cette fonction renvoie le coint haut gauche. \n Utilisé pour le dessin du cercle.
+      @return QPointF : Objet à deux dimentions de Qt, il contient des coordonnées réelles
+      @brief Retourne le coin haut gauche du cercle
+      @note En mettant le cercle dans un carré, cette fonction renvoie le coint haut gauche. \n Utilisé pour le dessin du cercle.
       */
     QPointF getCointHG();
 
     /*!
       @fn int Cercle::getDiametre()
-      @return int : diametre du cercle
-      @brief renvoie le diametre du cercle
+      @return int : Diamètre du cercle
+      @brief Renvoie le diamètre du cercle
       */
     int getDiametre();
 
     /*!
       @fn bool Cercle::positionClick(QPointF point)
-      @param QPointF point : position de la souri.
-      @return bool : renvoie vrais si tout les valeurs nécessaire pour dessiner le cercle ont été reçu.
+      @param QPointF point : Position de la souris.
+      @return bool : Renvoie vrai si toutes les valeurs nécessaires pour dessiner le cercle ont été reçues.
       */
     bool positionClick(QPointF point);
 
     /*!
       @fn QString Cercle::serialisation()
-      @QString : chaine de caractaire
-      @brief renvoi les parametres de l'objet sous forme texte pour l'exportation.
+      @QString : Chaine de caractères
+      @brief Renvoie les paramètres de l'objet sous forme texte pour l'exportation.
       */
     QString serialisation();
 
     /*!
       @fn void Cercle::deserialisation(QString datas)
-      @brief initialise l'objet en fonction de la chaine.
+      @brief Initialise l'objet en fonction de la chaine.
       */
     void deserialisation(QString datas);
 };

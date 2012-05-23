@@ -54,7 +54,7 @@ public:
 
     /*!
       @fn explicit MainWindow(QWidget *parent = 0);
-      @brief Construcateur.
+      @brief Constructeur.
       */
     explicit MainWindow(QWidget *parent = 0);
 
@@ -66,133 +66,133 @@ public:
 
     /*!
       @fn MyQGraphicsScene *getCarteScene();
-      @return MyQGraphicsScene * : Instance De la zone de dessin sur le carte.
-      @brief Permet la manipulation de la zone de dessin de puis l'exterieur.
-      @note Ne respecte pas le principe d'encapsulation, merite l'utilisation d'un Abstract factory design pattern.
+      @return MyQGraphicsScene * : Instance de la zone de dessin sur le carte.
+      @brief Permet la manipulation de la zone de dessin depuis l'extérieur.
+      @note Ne respecte pas le principe d'encapsulation, mérite l'utilisation d'un Abstract factory design pattern.
       */
     MyQGraphicsScene *getCarteScene();
 
     /*!
       @fn bool creatWindow_Carte();
-      @return bool : True : la fenetre de la carte est ouvrete, sinon elle souvre. False, la fenetre ne peut etre ouvrete.
-      @brief Ouvre la fenetre avec la carte.
+      @return bool : True : La fenêtre de la carte est ouverte, sinon elle s'ouvre. False, la fenêtre ne peut être ouverte.
+      @brief Ouvre la fenêtre avec la carte.
       */
     bool creatWindow_Carte();
 
     /*!
       @fn Projet *getCurent_projet();
       @return Projet * : Projet courant.
-      @brief Renvoie le Projet courant
+      @brief Renvoie le projet courant
       */
     Projet *getCurent_projet();
 
 private slots:
     /*!
       @fn void ceratSelection();
-      @brief Evenement, declanche la sélection ou l'erret de la sélection d'une couleur.
+      @brief Evènement, déclanche la sélection ou l'arrêt de la sélection d'une couleur.
       */
     void ceratSelection();
 
     /*!
       @fn void ceratSelection();
-      @brief Evenement, intervertie la selection des Volontaires.
-      @note renomer cette methode.
+      @brief Evènement, intervertit la sélection des Volontaires.
+      @note Renomme cette méthode.
       */
     void Selpoints_clicked();
 
     /*!
       @fn void on_actionCharger_une_carte_triggered();
-      @brief Evenement, invite l'utilisateur à charger une carte en memoire et l'affiche.
+      @brief Evènement, invite l'utilisateur à charger une carte en mémoire et l'afficher.
       */
     void on_actionCharger_une_carte_triggered();
 
     /*!
       @fn on_actionCharger_des_Volontaires_triggered();
-      @brief Evenement, invite l'utilisateur à charger une liste de Volontaire.
+      @brief Evènement, invite l'utilisateur à charger une liste de Volontaires.
       */
     void on_actionCharger_des_Volontaires_triggered();
 
     /*!
       @fn void on_actionQuiter_triggered();
-      @brief Evenement, met fin à l'application.
+      @brief Evènement, met fin à l'application.
       */
     void on_actionQuiter_triggered();
 
     /*!
       @fn void supprimer_Volontaires();
-      @brief Evenement, supprime les Volontaies sélectionnés.
+      @brief Evènement, supprime les Volontaies sélectionnés.
       */
     void supprimer_Volontaires();
 
     /*!
       @fn void creatGroup();
-      @brief Evement, créer un groupe (objet de type Groupe_selection) et l'ajoute au groupe racine ou sélectionné.
+      @brief Evènement, crée un groupe (objet de type Groupe_selection) et l'ajoute au groupe racine ou sélectionné.
       */
     void creatGroup();
 
     /*!
       @fn void creatRect();
-      @brief Evement, créer un rectangle (objet de type Rectangle) et l'ajoute au groupe racine ou sélectionné.
+      @brief Evènement, crée un rectangle (objet de type Rectangle) et l'ajoute au groupe racine ou sélectionné.
       */
     void creatRect();
 
     /*!
       @fn void creatCercle();
-      @brief Evement, créer un cercle (objet de type Cercle) et l'ajoute au groupe racine ou sélectionné.
+      @brief Evènement, crée un cercle (objet de type Cercle) et l'ajoute au groupe racine ou sélectionné.
       */
     void creatCercle();
 
     /*!
       @fn void removeZone();
-      @brief Evement, supprime une zone (peu importe son type) et la retir du groupe racine ou sélectionné.
+      @brief Evènement, supprime une zone (peu importe son type) et la retire du groupe racine ou sélectionné.
       */
     void removeZone();
 
     /*!
       @fn void drawVolontaires();
-      @brief Evement, affiche touts les volontaires selectionnés.
+      @brief Evènement, affiche tous les volontaires sélectionnés.
       */
     void drawVolontaires();
 
     /*!
       @fn void drawZones();
-      @brief Evement, affiche toutes les zones selectionnées.
+      @brief Evènement, affiche toutes les zones sélectionnées.
       */
     void drawZones();
 
     /*!
       @fn void switchZoneEtat();
-      @brief Evement, inverse la selction des zones.
+      @brief Evènement, inverse la sélection des zones.
       */
     void switchZoneEtat();
 
     /*!
       @fn void switchZoneEtat();
-      @brief Evement, inverse la selction des zones.
+      @brief Evènement, inverse la sélection des zones.
       */
     void on_actionAnalyse_des_zones_et_des_volontaires_triggered();
 
     /*!
       @fn void saveDonnees();
-      @brief Evement, sauvgarde les donnés de la fêntre de texte.
+      @brief Evènement, sauvegarde les données de la fenêtre de texte.
       */
     bool saveDonnees();
 
     /*!
       @fn void on_actionExporter_les_zones_triggered();
-      @brief Evement, exporte les zones dans un fomat text.
+      @brief Evènement, exporte les zones dans un format texte.
       */
     void on_actionExporter_les_zones_triggered();
 
     /*!
       @fn void on_actionImporter_des_zones_triggered();
-      @brief Evement, importe les zones dans un fomat text.
+      @brief Evènement, importe les zones dans un format texte.
       */
     void on_actionImporter_des_zones_triggered();
 
     /*!
       @fn void on_actionA_propos_de_triggered();
-      @brief Evement, affiche les information du logiciel.
+      @brief Evènement, affiche les informations du logiciel.
       */
     void on_actionA_propos_de_triggered();
 
@@ -204,13 +204,13 @@ private:
 
     /*!
       @fn void openWindow_Carte();
-      @brief Initialise et ouvre la fenêtre "carte" avec la carte d'affiché.
+      @brief Initialise et ouvre la fenêtre "carte" avec la carte affichée.
       */
     void openWindow_Carte();
 
     /*!
       @fn void openWindow_Carte();
-      @brief désalocation des objet de la fenêtre "carte" lors de la fermeture.
+      @brief Désalocation des objets de la fenêtre "carte" lors de la fermeture.
       */
     void closeWindow_Carte();
 
@@ -219,7 +219,7 @@ private:
     //doc gestion des zones
     /*!
       @fn void dockCarte();
-      @brief Initialise et ouvre la barre d'outil "carte"
+      @brief Initialise et ouvre la barre d'outils "carte"
       */
     void dockCarte();
     QDockWidget *dock_AnaliseCarte;
@@ -232,7 +232,7 @@ private:
     //gestion des volontaires
     /*!
       @fn void dockVolontaire();
-      @brief Initialise et ouvre la barre d'outil "volontaire"
+      @brief Initialise et ouvre la barre d'outils "volontaire"
       */
     void dockVolontaire();
     QDockWidget *dock_GestionVolontaire;
@@ -253,23 +253,23 @@ private:
     //affichage du resultat
     /*!
       @fn void openWindow_Data(QStringList liste_data);
-      @param QStringList liste_data : Liste de QString, une ligne par élément de la  liste.
-      @brief Initialise et ouvre la fenêtre "resultat" avec le text passé en parametre.
+      @param QStringList liste_data : Liste de QString, une ligne par élément de la liste.
+      @brief Initialise et ouvre la fenêtre "résultat" avec le texte passé en paramètre.
       */
     void openWindow_Data(QStringList liste_data);
     QTextEdit *textEdit;
 
     /*!
       @fn bool save(QString data);
-      @param QString data : chaine à sauvgarder.
-      @brief Sauvgare la chine passé en parametre.
+      @param QString data : Chaine à sauvegarder.
+      @brief Sauvegarde la chaine passée en paramètre.
       */
     bool save(QString data);
 
     /*!
       @fn QStringList open();
       @return QStringList : Liste de QString, une ligne par élément de la liste.
-      @brief Initialise et ouvre la fenêtre "resultat" avec le text passé en parametre.
+      @brief Initialise et ouvre la fenêtre "résultat" avec le texte passé en paramètre.
       */
     QStringList open();
 };
