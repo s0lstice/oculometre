@@ -21,6 +21,7 @@
 class Groupe_selection;
 //#include <Volontaire.h>
 class Volontaire;
+class Zone;
 
 /*!
   @class projet
@@ -35,6 +36,15 @@ private:
     Groupe_selection *zones;
     QString name;
 
+    /*!
+      @fn Zone * getZoneById(Groupe_selection * groupe, int id);
+      @param Groupe_selection * groupe : racine de l'arbre dans le quel faire la recherche.
+      @param int id : identifiant de la zone recherché.
+      @return Zone * : La zone trouvé, NULL sinon.
+      @brief Cette fonction parcour un arbre a la recheche d'une zone.
+      */
+    Zone * getZoneById(Groupe_selection * groupe, int id);
+
 public:
     Projet();
     ~Projet();
@@ -45,6 +55,8 @@ public:
       @brief Cette fonction premet d'obtenir la racine de toutes Zones.
       */
     Groupe_selection *getZones();
+
+    Zone * getZoneById(int id);
 
     /*!
       @fn Volontaire *get_Volontaire(int i);

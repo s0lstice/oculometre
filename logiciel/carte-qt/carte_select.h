@@ -29,12 +29,12 @@ class Carte_select
 {
 private:
 
-    int h, s, v, tolerance;
+    int h, l, s, tolerance;
     bool color_change;
     IplImage *image;
     IplImage *maskSelection;
     IplImage *image_trace;
-    IplImage *hsv;
+    IplImage *hls;
     CvSeq* contour;
     MainWindow *parent;
     CvMemStorage* storage;

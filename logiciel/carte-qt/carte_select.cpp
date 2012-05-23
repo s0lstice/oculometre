@@ -27,7 +27,7 @@ void Carte_select::binarisation(IplImage *image) {
     IplConvKernel *kernel;
 
     // We create the mask
-    cvInRangeS(hsv, cvScalar(h - tolerance -1, s - tolerance, 0), cvScalar(h + tolerance -1, s + tolerance, 255), image);
+    cvInRangeS(hls, cvScalar(h - tolerance, l - tolerance, 0), cvScalar(h + tolerance, l + tolerance, 255), image);
 
     // Create kernels for the morphological operation
     kernel = cvCreateStructuringElementEx(5, 5, 2, 2, CV_SHAPE_ELLIPSE);
@@ -51,11 +51,11 @@ void Carte_select::binarisation(IplImage *image) {
 CvSeq *Carte_select::Selection(int x, int y){
     CvScalar pixel;
 
-    //couleur a la position donne
-    pixel = cvGet2D(hsv, y, x);
+    //couleur a la position donnée
+    pixel = cvGet2D(hls, y, x);
     h = (int)pixel.val[0];
-    s = (int)pixel.val[1];
-    v = (int)pixel.val[2];
+    l = (int)pixel.val[1];
+    s = (int)pixel.val[2];
 
     //definitntion du mask
     IplImage *img_selection = cvCreateImage( cvGetSize(image), 8, 1 );
@@ -85,15 +85,15 @@ CvSeq *Carte_select::Selection(int x, int y){
 Carte_select::Carte_select(Projet * projet)
 {
     maskSelection = NULL;
-    hsv = NULL;
+    hls = NULL;
     contour = NULL;
     this->parent = parent;
 
-    h = 0, s = 0, v = 0, tolerance = 5;
+    h = 0, l = 0, s = 0, tolerance = 7;
     image = projet->get_carte();
 
-    hsv = cvCloneImage(image);
-    cvCvtColor(image, hsv, CV_BGR2HSV);
+    hls = cvCloneImage(image);
+    cvCvtColor(image, hls, CV_BGR2HLS);
 
     maskSelection = cvCreateImage( cvGetSize(image), 8, 1 );
     cvZero(maskSelection);
@@ -135,5 +135,5 @@ IplImage *Carte_select::getMask()
 Carte_select::~Carte_select(){
     //Libération de l'IplImage (on lui passe un IplImage**).
     //cvReleaseImage(&maskSelection);
-    cvReleaseImage(&hsv);
+    cvReleaseImage(&hls);
 }

@@ -127,7 +127,7 @@ void MyQGraphicsScene::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 else{
 
                     //affichage du resultat
-                    QGraphicsEllipseItem *ellipse = drawCercle(((Cercle *)zone_courante)->getCointHG(), ((Cercle *)zone_courante)->getCointBD());
+                    QGraphicsEllipseItem *ellipse = drawCercle(((Cercle *)zone_courante));
                     itemsZone.append(ellipse);
                     groupZone->addToGroup(ellipse);
 
@@ -153,7 +153,7 @@ void MyQGraphicsScene::mousePressEvent ( QGraphicsSceneMouseEvent * mouseEvent )
                 }
                 else{
                     //affichage du resultat
-                    QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)zone_courante)->getPoints().at(0),((Rectangle *)zone_courante)->getPoints().at(1));
+                    QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)zone_courante));
                     itemsZone.append(rectangle);
                     groupZone->addToGroup(rectangle);
 
@@ -245,20 +245,20 @@ void MyQGraphicsScene::drawZones(Groupe_selection *zones){
             if(child->getDisplayed() == Qt::Checked){
                 switch(child->getType()){
                     case Zone::selection :{
-                            QGraphicsPixmapItem * pixmap = drawSelection(((Selection *)child)->getPerimetre());
+                            QGraphicsPixmapItem * pixmap = drawSelection(((Selection *)child));
 
                             itemsZone.append(pixmap);
                             groupZone->addToGroup(pixmap);
                         }
                         break;
                     case Zone::cercle :{
-                            QGraphicsEllipseItem *ellipse = drawCercle(((Cercle *)child)->getCointHG(), ((Cercle *)child)->getCointBD());
+                            QGraphicsEllipseItem *ellipse = drawCercle(((Cercle *)child));
                             itemsZone.append(ellipse);
                             groupZone->addToGroup(ellipse);
                         }
                         break;
                     case Zone::rectangle :{
-                            QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)child)->getPoints().at(0),((Rectangle *)child)->getPoints().at(1));
+                            QGraphicsRectItem *rectangle = drawRectangle(((Rectangle *)child));
                             itemsZone.append(rectangle);
                             groupZone->addToGroup(rectangle);
                         }
@@ -275,6 +275,24 @@ QGraphicsRectItem *MyQGraphicsScene::drawRectangle(QPointF pointHG,QPointF point
     qreal y = pointHG.y();
     qreal w = pointBD.x() - x;
     qreal h = pointBD.y() - y;
+
+    if(w < 0){
+        x = pointBD.x();
+        w = -w;
+    }
+    if(h < 0){
+        y = pointBD.y();
+        h = - h;
+    }
+    return new QGraphicsRectItem(x, y, w, h);
+}
+
+QGraphicsRectItem *MyQGraphicsScene::drawRectangle(Rectangle *rectangle){
+    qreal x = rectangle->getPoints().at(0).x();
+    qreal y = rectangle->getPoints().at(0).y();
+    qreal w = rectangle->getWidth();
+    qreal h = rectangle->getHeight();
+
     return new QGraphicsRectItem(x, y, w, h);
 }
 
@@ -288,6 +306,11 @@ QGraphicsEllipseItem *MyQGraphicsScene::drawCercle(QPointF centre, QPointF exter
     diametre = 2*diametre;
 
     return new QGraphicsEllipseItem(x, y, diametre, diametre);
+}
+
+QGraphicsEllipseItem *MyQGraphicsScene::drawCercle(Cercle *cercle){
+    qDebug("tut");
+    return new QGraphicsEllipseItem(cercle->getCointHG().x(), cercle->getCointHG().y(), cercle->getDiametre(), cercle->getDiametre());
 }
 
 QGraphicsPixmapItem *MyQGraphicsScene::drawSelection(CvSeq* contour){
@@ -317,13 +340,17 @@ QGraphicsPixmapItem *MyQGraphicsScene::drawSelection(CvSeq* contour){
     return new QGraphicsPixmapItem(image);
 }
 
+QGraphicsPixmapItem *MyQGraphicsScene::drawSelection(Selection *selection){
+    return drawSelection(selection->getPerimetre());
+}
+
 void MyQGraphicsScene::DrawVolontaires(){
     IplImage *carte;
     float u_carte_x;
     float u_carte_y;
     Volontaire* volontaire;
-    QVector<Volontaire::point> v_points;
-    Volontaire::point s_point;
+    QVector<Volontaire::fixation> v_points;
+    Volontaire::fixation s_point;
     QGraphicsItem *item;
 
     if(mainwindow->creatWindow_Carte() == false){
@@ -345,10 +372,12 @@ void MyQGraphicsScene::DrawVolontaires(){
 
     foreach(volontaire, v_Volontaires){
         if(volontaire->getDisplayed() == Qt::Checked){
-            v_points = volontaire->get_points();
+            v_points = volontaire->get_fixations();
             foreach(s_point, v_points){
-                QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(carte->width/2 + u_carte_x*s_point.x -2*u_carte_x, carte->height/2 + u_carte_y*s_point.y - 2*u_carte_x, 4*u_carte_x, 4*u_carte_x);
-                QGraphicsEllipseItem *ellipsecentre = new QGraphicsEllipseItem(carte->width/2 + u_carte_x*s_point.x -1, carte->height/2 + u_carte_y*s_point.y -1, 2,2);
+                qreal x = carte->width/2 + u_carte_x*s_point.x;
+                qreal y = carte->height/2 + u_carte_y*s_point.y;
+                QGraphicsEllipseItem *ellipse = new QGraphicsEllipseItem(x -  2*u_carte_x, y - 2*u_carte_y, 4*u_carte_x, 4*u_carte_y);
+                QGraphicsEllipseItem *ellipsecentre = new QGraphicsEllipseItem(x - 1, y - 1, 2, 2);
                 itemsVolontaire.append(ellipse);
                 groupVolontaire->addToGroup(ellipse);
                 itemsVolontaire.append(ellipsecentre);
@@ -404,5 +433,6 @@ QPixmap MyQGraphicsScene::IplImgToPixmap(IplImage *iplImg){
 
 void  MyQGraphicsScene::shoowIplImage(IplImage *iplImg)
 {
-    mainwindow->getCarteScene()->addPixmap(IplImgToPixmap(iplImg));
+    //mainwindow->getCarteScene()->addPixmap(IplImgToPixmap(iplImg));
+    addPixmap(IplImgToPixmap(iplImg));
 }

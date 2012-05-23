@@ -26,7 +26,7 @@ void Volontaire::path_VolontaireToId_Volontaire(){
 
 void Volontaire::charger_points(){
     QStringList liste_info_point;
-    point temp_point;
+    fixation temp_point;
     QFile file(path_Volontaire);
 
     if(!file.open(QIODevice::ReadOnly | QIODevice::Text)){
@@ -51,7 +51,7 @@ void Volontaire::charger_points(){
         temp_point.x = liste_info_point[1].toFloat();
         temp_point.y = liste_info_point[2].toFloat();
         temp_point.debut = liste_info_point[3].toFloat();
-        temp_point.fin = liste_info_point[4].toFloat();
+        temp_point.duree = liste_info_point[4].toFloat();
 
         v_points.append(temp_point);
     }
@@ -66,7 +66,7 @@ Volontaire::Volontaire(Projet *projet, const QString path)
     charger_points();
 }
 
-QVector<Volontaire::point> Volontaire::get_points(){
+QVector<Volontaire::fixation> Volontaire::get_fixations(){
     return v_points;
 }
 QString Volontaire::getPath_Volontaire(){
@@ -93,16 +93,15 @@ void Volontaire::switchEtat(){
         Displayed = Qt::Checked;
 }
 
-void Volontaire::appendZone(int id, QString label, int numerotPoint){
-    zone info;
+void Volontaire::appendZone(int id, int numerotPoint){
+    jointure info;
     info.id = id;
-    info.label = label;
     info.numerotPoint = numerotPoint;
 
     appartenance.append(info);
 }
 
-Volontaire::zone Volontaire::atZone(int i)
+Volontaire::jointure Volontaire::atZone(int i)
 {
     return appartenance.at(i);
 }

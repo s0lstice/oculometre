@@ -129,7 +129,7 @@ protected:
     type_zone type;
     QString label;
     Groupe_selection *parent;
-    Qt::CheckState Displayed;
+    Qt::CheckState displayed;
 
     /*!
       @fn QString sub_serialisation();

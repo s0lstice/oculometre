@@ -53,12 +53,11 @@ public:
     QString serialisation();
 
     /*!
-      @fn void deserialisation(QString datas, Projet *pro);
+      @fn void deserialisation(QString datas);
       @param QString datas : chaine comportant les attibuts et leurs valeurs sous la norme JSun.
-      @param Projet *pro : Projet courant. Necessaire pour la creation du masque.
       @brief : permet l'initialisation des attributs de Zone.
       */
-    void deserialisation(QString datas, Projet *pro);
+    void deserialisation(QString datas);
 
     /*!
       @fn MyQPointF &operator=(const QPointF point);

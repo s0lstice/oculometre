@@ -24,28 +24,27 @@ class Volontaire
 
 public :
     /*!
-      @struct _point
-      @typedef point
-      @brief Structure d'un point oculaire.
+      @struct _fixation
+      @typedef fixation
+      @brief Structure d'une fixation oculaire.
       */
-    typedef struct _point{
+    typedef struct _fixation{
         int numerot;
         float x;
         float y;
         float debut;
-        float fin;
-    }point;
+        float duree;
+    }fixation;
 
     /*!
       @struct _zone
       @typedef zone
       @brief Contient toutes les informations necessaire pour faire le lien entre un point oculaire et une Zone.
       */
-    typedef struct _zone{
-        int id;
-        QString label;
-        int numerotPoint;
-    }zone;
+    typedef struct _jointure{
+        int id; /*! identifiant de la Zone */
+        int numerotPoint; /*! identifiant de la fixation */
+    }jointure;
 
 private:
 
@@ -53,8 +52,8 @@ private:
 
     QString path_Volontaire;
     QString id_Volontaire;
-    QVector<point> v_points;
-    QVector<zone> appartenance;
+    QVector<fixation> v_points;
+    QVector<jointure> appartenance;
     Projet *projet;
 
     /*!
@@ -72,11 +71,35 @@ private:
 
 public:
 
-    Volontaire(Projet *projet,const QString path);
+    /*!
+      @brief Constructeur
+      @param projet : projet au quel est rataché le volontaire
+      @param path : adresse du fichier du colontaire
+      */
+    Volontaire(Projet *projet, const QString path);
 
-    QVector<point> get_points();
+    /*!
+      @brief Renvoie la trajectoire oculaire
+      @return Verteur contenant toutes le fixation du volontaire.
+      */
+    QVector<fixation> get_fixations();
+
+    /*!
+      @return Adresse du fichier du colontaire
+      @brief Renvoie l'adresse du fichier du colontaire
+      */
     QString getPath_Volontaire();
+
+    /*!
+      @return Le nom du volonatire
+      @brief Revoie le nom du volontaire
+      */
     QString getId_Volontaire();
+
+    /*!
+      @return Checked : le volontaire est coché; sinon Unchecked
+      @brief Indique l'etat du volontaire
+      */
     Qt::CheckState getDisplayed();
 
     /*!
@@ -93,18 +116,18 @@ public:
     void switchEtat();
 
     /*!
-      @fn void appendZone(int id, QString label, int numerotPoint);
+      @fn void appendZone(int id, int numerotPoint);
       @brief Ajoute une zone d'appartenance.
       @note Chaque volontaire est munie d'un vecteur appartemance de type zone (voir la structure ci dessus). C'est ansi que les points oculaires sont associé à une zone.
       */
-    void appendZone(int id, QString label, int numerotPoint);
+    void appendZone(int id, int numerotPoint);
 
     /*!
       @fn zone atZone(int i);
       @param int i : position des informations de type zone.
       @brief Renvoie une tructure pour faire la jointure entre les zones et les points oculaire.
       */
-    zone atZone(int i);
+    jointure atZone(int i);
 
     /*!
       @fn void clearZones();

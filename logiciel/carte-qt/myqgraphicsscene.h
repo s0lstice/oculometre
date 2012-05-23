@@ -20,6 +20,9 @@
 class MainWindow;
 //#include "carte_select.h"
 class Carte_select;
+class Rectangle;
+class Cercle;
+class Selection;
 
 /*!
   @class MyQGraphicsScene : public  QGraphicsScene
@@ -65,6 +68,14 @@ private:
     QGraphicsRectItem *drawRectangle(QPointF pointHG,QPointF pointBD);
 
     /*!
+      @fn GraphicsRectItem *drawRectangle(Rectangle rectangle);
+      @param Rectangle rectangle : objet a dessiner
+      @return QGraphicsRectItem : Item rectangulaire pour un QGraphicsScene
+      @brief Initialise un item de type rectangle.
+      */
+    QGraphicsRectItem *drawRectangle(Rectangle *rectangle);
+
+    /*!
       @fn QGraphicsEllipseItem *drawCercle(QPointF centre, QPointF exterieur);
       @param QPointF centre : contre du cercle.
       @param QPointF exterieur : un point sur le perimetre.
@@ -74,13 +85,28 @@ private:
     QGraphicsEllipseItem *drawCercle(QPointF centre, QPointF exterieur);
 
     /*!
+      @fn QGraphicsEllipseItem *drawCercle(Cercle cercle);
+      @param Cercle cercle : objet a dessiner
+      @return QGraphicsEllipseItem : Item circulaire pour un QGraphicsScene
+      @brief Initialise un item de type circulaire.
+      */
+    QGraphicsEllipseItem *drawCercle(Cercle *cercle);
+
+    /*!
       @fn QGraphicsPixmapItem *drawSelection(CvSeq* contour);
-      @param vSeq* contour : Sequance opencv represantant le contour d'une zone.
+      @param CvSeq* contour : Sequance opencv represantant le contour d'une zone.
       @return QGraphicsPixmapItem : Item image pour un QGraphicsScene
       @brief L'image represente le contour de la zone.
       */
     QGraphicsPixmapItem *drawSelection(CvSeq* contour);
 
+    /*!
+      @fn QGraphicsPixmapItem *drawSelection(Selection *selection);
+      @param Selection *selection : objet a dessiner.
+      @return QGraphicsPixmapItem : Item image pour un QGraphicsScene
+      @brief L'image represente le contour de la zone.
+      */
+    QGraphicsPixmapItem * drawSelection(Selection *selection);
     //position de dessin
     QPointF positonClick;
     bool stratDraw;

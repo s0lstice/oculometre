@@ -28,7 +28,7 @@ private:
     MyQPointF cointBD;
     MyQPointF cointHG;
 
-    int diametre;
+    int rayon;
     int nb_poisitions;
 
 public:

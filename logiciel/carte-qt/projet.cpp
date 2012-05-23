@@ -63,6 +63,30 @@ void Projet::supprimer_Volontaire(int row){
 Groupe_selection *Projet::getZones(){
     return zones;
 }
+
+Zone * Projet::getZoneById(Groupe_selection * groupe, int id){
+    Zone * find;
+    Zone * zone;
+    QVector<Zone*> zones = groupe->getZones();
+
+    foreach(zone, zones){
+        if(zone->getId() == id)
+            return zone;
+        if(zone->getType() == Zone::composite)
+        {
+            find = getZoneById((Groupe_selection *)zone, id);
+            if(find != NULL)
+                return find;
+        }
+    }
+
+    return NULL;
+}
+
+Zone * Projet::getZoneById(int id){
+    return getZoneById(zones, id);
+}
+
 Volontaire *Projet::get_Volontaires(int i){
     return v_Volontaires.value(i);
 }

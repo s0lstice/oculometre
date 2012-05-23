@@ -39,8 +39,7 @@ QString Selection::serialisation()
         datas += "{flags=" + QString::number(tmp->flags) + ",seq=[";
         for(int j = 0; j < tmp->total; ++j){
             point = CV_GET_SEQ_ELEM(CvPoint, tmp, j);
-            MyQPointF myPoint(point->x, point->y);
-            datas += myPoint.serialisation() + ",";
+            datas += "{x=" + QString::number(point->x) + "," + "y=" + QString::number(point->y) + "},";
         }
 
         datas.remove(datas.size() -1, 1);

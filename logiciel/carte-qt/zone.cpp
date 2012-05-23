@@ -7,7 +7,7 @@
 
 Zone::Zone(Groupe_selection *parent)
 {
-    Displayed = Qt::Checked;
+    displayed = Qt::Checked;
     id = QDateTime::currentMSecsSinceEpoch();
     this->parent = parent;
 }
@@ -45,19 +45,19 @@ int Zone::row() const
 }
 
 Qt::CheckState Zone::getDisplayed(){
-    return Displayed;
+    return displayed;
 }
 
 void Zone::setDisplayed(Qt::CheckState valeur){
-    Displayed = valeur;
+    displayed = valeur;
 }
 
 void Zone::switchEtat(){
 
-    if(Displayed == Qt::Checked)
-        Displayed = Qt::Unchecked;
+    if(displayed == Qt::Checked)
+        displayed = Qt::Unchecked;
     else
-        Displayed = Qt::Checked;
+        displayed = Qt::Checked;
 }
 
 QString Zone::serialisation()
@@ -80,10 +80,10 @@ void Zone::deserialisation(QString datas)
             label = split[1];
         }else if(split[0] == "display"){
             if(split[1].toInt() == 1){
-                Displayed = Qt::Checked;
+                displayed = Qt::Checked;
             }
             else
-                Displayed = Qt::Unchecked;
+                displayed = Qt::Unchecked;
         }
     }
 }
@@ -94,7 +94,7 @@ QString Zone::sub_serialisation()
     datas = "type=" + QString::number((int)type) + ",";
     datas += "id=" + QString::number(id) + ",";
     datas += "label=\"" + label + "\",";
-    if(Displayed == Qt::Checked)
+    if(displayed == Qt::Checked)
         datas += "display=1";
     else
         datas += "display=0";

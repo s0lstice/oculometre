@@ -43,15 +43,15 @@ QStringList Analyse::getData()
 {
     QVector<Volontaire*> volontaires = projet->get_Volontaires();
     Volontaire *volontaire;
-    Volontaire::zone dataZone;
-    Volontaire::point dataPoint;
+    Volontaire::jointure dataZone;
+    Volontaire::fixation dataPoint;
     QStringList data;
-    data << "'Nom du projet';'ID volontaire';'ID point oculaire';'x point oculaire';'y point oculaire';'début de la fixation';'durée de la fixation';'ID de la zone';'Label de la zone'";
+    data << "'Nom du projet';'ID volontaire';'ID fixation';'x fixation';'y fixation';'début fixation';'durée fixation';'ID de la zone';'Label de la zone'";
     foreach(volontaire, volontaires){
         for(int i = 0; i < volontaire->countZone(); ++i){
             dataZone = volontaire->atZone(i);
-            dataPoint = volontaire->get_points().at(dataZone.numerotPoint -1);
-            data << projet->getName() + ";" + volontaire->getId_Volontaire() + ";" + QString::number(dataPoint.numerot) + ";" + QString::number(dataPoint.x) + ";" + QString::number(dataPoint.y) + ";" + QString::number(dataPoint.debut) + ";" + QString::number(dataPoint.fin) + ";" + QString::number(dataZone.id) + ";" + dataZone.label;
+            dataPoint = volontaire->get_fixations().at(dataZone.numerotPoint -1);
+            data << projet->getName() + ";" + volontaire->getId_Volontaire() + ";" + QString::number(dataPoint.numerot) + ";" + QString::number(dataPoint.x) + ";" + QString::number(dataPoint.y) + ";" + QString::number(dataPoint.debut) + ";" + QString::number(dataPoint.duree) + ";" + QString::number(dataZone.id) + ";" + projet->getZoneById(dataZone.id)->getLable();
         }
     }
 
@@ -117,8 +117,8 @@ void Analyse::appartenance(Volontaire *volontaire, Groupe_selection *group){
   */
 void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle){
 
-    QVector<Volontaire::point> points;
-    Volontaire::point point;
+    QVector<Volontaire::fixation> fixations;
+    Volontaire::fixation fixation;
 
     IplImage * carte = projet->get_carte(); //pour avoir les dimantions
     qreal u_carte_x = (carte->width/2)/20;
@@ -130,13 +130,13 @@ void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle){
     qreal recyd = rectangle->getPoints().at(1).y();
 
 
-    points = volontaire->get_points();
-    foreach(point, points){
-        qreal pointx = carte->width/2 + u_carte_x*point.x;
-        qreal pointy = carte->height/2 + u_carte_y*point.y;
+    fixations = volontaire->get_fixations();
+    foreach(fixation, fixations){
+        qreal pointx = carte->width/2 + u_carte_x*fixation.x;
+        qreal pointy = carte->height/2 + u_carte_y*fixation.y;
 
         if((pointx >= recxu)&&(pointx <= recxd)&&(pointy >= recyu)&&(pointy <= recyd)){
-            volontaire->appendZone(rectangle->getId(), rectangle->getLable(), point.numerot);
+            volontaire->appendZone(rectangle->getId(), fixation.numerot);
         }
     }
 }
@@ -148,8 +148,8 @@ void Analyse::rectangleTest(Volontaire *volontaire, Rectangle *rectangle){
   @brief teste tout les points du volontaire pour determiner les quelles font parties du cercle
   */
 void Analyse::cercleTest(Volontaire *volontaire, Cercle *cercle){
-    QVector<Volontaire::point> points;
-    Volontaire::point point;
+    QVector<Volontaire::fixation> fixations;
+    Volontaire::fixation fixation;
 
     IplImage * carte = projet->get_carte(); //pour avoir les dimantions
     qreal u_carte_x = (carte->width/2)/20;
@@ -160,16 +160,16 @@ void Analyse::cercleTest(Volontaire *volontaire, Cercle *cercle){
 
     qreal diametre = cercle->getDiametre();
 
-    points = volontaire->get_points();
-    foreach(point, points){
+    fixations = volontaire->get_fixations();
+    foreach(fixation, fixations){
 
-        qreal pointx = carte->width/2 + u_carte_x*point.x;
-        qreal pointy = carte->height/2 + u_carte_y*point.y;
+        qreal pointx = carte->width/2 + u_carte_x*fixation.x;
+        qreal pointy = carte->height/2 + u_carte_y*fixation.y;
 
         qreal distance = hypot(pointx - cerx, pointy - cery);
 
         if(distance <= diametre){
-            volontaire->appendZone(cercle->getId(), cercle->getLable(), point.numerot);
+            volontaire->appendZone(cercle->getId(), fixation.numerot);
         }
     }
 }
@@ -181,22 +181,22 @@ void Analyse::cercleTest(Volontaire *volontaire, Cercle *cercle){
   @brief teste tout les points du volontaire pour determiner les quelles font parties de la sélection
   */
 void Analyse::selectionTest(Volontaire *volontaire, Selection *selection){
-    QVector<Volontaire::point> points;
-    Volontaire::point point;
+    QVector<Volontaire::fixation> fixations;
+    Volontaire::fixation fixation;
 
     IplImage * mask = selection->getMask();
 
     qreal u_carte_x = (mask->width/2)/20;
     qreal u_carte_y = (mask->height/2)/15;
 
-    points = volontaire->get_points();
-    foreach(point, points){
+    fixations = volontaire->get_fixations();
+    foreach(fixation, fixations){
 
-        int pointx = mask->width/2 + u_carte_x*point.x;
-        int pointy = mask->height/2 + u_carte_y*point.y;
+        int pointx = mask->width/2 + u_carte_x*fixation.x;
+        int pointy = mask->height/2 + u_carte_y*fixation.y;
 
         if(((uchar *)(mask->imageData + ((int)pointx)*mask->widthStep))[((int)pointy)] == 255){
-            volontaire->appendZone(selection->getId(), selection->getLable(), point.numerot);
+            volontaire->appendZone(selection->getId(), fixation.numerot);
         }
     }
 }

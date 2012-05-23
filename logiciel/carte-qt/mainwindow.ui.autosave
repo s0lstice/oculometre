@@ -69,8 +69,8 @@ QGroupBox{
     </property>
     <addaction name="separator"/>
     <addaction name="separator"/>
-    <addaction name="actionCharger_des_Volontaires"/>
     <addaction name="actionCharger_une_carte"/>
+    <addaction name="actionCharger_des_Volontaires"/>
     <addaction name="actionImporter_des_zones"/>
     <addaction name="actionExporter_les_zones"/>
     <addaction name="actionQuiter"/>

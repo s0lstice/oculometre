@@ -103,7 +103,11 @@ QString Cercle::serialisation()
         cointHG = getCointHG();
     if(cointBD.x() == -1)
         cointBD = getCointBD();
-    return "{" + Zone::sub_serialisation() + ",chg=" + cointHG.serialisation() + ",cbd=" + cointBD.serialisation() + ",centre=" + centre.serialisation() + ",diametre=" + QString::number(rayon*2) + "}";
+    return "{" + Zone::sub_serialisation() +
+            ",chg=" + cointHG.serialisation() +
+            ",cbd=" + cointBD.serialisation() +
+            ",centre=" + centre.serialisation() +
+            ",diametre=" + QString::number(rayon*2) + "}";
 }
 
 /*!
